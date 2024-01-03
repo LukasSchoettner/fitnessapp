@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8" /></head>
+
+<body>
+	<section class="layout-content" layout:fragment="mybody">
+			
+
+	        <div class="page-header">
+	            <nav class="navbar navbar-expand-md navbar-top bg-light">
+	                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	                    <ul class="navbar-nav">
+	                        <li class="nav-item active">
+	                            <i class="oi oi-caret-right"></i>
+	                            <span>Update Trainer</span>
+	                        </li>
+	                    </ul>
+	                </div>
+	                <a class="btn btn-primary btn-md" th:href="@{/trainer/all}" role="button">
+	                    <span class="oi oi-spreadsheet" title="Trainer Registration" aria-hidden="true"></span>
+	                    <span>List Trainers</span>
+	                </a>
+	            </nav>
+	        </div>
+	
+	        <div class="container" id="registration">
+	        
+	        	        
+	            <form th:action="@{/trainer/update}" 
+	                  th:object="${trainer}" method="POST">
+	                  
+	               <!-- <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                        <label for="course.id">Course </label>
+	                        <input type="text" class="form-control" id="course.description" 
+	                        	   onclick="location.href='/student/course/select'"
+	                        	   readonly="true"
+	                               autofocus="autofocus" th:field="*{course.description}" 
+	                               th:classappend="${#fields.hasErrors('course.id')} ? 'is-invalid'" />
+	                        <div class="invalid-feedback">
+								<span th:errors="*{course.id}"></span>
+	                        </div>
+	                    </div>               
+	                    
+	            	</div>  -->
+	              
+	                    
+	                  
+	                <div class="form-row">
+		                <div class="form-group col-md-6">
+		                        <label for="email">Email</label>
+		                        <input type="text" class="form-control" id="email" placeholder="Email"
+		                               th:field="*{email}" 
+		                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" />
+		                        <div class="invalid-feedback">
+									<span th:errors="*{email}"></span>
+		                        </div>
+		                 </div>
+	                    
+	                </div>
+	                
+	                <div class="form-row">
+		                <div class="form-group col-md-6">
+		                        <label for="password">Password</label>
+		                        <input type="password" class="form-control" id="password" placeholder="Password"
+		                               th:field="*{password}" 
+		                               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" />
+		                        <div class="invalid-feedback">
+									<span th:errors="*{password}"></span>
+		                        </div>
+		                 </div>
+	                    
+	                </div>
+	                
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                        <label for="lastName">Last Name </label>
+	                        <input type="text" class="form-control" id="lastName" placeholder="Last Name"
+	                               autofocus="autofocus" th:field="*{lastName}" 
+	                               th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" />
+	                        <div class="invalid-feedback">
+								<span th:errors="*{lastName}"></span>
+	                        </div>
+	                    </div>               
+	                    
+	            	</div>
+	            	
+	            	
+	            	<div class="form-row">
+	                    <div class="form-group col-md-6">
+	                        <label for="firstName">First Name </label>
+	                        <input type="text" class="form-control" id="firstName" placeholder="First Name"
+	                               autofocus="autofocus" th:field="*{firstName}" 
+	                               th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" />
+	                        <div class="invalid-feedback">
+								<span th:errors="*{firstName}"></span>
+	                        </div>
+	                    </div>               
+	                    
+	            	</div>         
+	                    
+	                  
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                        <label for="phone">Phone Number </label>
+	                        <input type="text" class="form-control" id="phone" placeholder="Phone Number"
+	                               autofocus="autofocus" th:field="*{phone}" 
+	                               th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid'" />
+	                        <div class="invalid-feedback">
+								<span th:errors="*{phone}"></span>
+	                        </div>
+	                    </div>               
+	                    
+	            	</div> 
+	                
+						
+  
+                
+                <div class="form-row">
+		                <div class="form-group col-md-6">
+		                        <label for="city">City</label>
+		                        <input type="text" class="form-control" id="city" placeholder="city"
+		                               th:field="*{address.city}" 
+		                               th:classappend="${#fields.hasErrors('address.city')} ? 'is-invalid'" />
+		                        <div class="invalid-feedback">
+									<span th:errors="*{address.city}"></span>
+		                        </div>
+		                 </div>
+	                    
+	                </div>
+                
+                
+                <div class="form-row">
+		                <div class="form-group col-md-6">
+		                        <label for="ZIP">ZIP</label>
+		                        <input type="text" class="form-control" id="ZIP" placeholder="ZIP"
+		                               th:field="*{address.ZIP}" 
+		                               th:classappend="${#fields.hasErrors('address.ZIP')} ? 'is-invalid'" />
+		                        <div class="invalid-feedback">
+									<span th:errors="*{address.ZIP}"></span>
+		                        </div>
+		                 </div>
+	                    
+	                </div>
+	                
+                
+	                <input type="hidden" id="BirthDate" th:field="*{birthDate}"/>
+	                <input type="hidden" id="id" th:field="*{id}"/>
+	                <!--<input type="hidden" id="course.id" th:field="*{course.id}"/>-->
+	                
+					<button type="submit" class="btn btn-primary btn-sm">Update</button>
+	            </form>
+	        </div>
+
+		
+	</section>		
+</body>
+</html>
