@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head><meta charset="UTF-8" /></head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+
+        <nav class="navbar navbar-expand-md bg-light">
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <i class="oi oi-caret-right"></i>
+                        <span>Home</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div id="list-home" class="row">
+                <div class="col-4">
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action active" id="list-breaking-news" data-toggle="list" href="#breaking-news"
+                           role="tab" aria-controls="breaking-news">Breaking News</a>
+                        <a class="list-group-item list-group-item-action" id="list-weather-forecast" data-toggle="list" href="#weather-forecast"
+                           role="tab" aria-controls="weather-forecast">Weather Forecast</a>
+                        <a class="list-group-item list-group-item-action" id="list-recommendation-otd" data-toggle="list" href="#recommendation-otd"
+                           role="tab" aria-controls="recommendation-otd">Recommendation of the Day</a>
+                        <a class="list-group-item list-group-item-action" id="list-api" data-toggle="list" href="#api"
+                           role="tab" aria-controls="api">Further API</a>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="breaking-news" role="tabpanel" aria-labelledby="list-breaking-news">
+                            <p>API 1</p>
+                        </div>
+                        <div class="tab-pane fade" id="weather-forecast" role="tabpanel" aria-labelledby="list-weather-forecast">
+                            <p>API 2</p>
+                        </div>
+                        <div class="tab-pane fade" id="recommendation-otd" role="tabpanel" aria-labelledby="list-recommendation-otd">
+                            <p>API 3</p>
+                        </div>
+                        <div class="tab-pane fade" id="api" role="tabpanel" aria-labelledby="list-api">
+                            <p>API 4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
