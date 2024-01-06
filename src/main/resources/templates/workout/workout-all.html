@@ -29,7 +29,7 @@
                 <tr th:each="workout: ${workouts}">
 
                     <td><span th:text="${workout.name}"></span></td>
-                    <td><span th:text="${#temporals.format(workout.getDate(), 'dd.MM.YYYY')}"></span></td>
+                    <td><span th:text="${#temporals.format(workout.date, 'dd.MM.YYYY')}"></span></td>
                     <td><span th:text="${workout.level}"></span></td>
                     <td>
                         <ul th:each="exercise : ${workout.exercises}">
@@ -107,25 +107,5 @@
             </ul>
         </nav>
     </section>
-
-
-
-<!-- Table and Pagination Bar -->
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        // ...
-
-        $("#btnClear").on("click", function (e) {
-            e.preventDefault();
-            $("#keyword").text("");
-            window.location = "[[@{/tutorials}]]";
-        });
-    });
-
-    function changePageSize() {
-        $("#searchForm").submit();
-    }
-</script>
 </body>
 </html>

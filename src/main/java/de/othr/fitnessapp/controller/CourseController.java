@@ -1,15 +1,24 @@
 package de.othr.fitnessapp.controller;
 
 import de.othr.fitnessapp.model.Course;
+import de.othr.fitnessapp.model.Workout;
+import de.othr.fitnessapp.service.CertServiceI;
 import de.othr.fitnessapp.service.CourseServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @Log4j2
@@ -17,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @AllArgsConstructor
 public class CourseController {
     private CourseServiceI courseService;
+    private CertServiceI certService;
     //private TrainerServiceI trainerService;
     //private UserServiceI UserService;
     //private GymServiceI GymService;
@@ -82,17 +92,66 @@ public class CourseController {
         return "redirect:/course/all";
     }
 
-    // All Courses the User or Trainer is registered
     @GetMapping(value = "/all")
-    public String showCourseList(Model model) {
-        model.addAttribute("courses", courseService.getAllCourses());
-        return "course/course-all";
+    public String showCourseList(Model model,@RequestParam(required = false) String keyword,
+                                         @RequestParam(required = false, defaultValue = "1") int page,
+                                         @RequestParam(required = false, defaultValue = "3") int size) {
+
+        try {
+
+            Pageable paging = PageRequest.of(page - 1, size);
+
+            Page<Course> pageCourses = courseService.getAllCourses(paging);
+
+            //model.addAttribute("keyword", keyword);
+
+            List<Course> courses = pageCourses.getContent();
+
+            model.addAttribute("courses", courses);
+            model.addAttribute("currentPage", pageCourses.getNumber() + 1);
+            model.addAttribute("totalItems", pageCourses.getTotalElements());
+            model.addAttribute("totalPages", pageCourses.getTotalPages());
+            model.addAttribute("pageSize", size);
+            model.addAttribute("entityContext", "course/all");
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "/course/course-all";
     }
 
     @GetMapping(value = "/history")
-    public String showCourseHistory(Model model) {
-        model.addAttribute("courses", courseService.getAllCourses());
-        return "course/course-all";
+    public String showWorkoutHistoryList(Model model, @RequestParam(required = false) String keyword,
+                                         @RequestParam(required = false, defaultValue = "1") int page,
+                                         @RequestParam(required = false, defaultValue = "3") int size) {
+
+        try {
+            Pageable paging = PageRequest.of(page - 1, size);
+
+            Page<Course> pageCourses = courseService.getPastCourses(paging);
+
+            //model.addAttribute("keyword", keyword);
+
+            List<Course> courses = pageCourses.getContent();
+
+            model.addAttribute("courses", courses);
+            model.addAttribute("currentPage", pageCourses.getNumber() + 1);
+            model.addAttribute("totalItems", pageCourses.getTotalElements());
+            model.addAttribute("totalPages", pageCourses.getTotalPages());
+            model.addAttribute("pageSize", size);
+            model.addAttribute("entityContext", "course/history");
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "/course/course-history";
+    }
+
+    @GetMapping(value = "/history/cert/{id}")
+    public ResponseEntity<byte[]> processCourseCertForm(@PathVariable Long id) {
+        Course course = courseService.getCourseById(id);
+        log.info("Downloaded Certificate for Course with ID: {}", course.getId());
+        return certService.getCert(course);
     }
 
     // TODO: Add course to user (Registration?)

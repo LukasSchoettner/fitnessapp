@@ -13,12 +13,12 @@ INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equip
 INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Lunges', 'Latissimus Dorsi', 'Rhomboids', 'Reach forward toward the toes of the straight leg', 'Pilates Equipment', 5);
 
 
-INSERT INTO course (name, date, trainer, participants) VALUES ('Cardio Fitness Class', '2024-05-15', 'John Doe', ARRAY ['Alice', 'Bob', 'Charlie']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Strength Training Workshop', '2024-05-15', 'Jane Smith', ARRAY ['David', 'Eva', 'Frank']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Cardio Fitness Class', '2023-05-15', 'John Doe', ARRAY ['Alice', 'Bob', 'Charlie']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Strength Training Workshop', '2023-05-15', 'Jane Smith', ARRAY ['David', 'Eva', 'Frank']);
 INSERT INTO course (name, date, trainer, participants) VALUES ('Yoga Retreat', '2024-05-15', 'Sam Brown', ARRAY ['Grace', 'Harry', 'Ivy']);
 INSERT INTO course (name, date, trainer, participants) VALUES ('HIIT Bootcamp', '2024-05-15', 'Alex Green', ARRAY ['Jack', 'Kate', 'Leo']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Pilates for Beginners', '2024-05-15', 'Emily White', ARRAY ['Mike', 'Nina', 'Oscar']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Outdoor Fitness Challenge', '2024-05-15', 'Ryan Black', ARRAY ['Sophie', 'Tom', 'Ursula']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Core Strengthening Workshop', '2024-05-15', 'Olivia Davis', ARRAY ['Victor', 'Wendy', 'Xander']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Zumba Dance Party', '2024-05-15', 'Chris Taylor', ARRAY ['Yara', 'Zack', 'Amy']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Pilates for Beginners', '2024-01-04', 'Emily White', ARRAY ['Mike', 'Nina', 'Oscar']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Outdoor Fitness Challenge', '2023-02-15', 'Ryan Black', ARRAY ['Sophie', 'Tom', 'Ursula']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Core Strengthening Workshop', '2023-03-15', 'Olivia Davis', ARRAY ['Victor', 'Wendy', 'Xander']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Zumba Dance Party', '2024-05-20', 'Chris Taylor', ARRAY ['Yara', 'Zack', 'Amy']);
 

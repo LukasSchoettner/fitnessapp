@@ -1,12 +1,16 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Course;
+import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.repository.CourseRepositoryI;
 import de.othr.fitnessapp.service.CourseServiceI;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,13 +42,18 @@ public class CourseServiceImpl implements CourseServiceI {
     }
 
     @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public Page<Course> getAllCourses(Pageable pageable) {
+        return courseRepository.findAll(pageable);
     }
 
     @Override
     public void deleteCourseById(Long id) {
         courseRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Course> getPastCourses(Pageable pageable) {
+        return courseRepository.findByDateLessThanOrderByDateDesc(LocalDate.now(), pageable);
     }
 
     @Override

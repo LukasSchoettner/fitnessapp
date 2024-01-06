@@ -182,12 +182,6 @@ public class WorkoutController {
         return "/workout/exercise/exercise-update-form";
     }
 
-    @GetMapping(value = "/history")
-    public String showWorkoutHistory(Model model) {
-        //model.addAttribute("workouts", workoutService.getAllWorkouts());
-        return "workout/workout-all";
-    }
-
     //TODO: list Workout on Courses
     //TODO: delete Workout from Course
     //TODO: add Workout to Course ...
