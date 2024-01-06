@@ -3,43 +3,129 @@
 <head><meta charset="UTF-8" /></head>
 
 <body>
+
     <section class="layout-content" layout:fragment="mybody">
 
-        <h1>Workout List!</h1>
+        <div th:replace="~{fragments/alert::alert}"></div>
 
-        <table class = "table table-striped table-bordered" th:unless="${workouts.size()<1}" style="width: 90%" margin="auto">
+        <h1>Workouts</h1>
+
+        <div th:unless="${workouts.size() > 0}" style="width: 80%">
+            <span>No workouts found!</span>
+        </div>
+
+        <table class = "table table-striped table-bordered" th:unless="${workouts.size()<1}" style="width: 100%" margin="auto">
             <thead class = "table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Exercises</th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Level</th>
+                    <th>Exercises</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
 
             <tbody>
-            <tr th:each="workout: ${workouts}">
+                <tr th:each="workout: ${workouts}">
 
-                <td><span th:text="${workout.getName()}"></span></td>
-                <td><span th:text="${#temporals.format(workout.getDate(), 'dd.MM.YYYY')}"></span></td>
-                <td><span th:text="${workout.getExercises()}"></span></td>
+                    <td><span th:text="${workout.name}"></span></td>
+                    <td><span th:text="${#temporals.format(workout.getDate(), 'dd.MM.YYYY')}"></span></td>
+                    <td><span th:text="${workout.level}"></span></td>
+                    <td>
+                        <ul th:each="exercise : ${workout.exercises}">
+                            <li><span><b>Name: </b></span><span th:text="${exercise.name}"></span></li>
+                            <li><span><b>Primary Muscle: </b></span><span th:text="${exercise.primaryMuscle}"></span></li>
+                            <li><span><b>Secondary Muscle: </b></span><span th:text="${exercise.secondaryMuscle}"></span></li>
+                            <li><span><b>Instruction: </b></span><span th:text="${exercise.instruction}"></span></li>
+                            <li><span><b>Equipment: </b></span><span th:text="${exercise.equipment}"></span></li>
 
-                <td><a th:href="@{/workout/update/{id}(id = ${workout.getId()})}"
-                       class = "btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
-                </svg></a>
-                </td>
+                                <a th:href="@{/workout/{workoutId}/exercise/{exerciseId}/update(workoutId = ${workout.id}, exerciseId =${exercise.id})}" class = "btn btn-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                    </svg>
+                                </a>
 
-                <td><a th:href="@{/workout/delete/{id}(id = ${workout.getId()})}"
-                       class = "btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                </svg></a>
-                </td>
+                                <a th:href="@{/workout/{workoutId}/exercise/{exerciseId}/delete(workoutId = ${workout.id}, exerciseId =${exercise.id})}" class = "btn btn-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </a>
+                        </ul>
+                    </td>
 
-            </tr>
+                    <td>
+                        <a th:href="@{/workout/{id}/exercise/add(id = ${workout.id})}" class = "btn btn-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
+                            </svg>
+                        </a>
+
+                        <a th:href="@{/workout/update/{id}(id = ${workout.id})}" class = "btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                            </svg>
+                        </a>
+
+                        <a th:href="@{/workout/delete/{id}(id = ${workout.id})}" class = "btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
             </tbody>
         </table>
+
+        <nav aria-label="Pagination" th:if="${totalPages > 0}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+
+                    <a th:replace="~{fragments/paging :: paging(1, '<<', 'First Page')}"></a>
+
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')}"></a>
+                </li>
+                <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+                    th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+                    <a th:replace="~{fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})}"></a>
+                </li>
+                <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+                <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(${currentPage + 1},'Next', 'Next Page')}"></a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a th:replace="~{fragments/paging :: paging(${totalPages}, '>>', 'Last Page')}"></a>
+                </li>
+            </ul>
+        </nav>
     </section>
 
+
+
+<!-- Table and Pagination Bar -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // ...
+
+        $("#btnClear").on("click", function (e) {
+            e.preventDefault();
+            $("#keyword").text("");
+            window.location = "[[@{/tutorials}]]";
+        });
+    });
+
+    function changePageSize() {
+        $("#searchForm").submit();
+    }
+</script>
 </body>
 </html>

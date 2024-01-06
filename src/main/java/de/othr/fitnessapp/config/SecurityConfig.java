@@ -14,9 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-@Configuration
-@EnableWebSecurity
-@NoArgsConstructor
+//@Configuration
+//@EnableWebSecurity
+//@NoArgsConstructor
 public class SecurityConfig {	
     private static final String[] AUTH_WHITE_LIST = {
             "/v3/api-docs/**",

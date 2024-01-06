@@ -1,5 +1,6 @@
 package de.othr.fitnessapp.model;
 
+import de.othr.fitnessapp.utils.LevelEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
@@ -16,10 +18,13 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Getter
 @Setter
+@Log4j2
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "workout")
@@ -41,9 +46,35 @@ public class Workout implements Serializable {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "workout_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "workout_id", referencedColumnName = "workout_id")
     private List<Exercise> exercises= new ArrayList<>();
 
-    //private Level level;
+    @Enumerated(EnumType.STRING)
+    private LevelEnum level;
+
+    public void addExercise(Exercise exercise) {
+        this.exercises.add(exercise);
+    }
+
+    public void removeExercise(Exercise exercise) {
+        this.exercises.remove(exercise);
+    }
+
+    public void updateExercise(Exercise oldExercise, Exercise updatedExercise) {
+        this.exercises.set(exercises.indexOf(oldExercise), updatedExercise);
+    }
+
+    public Exercise getExerciseById(Long exerciseId) {
+        Optional<Exercise> exerciseById = this.exercises.stream()
+                .filter(exercise -> exercise.getId().equals(exerciseId))
+                .findFirst();
+
+        if (exerciseById.isPresent()) {
+            return exerciseById.get();
+        } else {
+            log.error("Exercise with ID {} does not exist!", exerciseId);
+            throw new NullPointerException("Exercise with ID " + exerciseId + " does not exist");
+        }
+    }
 }

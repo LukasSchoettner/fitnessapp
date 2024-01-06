@@ -1,20 +1,21 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Workout;
-import de.othr.fitnessapp.repository.WorkoutRepository;
+import de.othr.fitnessapp.repository.WorkoutRepositoryI;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Log4j2
 @AllArgsConstructor
 public class WorkoutServiceImpl implements WorkoutServiceI {
-    private WorkoutRepository workoutRepository;
+    private WorkoutRepositoryI workoutRepository;
 
     @Override
     public Workout saveWorkout(Workout workout) {
@@ -38,8 +39,8 @@ public class WorkoutServiceImpl implements WorkoutServiceI {
     }
 
     @Override
-    public List<Workout> getAllWorkouts() {
-        return workoutRepository.findAll();
+    public Page<Workout> getAllWorkouts(Pageable pageable) {
+        return workoutRepository.findAll(pageable);
     }
     
     @Override

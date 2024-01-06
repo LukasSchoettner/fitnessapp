@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head><meta charset="UTF-8" /></head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+
+        <h1>Exercise-Add</h1>
+        <form th:action="@{/workout/{workoutId}/exercise/add(workoutId = ${workout.id})}" th:object="${exercise}" method="POST">
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name"
+                           autofocus="autofocus" th:field="*{name}"
+                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{name}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="primaryMuscle">Primary Muscle</label>
+                    <input type="text" class="form-control" id="primaryMuscle" placeholder="Primary Muscle"
+                           autofocus="autofocus" th:field="*{primaryMuscle}"
+                           th:classappend="${#fields.hasErrors('primaryMuscle')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{primaryMuscle}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="secondaryMuscle">Secondary Muscle</label>
+                    <input type="text" class="form-control" id="secondaryMuscle" placeholder="Secondary Muscle"
+                           autofocus="autofocus" th:field="*{secondaryMuscle}"
+                           th:classappend="${#fields.hasErrors('secondaryMuscle')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{secondaryMuscle}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="instruction">Instruction</label>
+                    <input type="text" class="form-control" id="instruction" placeholder="Instruction"
+                           autofocus="autofocus" th:field="*{instruction}"
+                           th:classappend="${#fields.hasErrors('instruction')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{instruction}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="equipment">Equipment</label>
+                    <input type="text" class="form-control" id="equipment" placeholder="Equipment"
+                           autofocus="autofocus" th:field="*{equipment}"
+                           th:classappend="${#fields.hasErrors('equipment')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{equipment}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="id" th:field="*{id}"/>
+            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </form>
+    </section>
+</body>
+</html>
