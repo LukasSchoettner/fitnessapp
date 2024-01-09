@@ -1,5 +1,6 @@
 package de.othr.fitnessapp.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,29 +22,39 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
+    @NotNull
     @Size(min = 2, max = 50, message = "{user.firstName.size}")
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
+    @NotNull
     @Size(min = 2, max = 50, message = "{user.lastName.size}")
+    @Column(name = "LAST_NAME")
     private String lastName;
 
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
     @Email(message = "{user.email.invalid}")
     @NotBlank(message = "{user.email.not.blank}")
+    @Column(name = "EMAIL")
     private String email;
 
     @NotBlank(message = "{user.phone.not.blank}")
+    @Column(name = "PHONE_NUMBER")
     private String phone;
 
     @NotBlank(message = "{user.address.not.blank}")
-    private String address;
+    @Column(name = "ADRESS")
+    private Address address;
 
     // Assuming you have an Address class
-    private Adress userAddress;
+    private Address userAddress;
 
     // Assuming you have a Course class
     private List<Courses> courses;
@@ -98,19 +109,19 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public Adress getUserAddress() {
+    public Address getUserAddress() {
         return userAddress;
     }
 
-    public void setUserAddress(Adress userAddress) {
+    public void setUserAddress(Address userAddress) {
         this.userAddress = userAddress;
     }
 

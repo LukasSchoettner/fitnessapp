@@ -1,15 +1,12 @@
 package de.othr.fitnessapp.service.impl;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+//import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import de.othr.fitnessapp.model.Courses;
 import de.othr.fitnessapp.model.User;
 import de.othr.fitnessapp.repository.UserRepository;
 import de.othr.fitnessapp.service.UserService;
@@ -19,33 +16,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public Page<Courses> getAllCourses(Long id, Pageable pageable) {
-        // Implement the logic to retrieve courses for a user by id using the repository
-        // Return a Page of Courses
-        // Example: return userRepository.findById(id).map(User::getCourses).orElse(Page.empty());
-        // Note: Adjust the logic based on your actual data model and relationships
-        return Page.empty();
-    }
-
-    @Override
-    public List<Courses> findCoursesByName(String name) {
-        // Implement the logic to find courses by name using the repository
-        // Return a List of Courses
-        // Example: return userRepository.findByFirstName(name).map(User::getCourses).orElse(Collections.emptyList());
-        // Note: Adjust the logic based on your actual data model and relationships
-        return List.of();
-    }
-
-    @Override
-    public User createUser(User user) {
+    public User saveUser(User user) {
         // Implement the logic to save a user using the repository
         // Return the saved user
+
         return userRepository.save(user);
     }
 
@@ -56,7 +35,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override 
-    public Page<User> getAllUsers(Pageable pageable) {
+    public Page<User> getAllUsers() {
+
         return Page.empty();
     }
 
@@ -109,8 +89,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(User user) {
         // Implement the logic to delete a user using the repository
-        userRepository.delete(id);
+        userRepository.delete(user);
     }
 }
