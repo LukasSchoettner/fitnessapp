@@ -14,22 +14,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "course")
-public class Course implements Serializable {
+@Table(name = "workout")
+public class Workout implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_id")
+    @Column(name = "workout_id")
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
@@ -41,16 +41,11 @@ public class Course implements Serializable {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
 
-    @NotBlank(message = "Trainer is mandatory")
-    //@NotNull(message = "Trainer is mandatory")
-    //TODO change type to Trainer
-    private String trainer;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "workout_id")
+    private List<Exercise> exercises= new ArrayList<>();
 
-    //TODO change type to User
-    @NotNull
-    private Set<String> participants = new HashSet<>();
+    private Customer customer;
 
-    //private Set<Workout> workouts = new HashSet<>();
     //private Level level;
-    //private Licence licence;
 }

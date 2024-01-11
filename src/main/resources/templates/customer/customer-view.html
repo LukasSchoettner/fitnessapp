@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Your existing head content -->
+</head>
+<body>
+    <header>
+        <div th:replace="~{fragments/header::header}"></div>
+    </header>
+
+    <div class="layout-main">
+        <div th:replace="~{fragments/sidebar::sidebar}"></div>
+
+        <section class="mybody">
+            <div class="container mt-4">
+                <h2>Customer Details</h2>
+                <div>
+                    <strong>Name:</strong> <span th:text="${customer.firstName} + ' ' + ${customer.lastName}"></span><br>
+                    <strong>Email:</strong> <span th:text="${customer.email}"></span><br>
+                    <strong>Phone:</strong> <span th:text="${customer.phone}"></span><br>
+                    <!-- More customer details here -->
+                </div>
+
+                <h3>Workouts</h3>
+                <ul>
+                    <li th:each="workout : ${workouts}">
+                        <span th:text="${workout.description}"></span>
+                        <!-- Display other workout details -->
+                    </li>
+                </ul>
+
+                <h3>Courses Enrolled</h3>
+                <ul>
+                    <li th:each="course : ${courses}">
+                        <span th:text="${course.name}"></span>
+                        <!-- Display other course details -->
+                    </li>
+                </ul>
+            </div>
+        </section>      
+    </div>
+
+    <footer class="layout-footer">
+        <div th:replace="~{fragments/footer::footer}" class="fixed-bottom"></div>
+    </footer> 
+
+    <!-- Your existing scripts -->
+</body>
+</html>
