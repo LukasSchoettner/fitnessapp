@@ -27,7 +27,7 @@ public abstract class User implements Serializable {
     @Column(name = "PHONE_NUMBER")
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
