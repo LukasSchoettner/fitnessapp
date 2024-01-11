@@ -25,6 +25,6 @@ public class LoginController {
         System.out.println("Username: " + login);
         System.out.println("Password: " + password);
 
-        return "home";
+        return "redirect:/home";
     }
 }
