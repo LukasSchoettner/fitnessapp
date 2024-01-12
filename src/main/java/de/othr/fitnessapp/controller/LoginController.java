@@ -18,11 +18,11 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping
-    public String processLoginForm(@RequestParam String login,
-                               @RequestParam (name = "pass") String password) {
+    @PostMapping(value = "/process")
+    public String processLoginForm(@RequestParam String username,
+                               @RequestParam String password) {
 
-        System.out.println("Username: " + login);
+        System.out.println("Username: " + username);
         System.out.println("Password: " + password);
 
         return "redirect:/home";
