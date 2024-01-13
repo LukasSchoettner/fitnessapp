@@ -18,16 +18,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	
 	<!-- Custom styles for this template -->
-	<link href="../static/css/style.css" rel="stylesheet" />
+	<link src="../static/css/style.css" rel="stylesheet" />
 </head>
 
 <body>
 	
-	<header>
-		<div th:replace="~{fragments/header::header}"></div>
-	</header>
-
-	<div th:replace="~{fragments/alert::alert}"></div>
+	<header th:replace="~{fragments/header::header}"></header>
 
 	<div class="layout-main">
 		<div th:replace="~{fragments/sidebar::sidebar}"></div>
