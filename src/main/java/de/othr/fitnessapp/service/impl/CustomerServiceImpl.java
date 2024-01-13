@@ -6,7 +6,7 @@ import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.repository.CustomerRepository;
 import de.othr.fitnessapp.repository.CourseRepository;
 import de.othr.fitnessapp.repository.WorkoutRepository;
-import de.othr.fitnessapp.service.CustomerService;
+import de.othr.fitnessapp.service.CustomerServiceI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerServiceI{
 
     @Autowired
     private CustomerRepository customerRepository;

@@ -3,8 +3,8 @@ package de.othr.fitnessapp.controller;
 import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Workout;
-import de.othr.fitnessapp.service.CustomerService;
-import de.othr.fitnessapp.service.CourseService;
+import de.othr.fitnessapp.service.CustomerServiceI;
+import de.othr.fitnessapp.service.CourseServiceI;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ import jakarta.validation.Valid;
 @RequestMapping("/customer")
 public class CustomerController {
 
-    private CustomerService customerService;
-    private CourseService courseService;
+    private CustomerServiceI customerService;
+    private CourseServiceI courseService;
 
     //Display customer details including workouts and courses
     @GetMapping("/{id}")

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public interface CustomerService {
+public interface CustomerServiceI {
 
     public List<Customer> findAllCustomers();
 
