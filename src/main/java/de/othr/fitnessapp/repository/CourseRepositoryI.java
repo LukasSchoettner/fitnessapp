@@ -13,4 +13,8 @@ import java.time.LocalDate;
 public interface CourseRepositoryI extends JpaRepository<Course, Long> {
 
     Page<Course> findByDateLessThanOrderByDateDesc(LocalDate date, Pageable pageable);
+
+    Page<Course> findByDateGreaterThanEqualOrderByDateDesc(LocalDate date, Pageable pageable);
+
+    Page <Course> findByNameContainingIgnoreCase (String name, Pageable pageable);
 }

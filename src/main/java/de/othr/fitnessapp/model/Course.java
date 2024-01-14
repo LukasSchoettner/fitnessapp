@@ -46,7 +46,7 @@ public class Course implements Serializable {
     //TODO change type to Trainer
     private String trainer;
 
-    //TODO change type to User
+    //TODO change type to Costumer
     @NotNull
     private Set<String> participants = new HashSet<>();
 

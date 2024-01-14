@@ -16,8 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 @Controller
 @Log4j2
 @RequestMapping(value = "/workout")
@@ -30,9 +28,16 @@ public class WorkoutController {
     //private GymServiceI GymService;
 
     @GetMapping(value = "/add")
-    public String showWorkoutAddForm(Model model) {
+    public String showWorkoutAddForm(@RequestParam(required = false) String lang, Model model) {
+
         Workout workout = new Workout();
         model.addAttribute("workout", workout);
+        model.addAttribute("EN", "/workout/add");
+        model.addAttribute("DE", "/workout/add?lang=de");
+
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         return "/workout/workout-add-form";
     }
 
@@ -46,22 +51,29 @@ public class WorkoutController {
         }
 
         Workout savedWorkout = workoutService.saveWorkout(workout);
+        //TODO: Add Workout to User/Trainer/Gym and save back
         log.info("Saved Workout with ID: {}", savedWorkout.getId());
         redirectAttributes.addFlashAttribute("added", "Workout added!");
         return "redirect:/workout/all";
     }
 
     @GetMapping(value = "/update/{id}")
-    public String showWorkoutUpdateForm(@PathVariable Long id, Model model){
+    public String showWorkoutUpdateForm(@PathVariable Long id, @RequestParam(required = false) String lang, Model model) {
+
         Workout workout = workoutService.getWorkoutById(id);
         log.info("Updating Workout with ID: {}", workout.getId());
         model.addAttribute("workout", workout);
+        model.addAttribute("EN", "/workout/update/"+id);
+        model.addAttribute("DE", "/workout/add/"+id+"?lang=de");
+
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         return "/workout/workout-update-form";
     }
 
     @PostMapping(value = "/update")
-    public String processWorkoutUpdateForm( @ModelAttribute @Valid Workout workout, BindingResult result, RedirectAttributes redirectAttributes) {
-
+    public String processWorkoutUpdateForm(@ModelAttribute @Valid Workout workout, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             log.error("Error Count:" + result.getErrorCount());
@@ -81,9 +93,11 @@ public class WorkoutController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    public String processWorkoutDeleteForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String processWorkoutDeleteForm(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
         Workout workout = workoutService.getWorkoutById(id);
         workoutService.deleteWorkoutById(workout.getId());
+        //TODO: Remove the Workout from Trainer/Gym/Customer and save back
         log.info("Deleted Workout with ID: {}", id);
         redirectAttributes.addFlashAttribute("deleted", "Workout deleted!");
         return "redirect:/workout/all";
@@ -91,41 +105,44 @@ public class WorkoutController {
 
     @GetMapping(value = "/all")
     public String showWorkoutList(Model model,@RequestParam(required = false) String keyword,
-                                              @RequestParam(required = false, defaultValue = "1") int page,
-                                              @RequestParam(required = false, defaultValue = "3") int size) {
+                                                @RequestParam(required = false, defaultValue = "1") int page,
+                                                @RequestParam(required = false, defaultValue = "3") int size,
+                                                @RequestParam(required = false) String lang) {
 
-        try {
             Pageable paging = PageRequest.of(page - 1, size);
-
+            //TODO: Change to the personal workouts
             Page<Workout> pageWorkouts = workoutService.getAllWorkouts(paging);
-
             //model.addAttribute("keyword", keyword);
 
-            List<Workout> workouts = pageWorkouts.getContent();
+            fillPaginationView(model, size, pageWorkouts);
+            model.addAttribute("EN", "/workout/all");
+            model.addAttribute("DE", "/workout/all?lang=de");
 
-            model.addAttribute("workouts", workouts);
-            model.addAttribute("currentPage", pageWorkouts.getNumber() + 1);
-            model.addAttribute("totalItems", pageWorkouts.getTotalElements());
-            model.addAttribute("totalPages", pageWorkouts.getTotalPages());
-            model.addAttribute("pageSize", size);
-            model.addAttribute("entityContext", "workout/all");
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
+        if (lang != null) {
+            model.addAttribute("de", "de");
         }
-
         return "/workout/workout-all";
     }
 
     @GetMapping(value = "/{id}/exercise/add")
-    public String showExerciseAddForm(@PathVariable Long id, Model model) {
+    public String showExerciseAddForm(@PathVariable Long id, @RequestParam(required = false) String lang, Model model) {
+
         Workout workout = workoutService.getWorkoutById(id);
         model.addAttribute("workout", workout);
         model.addAttribute("exercise", new Exercise());
+        model.addAttribute("EN", "/workout/"+id+"/exercise/add");
+        model.addAttribute("DE", "/workout/"+id+"/exercise/add?lang=de");
+
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         return "/workout/exercise/exercise-add-form";
     }
 
     @PostMapping(value = "/{id}/exercise/add")
-    public String processExerciseAddForm(@PathVariable Long id, @ModelAttribute @Valid Exercise exercise, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+    public String processExerciseAddForm(@PathVariable Long id, @ModelAttribute @Valid Exercise exercise, Model model,
+                                         BindingResult result, RedirectAttributes redirectAttributes) {
+
         Workout workout = workoutService.getWorkoutById(id);
 
         if (result.hasErrors()) {
@@ -142,20 +159,28 @@ public class WorkoutController {
         return "redirect:/workout/all";
     }
 
-    @GetMapping(value = "/{workoutId}/exercise/{exerciseId}/delete")
-    public String processExerciseDeleteForm(@PathVariable("workoutId") Long workoutId, @PathVariable("exerciseId") Long exerciseId, Model model, RedirectAttributes redirectAttributes ) {
-        Workout workout = workoutService.getWorkoutById(workoutId);
+    @GetMapping(value = "/{id}/exercise/delete/{exerciseId}")
+    public String processExerciseDeleteForm(@PathVariable Long id, @PathVariable("exerciseId") Long exerciseId,
+                                            @RequestParam(required = false) String lang, Model model, RedirectAttributes redirectAttributes ) {
+
+        Workout workout = workoutService.getWorkoutById(id);
         workout.removeExercise(workout.getExerciseById(exerciseId));
         workoutService.updateWorkout(workout);
 
-        log.info("Deleted Exercise with ID {} from Workout with ID {}", exerciseId, workoutId);
+        log.info("Deleted Exercise with ID {} from Workout with ID {}", exerciseId, id);
         redirectAttributes.addFlashAttribute("deleted", "Exercise deleted!");
+
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         return "redirect:/workout/all";
     }
 
-    @PostMapping(value = "/{workoutId}/exercise/{exerciseId}/update")
-    public String showExerciseUpdateForm(@PathVariable("workoutId") Long workoutId, @PathVariable("exerciseId") Long exerciseId, @ModelAttribute @Valid Exercise exercise, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
-        Workout workout = workoutService.getWorkoutById(workoutId);
+    @PostMapping(value = "/{id}/exercise/update/{exerciseId}")
+    public String showExerciseUpdateForm(@PathVariable Long id, @PathVariable("exerciseId") Long exerciseId,
+                                         @ModelAttribute @Valid Exercise exercise, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+
+        Workout workout = workoutService.getWorkoutById(id);
 
         if (result.hasErrors()) {
             log.error("Error Count:" + result.getErrorCount());
@@ -171,18 +196,31 @@ public class WorkoutController {
         return "redirect:/workout/all";
     }
 
-    @GetMapping(value = "/{workoutId}/exercise/{exerciseId}/update")
-    public String showExerciseUpdateForm(@PathVariable("workoutId") Long workoutId, @PathVariable("exerciseId") Long exerciseId, Model model){
-        Workout workout = workoutService.getWorkoutById(workoutId);
+    @GetMapping(value = "/{id}/exercise/update/{exerciseId}")
+    public String showExerciseUpdateForm(@PathVariable Long id, @PathVariable("exerciseId") Long exerciseId,
+                                         @RequestParam(required = false) String lang, Model model){
+
+        Workout workout = workoutService.getWorkoutById(id);
         Exercise exercise = workout.getExerciseById(exerciseId);
 
         log.info("Updating Exercise with ID {} from Workout with ID: {}", exerciseId, workout.getId());
         model.addAttribute("workout", workout);
         model.addAttribute("exercise", exercise);
+        model.addAttribute("EN", "/workout/"+id+"/exercise/update/"+exerciseId);
+        model.addAttribute("DE", "/workout/"+id+"/exercise/update/"+exerciseId+"?lang=de");
+
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         return "/workout/exercise/exercise-update-form";
     }
 
-    //TODO: list Workout on Courses
-    //TODO: delete Workout from Course
-    //TODO: add Workout to Course ...
+    private void fillPaginationView(Model model, int size, Page<Workout> pageWorkouts) {
+        model.addAttribute("workouts", pageWorkouts.getContent());
+        model.addAttribute("currentPage", pageWorkouts.getNumber() + 1);
+        model.addAttribute("totalItems", pageWorkouts.getTotalElements());
+        model.addAttribute("totalPages", pageWorkouts.getTotalPages());
+        model.addAttribute("pageSize", size);
+        model.addAttribute("entityContext", "workout/all");
+    }
 }

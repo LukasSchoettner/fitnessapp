@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -29,23 +29,36 @@ public class WorkoutServiceImpl implements WorkoutServiceI {
 
     @Override
     public Workout getWorkoutById(Long id) throws NullPointerException {
-        Optional<Workout> workout = workoutRepository.findById(id);
-        if (workout.isPresent()) {
-            return workout.get();
-        } else {
+        return workoutRepository.findById(id).orElseThrow(() -> {
             log.error("Workout with ID {} does not exist!", id);
-            throw new NullPointerException("Workout with ID " + id + " does not exist");
-        }
+            return new NullPointerException("Workout with ID " + id + " does not exist");
+        });
+
     }
 
     @Override
     public Page<Workout> getAllWorkouts(Pageable pageable) {
         return workoutRepository.findAll(pageable);
     }
+
+    @Override
+    public List<Workout> getAllWorkouts() {
+        return workoutRepository.findAll();
+    }
     
     @Override
     public void deleteWorkoutById(Long id) {
         workoutRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteWorkout(Workout workout) {
+        workoutRepository.delete(workout);
+    }
+
+    @Override
+    public void deleteAllWorkouts() {
+        workoutRepository.deleteAll();
     }
 
     @Override

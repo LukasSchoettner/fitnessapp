@@ -1,5 +1,8 @@
 package de.othr.fitnessapp.utils;
 
+import lombok.Getter;
+
+@Getter
 public enum LevelEnum {
     BEGINNER("Beginner") ,
     INTERMEDIATE("Intermediate"),
@@ -8,14 +11,7 @@ public enum LevelEnum {
 
     private final String displayValue;
 
-    private LevelEnum(String displayValue) {
+    LevelEnum(String displayValue) {
         this.displayValue = displayValue;
     }
-
-    public String getDisplayValue() {
-        return displayValue;
-    }
-
-
-
 }

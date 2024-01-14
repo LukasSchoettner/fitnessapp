@@ -24,7 +24,7 @@ public class Exercise implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exercise_id")
     private Long id;
-
+    
     @NotBlank(message = "Name is mandatory")
     @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
     private String name;
@@ -45,7 +45,4 @@ public class Exercise implements Serializable {
 
     @Size(max = 50, message = "Size can be a maximum of {max}")
     private String equipment;
-
-    //private Type type;
-    //private Difficulty difficulty;
 }

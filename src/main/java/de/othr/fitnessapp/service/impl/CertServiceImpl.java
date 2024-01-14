@@ -18,11 +18,10 @@ import java.util.Random;
 
 @Service
 @Log4j2
-@AllArgsConstructor
 public class CertServiceImpl implements CertServiceI {
 
     @Override
-    public ResponseEntity<byte[]> getCert(Course course) {
+    public ResponseEntity<byte[]> getCourseCert(Course course) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Document document = new Document();
             PdfWriter.getInstance(document, baos);
@@ -45,8 +44,8 @@ public class CertServiceImpl implements CertServiceI {
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 
         } catch (Exception e) {
-            log.error("Error generating PDF", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error generating PDF");
+            return ResponseEntity.internalServerError().build();
         }
 
     }

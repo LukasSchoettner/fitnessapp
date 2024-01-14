@@ -14,9 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-//@Configuration
-//@EnableWebSecurity
-//@NoArgsConstructor
+
+@Configuration
+@EnableWebSecurity
+@NoArgsConstructor
 public class SecurityConfig {	
     private static final String[] AUTH_WHITE_LIST = {
             "/v3/api-docs/**",
@@ -43,7 +44,8 @@ public class SecurityConfig {
         http.csrf().disable();
         
         http.csrf(csrfConfigurer ->
-                csrfConfigurer.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
+                csrfConfigurer.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")));
 
         http.headers(headersConfigurer ->
                 headersConfigurer.frameOptions(FrameOptionsConfig::sameOrigin));
@@ -55,9 +57,8 @@ public class SecurityConfig {
                 		.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 		.requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                 		.requestMatchers(new AntPathRequestMatcher("/trainer/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll());
-
-        http.authorizeHttpRequests();
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll());
 
         //.requestMatchers(new AntPathRequestMatcher("/home")).hasAnyAuthority("REGISTRATION", "LIST_STUDENT")
         //.requestMatchers(new AntPathRequestMatcher("/registration/**")).hasAuthority("REGISTRATION");

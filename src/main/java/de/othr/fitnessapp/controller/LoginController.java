@@ -14,14 +14,12 @@ public class LoginController {
 
     @GetMapping
     public String showLoginForm() {
-
         return "login";
     }
 
     @PostMapping
     public String processLoginForm(@RequestParam String login,
-                               @RequestParam (name = "pass") String password) {
-
+                                    @RequestParam (name = "pass") String password) {
         System.out.println("Username: " + login);
         System.out.println("Password: " + password);
 

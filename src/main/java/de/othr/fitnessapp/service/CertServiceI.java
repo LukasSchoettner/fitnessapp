@@ -5,5 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface CertServiceI {
 
-    ResponseEntity<byte[]> getCert(Course course);
+    ResponseEntity<byte[]> getCourseCert(Course course);
 }

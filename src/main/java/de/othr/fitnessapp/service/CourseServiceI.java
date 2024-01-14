@@ -18,6 +18,8 @@ public interface CourseServiceI {
 
     void deleteCourseById(Long id);
 
+    void deleteCourse(Course course);
+
     Page<Course> getPastCourses(Pageable pageable);
 
     long getCourseCount();

@@ -6,7 +6,7 @@
     <section class="layout-content" layout:fragment="mybody">
 
         <h1>Exercise-Add</h1>
-        <form th:action="@{/workout/{workoutId}/exercise/add(workoutId = ${workout.id})}" th:object="${exercise}" method="POST">
+        <form th:action="@{/workout/{id}/exercise/add(id = ${workout.id})}" th:object="${exercise}" method="POST">
 
             <div class="form-row">
                 <div class="form-group col-md-6">

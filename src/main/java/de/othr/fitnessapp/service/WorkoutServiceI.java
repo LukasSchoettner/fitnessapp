@@ -14,8 +14,13 @@ public interface WorkoutServiceI {
     Workout getWorkoutById(Long id) throws NullPointerException;
 
     Page<Workout> getAllWorkouts(Pageable pageable);
+    List<Workout> getAllWorkouts();
 
     void deleteWorkoutById(Long id);
+
+    void deleteWorkout(Workout workout);
+
+    void deleteAllWorkouts();
 
     long getWorkoutCount();
 }

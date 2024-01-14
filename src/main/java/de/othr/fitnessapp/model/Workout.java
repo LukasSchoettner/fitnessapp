@@ -2,6 +2,7 @@ package de.othr.fitnessapp.model;
 
 import de.othr.fitnessapp.utils.LevelEnum;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -46,12 +47,13 @@ public class Workout implements Serializable {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "workout_id", referencedColumnName = "workout_id")
-    private List<Exercise> exercises= new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private LevelEnum level;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "workout_id", referencedColumnName = "workout_id")
+    @Valid
+    private List<Exercise> exercises= new ArrayList<>();
 
     public void addExercise(Exercise exercise) {
         this.exercises.add(exercise);
@@ -67,8 +69,8 @@ public class Workout implements Serializable {
 
     public Exercise getExerciseById(Long exerciseId) {
         Optional<Exercise> exerciseById = this.exercises.stream()
-                .filter(exercise -> exercise.getId().equals(exerciseId))
-                .findFirst();
+                                                            .filter(exercise -> exercise.getId().equals(exerciseId))
+                                                            .findFirst();
 
         if (exerciseById.isPresent()) {
             return exerciseById.get();
