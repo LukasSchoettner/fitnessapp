@@ -17,12 +17,17 @@ public class LoginController {
     }
 
     @PostMapping(value = "/process")
-    public String processLoginForm(@RequestParam String username,
-                               @RequestParam String password) {
+    public String processLoginForm(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
 
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
+        System.out.println("role: " + role);
 
-        return "redirect:/home";
+        if (role == "1") {
+            return "redirect:/customer-view";
+        }
+        else {return "redirect:/home";}
+
+        
     }
 }

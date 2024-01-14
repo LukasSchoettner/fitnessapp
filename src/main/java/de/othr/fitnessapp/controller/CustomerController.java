@@ -24,13 +24,13 @@ public class CustomerController {
     private CourseServiceI courseService;
 
     //Display customer details including workouts and courses
-    @GetMapping("/{id}")
+    @GetMapping("/profile/{id}")
     public String viewCustomer(@PathVariable Long id, Model model) {
         Customer customer = customerService.findCustomerById(id).orElseThrow(() -> new IllegalArgumentException("Invalid customer ID: " + id));
         model.addAttribute("customer", customer);
         model.addAttribute("workouts", customerService.getWorkoutsForCustomer(id));
         model.addAttribute("courses", customerService.getCoursesForCustomer(id));
-        return "customer/view";
+        return "/customer/customer-view";
     }
 
     //Display enroll form
@@ -91,12 +91,12 @@ public class CustomerController {
     @PostMapping("/add")
     public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "customer/create";
+            return "customer/register";
         }
 
         customerService.saveCustomer(customer);
         redirectAttributes.addFlashAttribute("added", "Customer added!");
-        return "redirect:/customer";
+        return "redirect:/customer/view";
     }
 
     // Display the form for updating a customer

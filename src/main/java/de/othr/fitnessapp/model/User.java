@@ -21,17 +21,19 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.JoinColumn;
 
-@Entity
-@Table(name="user")
-@Inheritance(strategy=InheritanceType.JOINED)
-public class User implements Serializable{
+import lombok.Data;
 
+@Entity
+@Table(name = "baseuser")
+@Inheritance(strategy=InheritanceType.JOINED)
+@Data // Add this Lombok annotation to generate getters and setters
+public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@NotBlank(message = "Login is mandatory")
 	private String login;
@@ -41,6 +43,9 @@ public class User implements Serializable{
 		
 	@NotBlank(message = "Email is mandatory")
 	private String email;
+
+	@NotBlank(message = "Phone number is mandatory")
+	private String phone;
 	
 	private boolean active = true;
 	
@@ -61,50 +66,5 @@ public class User implements Serializable{
 		this.roles = roles;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	
-	
+	// Other methods and fields remain unchanged
 }

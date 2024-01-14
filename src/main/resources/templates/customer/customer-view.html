@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <!-- Your existing head content -->
-</head>
+<head><meta charset="UTF-8" /></head>
+
 <body>
-    <header>
-        <div th:replace="~{fragments/header::header}"></div>
-    </header>
+    <section class="layout-content" layout:fragment="mybody">
 
-    <div class="layout-main">
-        <div th:replace="~{fragments/sidebar::sidebar}"></div>
-
-        <section class="mybody">
+        
             <div class="container mt-4">
                 <h2>Customer Details</h2>
                 <div>
@@ -37,13 +31,5 @@
                     </li>
                 </ul>
             </div>
-        </section>      
-    </div>
-
-    <footer class="layout-footer">
-        <div th:replace="~{fragments/footer::footer}" class="fixed-bottom"></div>
-    </footer> 
-
-    <!-- Your existing scripts -->
 </body>
 </html>

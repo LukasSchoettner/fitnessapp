@@ -3,7 +3,8 @@ package de.othr.fitnessapp.model;
 import de.othr.fitnessapp.utils.GenderEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,10 +12,15 @@ import java.util.Set;
 
 @Entity
 @Table(name="customer")
-@Data
+@Getter
+@Setter
 public class Customer extends User implements Serializable {
     
     private static final long serialVersionUID = 1L;
+
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
     @OneToMany(mappedBy = "customer")
     private List<Workout> workouts;
@@ -32,11 +38,12 @@ public class Customer extends User implements Serializable {
 	
     @NotNull
     @Size(min = 2, max = 50, message = "{user.firstName.size}")
-    @Column(name = "FIRST_NAME")
-    private String firstName;
+    @Column(name = "first_name")
+    private String first_name;
 
     @NotNull
     @Size(min = 2, max = 50, message = "{user.lastName.size}")
-    @Column(name = "LAST_NAME")
-    private String lastName;
+    @Column(name = "last_name")
+    private String last_name;
+
 }

@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import de.othr.fitnessapp.model.Customer;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,6 +26,9 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "workout")
 public class Workout implements Serializable {
+    
+    private Customer customer;
+
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -26,6 +26,8 @@ public class SecurityConfig {
             "/console/**",
             "/trainer/**",
             "/**/course",
+            "/customer/**",
+            "/register/**",
             "/course/**"
     };
 	
@@ -55,7 +57,9 @@ public class SecurityConfig {
                 		.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 		.requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                 		.requestMatchers(new AntPathRequestMatcher("/trainer/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll());
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/customer/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll());
 
         http.authorizeHttpRequests();
 
