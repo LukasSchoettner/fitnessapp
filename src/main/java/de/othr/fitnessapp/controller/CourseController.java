@@ -3,6 +3,7 @@ package de.othr.fitnessapp.controller;
 import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.service.CertServiceI;
 import de.othr.fitnessapp.service.CourseServiceI;
+import de.othr.fitnessapp.service.EmailServiceI;
 import de.othr.fitnessapp.service.WeatherServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +27,7 @@ public class CourseController {
     private CourseServiceI courseService;
     private CertServiceI certService;
     private WeatherServiceI weatherService;
-    //private MailServiceImpl mailService;
+    private EmailServiceI emailService;
     //private TrainerServiceI trainerService;
     //private UserServiceI UserService;
     //private GymServiceI GymService;
@@ -62,11 +64,10 @@ public class CourseController {
         redirectAttributes.addFlashAttribute("added", "Course added!");
 
         try {
-            //TODO: Send course creation mail
-            //mailService.sendMail("Subject", "Message", "E-Mail");
+            emailService.sendEmail("To", "Message", "E-Mail");
             log.info("Mail about course creation successfully sent: {}", savedCourse.getName());
             redirectAttributes.addFlashAttribute("send", "Mail sent succesfully!");
-        } catch (Exception e) {
+        } catch (MailException e) {
             redirectAttributes.addFlashAttribute("error", "Mail could not be sent!");
             log.error("Send Mail failed!");
         }
