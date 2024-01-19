@@ -52,15 +52,9 @@ public class Trainer extends User implements Serializable {
 	
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
     private List<Note> childEntities;
-	
-	/*tbd
-	 * licence
-	 */
-	
-	/*tbd
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "course_id", referencedColumnName = "id")
-	private Course course;*/
+
+	//@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+	//private List<Course> childEntities;
 	
 	public Trainer() {
 		this.setId((long) -1);
