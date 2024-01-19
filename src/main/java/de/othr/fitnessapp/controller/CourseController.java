@@ -66,7 +66,7 @@ public class CourseController {
         try {
             emailService.sendEmail("To", "Message", "E-Mail");
             log.info("Mail about course creation successfully sent: {}", savedCourse.getName());
-            redirectAttributes.addFlashAttribute("send", "Mail sent succesfully!");
+            redirectAttributes.addFlashAttribute("sent", "Mail sent succesfully!");
         } catch (MailException e) {
             redirectAttributes.addFlashAttribute("error", "Mail could not be sent!");
             log.error("Send Mail failed!");
