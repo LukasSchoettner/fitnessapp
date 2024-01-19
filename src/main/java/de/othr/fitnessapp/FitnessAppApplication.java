@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 //Exclude Spring Security AutoConfiguration for development phase
-//@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
-  //      org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class})
-@SpringBootApplication
+@SpringBootApplication //(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class, org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class})
+//@SpringBootApplication
 @EnableJpaRepositories(basePackages = "de.othr.fitnessapp.repository")
 
 public class FitnessAppApplication {

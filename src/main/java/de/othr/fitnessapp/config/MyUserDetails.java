@@ -19,6 +19,7 @@ public class MyUserDetails implements UserDetails {
 
 	private String userName;
 	private String password;
+	private Long userId;
 	private boolean active;
 	private List<GrantedAuthority> authorities;
 	
@@ -27,6 +28,7 @@ public class MyUserDetails implements UserDetails {
 		
 		this.userName= user.getLogin();
 		this.password= user.getPassword();
+		this.userId= user.getId();
 		System.out.println("password of the user is="+password);
 		System.out.println("userName of the user is="+this.userName);
 		this.active = user.isActive();
@@ -86,6 +88,14 @@ public class MyUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		
 		return this.active;
+	}
+
+	public void setId(Long id){
+		this.userId = id;
+	}
+
+	public Long getId(){
+		return this.userId;
 	}
 
 }

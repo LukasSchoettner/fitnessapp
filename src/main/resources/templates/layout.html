@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" > 
 
 <head>
@@ -18,14 +19,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	
 	<!-- Custom styles for this template -->
-	<link href="/css/style.css" rel="stylesheet" />
+	<link rel="stylesheet2" src="../static/css/style.css">
 </head>
 
 <body>
 	
-	<header>
-		<div th:replace="~{fragments/header::header}"></div>
-	</header>
+	<header th:replace="~{fragments/header::header}"></header>
 
 	<div th:replace="~{fragments/alert::alert}"></div>
 
@@ -66,4 +65,5 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 
 	</script>
 </body>
+
 </html>

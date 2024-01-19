@@ -19,11 +19,8 @@ public class Customer extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-    @OneToMany(mappedBy = "customer")
-    private List<Workout> workouts;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(

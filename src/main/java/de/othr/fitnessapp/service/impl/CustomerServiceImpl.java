@@ -26,8 +26,12 @@ public class CustomerServiceImpl implements CustomerServiceI{
     private WorkoutRepository workoutRepository;
 
     // Method to find a customer by ID
-    public Optional<Customer> findCustomerById(Long id) {
-        return customerRepository.findById(id);
+    public Customer findCustomerById(Long id) {
+        return customerRepository.findById(id).get();
+    }
+
+    public Customer findCustomerByLogin(String login) {
+        return customerRepository.findByLogin(login).get();
     }
 
     // Method to enroll a customer in a course
@@ -46,7 +50,7 @@ public class CustomerServiceImpl implements CustomerServiceI{
         Customer customer = customerRepository.findById(customerId)
                             .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID"));
 
-        //workout.setCustomer(customer);
+        workout.setCustomer(customer);
         workoutRepository.save(workout);
     }
 
@@ -74,8 +78,16 @@ public class CustomerServiceImpl implements CustomerServiceI{
         customerRepository.save(customer);
     }
 
-    public void updateCustomer(Customer customer){
-        customerRepository.save(customer);
+    public void updateCustomer(Long id, Customer customerNew){
+        Customer existingCustomer = customerRepository.findById(id).orElse(null);
+        
+        if (existingCustomer != null) {
+            existingCustomer.setEmail(customerNew.getEmail());
+            existingCustomer.setPassword(customerNew.getPassword());
+            existingCustomer.setLast_name(customerNew.getLast_name());
+            existingCustomer.setFirst_name(customerNew.getFirst_name());
+        customerRepository.save(existingCustomer);
+        }
     }
 
     public void deleteCustomer(Customer customer){

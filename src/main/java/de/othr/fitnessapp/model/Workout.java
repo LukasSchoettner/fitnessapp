@@ -27,7 +27,7 @@ import java.util.List;
 @Table(name = "workout")
 public class Workout implements Serializable {
     
-    private Customer customer;
+    private User user;
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -48,7 +48,8 @@ public class Workout implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "workout_id")
-    private List<Exercise> exercises= new ArrayList<>();
+    private List<Exercise> Exercises = new ArrayList<>();
+
 
     //private Level level;
 }

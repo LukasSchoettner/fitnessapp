@@ -14,8 +14,10 @@ public interface CustomerServiceI {
 
     public List<Customer> findAllCustomers();
 
+    public Customer findCustomerByLogin(String login);
+
     // Method to find a customer by ID
-    public Optional<Customer> findCustomerById(Long id);
+    public Customer findCustomerById(Long id);
 
     // Method to enroll a customer in a course
     public void enrollCustomerInCourse(Long customerId, Long courseId);
@@ -31,7 +33,7 @@ public interface CustomerServiceI {
 
     public void saveCustomer(Customer customer);
 
-    public void updateCustomer(Customer customer);
+    public void updateCustomer(Long id, Customer customer);
 
     public void deleteCustomer(Customer customer);
 

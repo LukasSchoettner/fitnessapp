@@ -17,6 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Exercise implements Serializable {
+    
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -29,20 +30,24 @@ public class Exercise implements Serializable {
     @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
     private String name;
 
-//    @NotBlank(message = "Primary muscle is mandatory")
-//    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
-//    private String primaryMuscle;
-//
-//    @NotBlank(message = "Secondary muscle is mandatory")
-//    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
-//    private String secondaryMuscle;
-//
-//    @NotBlank(message = "Instruction is mandatory")
-//    @Size(min = 3, max = 200, message = "Size must be between {min} and {max}")
-//    private String instruction;
-//
-//    @Size(max = 50, message = "Size can be a maximum of {max}")
-//    private String equipment;
+    @NotBlank(message = "Primary muscle is mandatory")
+    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
+    private String primaryMuscle;
+
+    @NotBlank(message = "Secondary muscle is mandatory")
+    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
+    private String secondaryMuscle;
+
+    @NotBlank(message = "Instruction is mandatory")
+    @Size(min = 3, max = 200, message = "Size must be between {min} and {max}")
+    private String instruction;
+
+    @Size(max = 50, message = "Size can be a maximum of {max}")
+    private String equipment;
+
+    private int reps_recommended;
+
+    private int reps_done;
 
     //private Type type;
     //private Difficulty difficulty;

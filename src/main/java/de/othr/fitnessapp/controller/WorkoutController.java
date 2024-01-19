@@ -2,6 +2,7 @@ package de.othr.fitnessapp.controller;
 
 import de.othr.fitnessapp.model.Exercise;
 import de.othr.fitnessapp.model.Workout;
+import de.othr.fitnessapp.model.WorkoutExercise;
 import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import jakarta.validation.Valid;

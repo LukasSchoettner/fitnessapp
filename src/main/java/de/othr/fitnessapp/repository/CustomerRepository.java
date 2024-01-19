@@ -16,7 +16,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     List<Customer> findByAttendedCourses_Id(Long courseId);
 
-    Optional<Customer> findByPhone(String phone);
+    Optional<Customer> findByLogin(String login);
+
+    //Optional<Customer> findByPhone(String phone);
 
     // Other custom queries can be added based on your requirements
 }

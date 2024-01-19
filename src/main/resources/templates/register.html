@@ -11,7 +11,7 @@
             <!-- Assuming Customer class has similar fields -->
             <div>
                 <label for="login">Login:</label>
-                <input type="text" id="login" th:name="login" required>
+                <input type="text" id="login" th:name="login" placeholder="${customer.login}" required>
             </div>
             <div>
                 <label for="password">Password:</label>
@@ -22,10 +22,6 @@
                 <input type="email" id="email" th:name="email" required>
             </div>
             <div>
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" th:name="phone" required>
-            </div>
-            <div>
                 <label for="first_name">First Name:</label>
                 <input type="text" id="first_name" th:name="first_name" required>
             </div>
@@ -33,6 +29,7 @@
                 <label for="last_name">Last Name:</label>
                 <input type="text" id="last_name" th:name="last_name" required>
             </div>
+
             <!-- Add additional fields as per your Customer class -->
             <!-- Example: Address, Date of Birth, etc. -->
             <div>
