@@ -62,7 +62,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth ->
         auth
-        .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()		
+        .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()	
         .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
@@ -74,7 +75,6 @@ public class SecurityConfig {
         
                 		
         http.authorizeHttpRequests()
-        .requestMatchers(new AntPathRequestMatcher("/")).hasAnyAuthority("CUSTOMER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/trainer/**")).hasAnyAuthority("TRAINER","ADMIN")
@@ -82,7 +82,8 @@ public class SecurityConfig {
         
         http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));                
         
-        http.formLogin().loginPage("/login");
+        http.formLogin(Customizer.withDefaults());
+        http.formLogin().defaultSuccessUrl("/home");
         http.httpBasic(Customizer.withDefaults());
         
         return http.build();

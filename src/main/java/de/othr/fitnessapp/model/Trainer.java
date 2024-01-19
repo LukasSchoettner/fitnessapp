@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="trainer")
-public class Trainer extends User implements Serializable {
+public class Trainer extends Baseuser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

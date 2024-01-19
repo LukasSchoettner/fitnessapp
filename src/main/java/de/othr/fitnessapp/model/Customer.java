@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name="customer")
 @Getter
 @Setter
-public class Customer extends User implements Serializable {
+public class Customer extends Baseuser implements Serializable {
     
     private static final long serialVersionUID = 1L;
 

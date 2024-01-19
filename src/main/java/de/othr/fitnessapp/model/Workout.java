@@ -27,7 +27,7 @@ import java.util.List;
 @Table(name = "workout")
 public class Workout implements Serializable {
     
-    private User user;
+    private Baseuser baseuser;
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -33,7 +33,7 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Setter
 @Getter // Add this Lombok annotation to generate getters and setters
-public class User implements Serializable {
+public class Baseuser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,7 +56,7 @@ public class User implements Serializable {
 
 	private boolean active = true;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "baseuser", cascade = CascadeType.ALL)
     private List<Workout> workouts;
 
 	@ManyToMany(fetch = FetchType.EAGER)

@@ -23,7 +23,7 @@ public class Role implements Serializable {
     private String description;
     
     @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+    private Collection<Baseuser> users;
 
 	public Long getId() {
 		return id;
@@ -41,11 +41,11 @@ public class Role implements Serializable {
 		this.description = description;
 	}
 
-	public Collection<User> getUsers() {
+	public Collection<Baseuser> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Collection<User> users) {
+	public void setUsers(Collection<Baseuser> users) {
 		this.users = users;
 	}
 

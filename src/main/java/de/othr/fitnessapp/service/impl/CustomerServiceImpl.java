@@ -50,7 +50,8 @@ public class CustomerServiceImpl implements CustomerServiceI{
         Customer customer = customerRepository.findById(customerId)
                             .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID"));
 
-        workout.setCustomer(customer);
+        //todo: add customer to workout
+        //workout.setCustomer(customer);
         workoutRepository.save(workout);
     }
 

@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import de.othr.fitnessapp.model.Role;
-import de.othr.fitnessapp.model.User;
+import de.othr.fitnessapp.model.Baseuser;
 
 
 
@@ -24,7 +24,7 @@ public class MyUserDetails implements UserDetails {
 	private List<GrantedAuthority> authorities;
 	
 	
-	public MyUserDetails(User user) {
+	public MyUserDetails(Baseuser user) {
 		
 		this.userName= user.getLogin();
 		this.password= user.getPassword();

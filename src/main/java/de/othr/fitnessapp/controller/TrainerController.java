@@ -25,7 +25,7 @@ import de.othr.fitnessapp.model.Address;
 import de.othr.fitnessapp.model.Message;
 import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.model.Trainer;
-import de.othr.fitnessapp.model.User;
+import de.othr.fitnessapp.model.Baseuser;
 import de.othr.fitnessapp.service.RoleServiceI;
 import de.othr.fitnessapp.service.TrainerServiceI;
 import de.othr.fitnessapp.service.impl.MailServiceImpl;

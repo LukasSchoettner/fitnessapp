@@ -4,15 +4,15 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.othr.fitnessapp.model.User;
+import de.othr.fitnessapp.model.Baseuser;
 
 
 
 
 
-public interface UserRepositoryI extends JpaRepository<User, Long> {
+public interface UserRepositoryI extends JpaRepository<Baseuser, Long> {
 	
 	
-	Optional<User> findByLoginIgnoreCase(String login);
+	Optional<Baseuser> findByLoginIgnoreCase(String login);
 
 }
