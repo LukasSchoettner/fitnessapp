@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8" /></head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+        <h1>FitnessApp</h1>
+
+        <h2>Customer Registration</h2>
+        <form th:action="@{/register/process}" th:object ="${customer}" method="post">
+            <!-- Assuming Customer class has similar fields -->
+            <div>
+                <label for="login">Login:</label>
+                <input type="text" id="login" th:name="login" placeholder="${customer.login}" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" th:name="password" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:name="email" required>
+            </div>
+            <div>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" th:name="first_name" required>
+            </div>
+            <div>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" th:name="last_name" required>
+            </div>
+
+            <!-- Add additional fields as per your Customer class -->
+            <!-- Example: Address, Date of Birth, etc. -->
+            <div>
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </section>
+</body>
+
+</html>

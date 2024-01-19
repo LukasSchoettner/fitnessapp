@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8" /></head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+        <h1>FitnessApp</h1>
+
+        <form th:action="@{/login/process}" method="POST">
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="login">Login </label>
+                    <input type="text" class="form-control" id="login" placeholder="Login" autofocus="autofocus"
+                        th:name="username" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="pass">Password </label>
+                    <input type="password" class="form-control" id="pass" placeholder="****" th:name="password" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="pass">Role </label>
+                    <select class="form-control" th:name="role" id="role">
+                        <option th:value="-1">Select</option>
+                        <option th:value="1" th:text="User">
+                        <option th:value="2" th:text="Trainer">
+                        <option th:value="3" th:text="Gym">
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Go!</button>
+        </form>
+    </section>
+</body>
+
+</html>
