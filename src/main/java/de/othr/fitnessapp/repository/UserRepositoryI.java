@@ -2,15 +2,17 @@ package de.othr.fitnessapp.repository;
 
 import java.util.Optional;
 
-import de.othr.fitnessapp.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import de.othr.fitnessapp.model.Baseuser;
 
 
 
 
 
-public interface UserRepositoryI extends MyBaseRepository<User, Long> {
+public interface UserRepositoryI extends JpaRepository<Baseuser, Long> {
 	
 	
-	Optional<User> findByLoginIgnoreCase(String login);
+	Optional<Baseuser> findByLoginIgnoreCase(String login);
 
 }

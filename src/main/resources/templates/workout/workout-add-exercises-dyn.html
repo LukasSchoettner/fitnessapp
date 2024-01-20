@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+        <h1>Workout-Update</h1>
+        <form th:action="@{/workout/add}" th:object="${workout}" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name" autofocus="autofocus"
+                        th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" />
+                    <div class="invalid-feedback">
+                        <span th:errors="*{name}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="date">Date</label>
+                    <input type="date" class="form-control" id="date" placeholder="Date" th:field="*{date}"
+                        th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'" />
+                    <div class="invalid-feedback">
+                        <span th:errors="*{date}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise Input Section -->
+            <div class="form-row" th:each="exercise, stat : *{exercises}">
+                <div class="form-group col-md-6">
+                    <label th:for="${'exercise-' + stat.index}" th:text="'Exercise ' + (stat.index + 1)"></label>
+                    <input type="text" class="form-control" th:id="${'exercise-' + stat.index}"
+                        th:placeholder="'Exercise ' + (stat.index + 1) + ' Name'"
+                        th:field="*{exercises[__${stat.index}__]}"
+                        th:classappend="${#fields.hasErrors('exercises[__${stat.index}__]')} ? 'is-invalid'" />
+                    <div class="invalid-feedback">
+                        <span th:errors="*{exercises[__${stat.index}__]}"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label th:for="${'repetitions-' + stat.index}" th:text="'Repetitions ' + (stat.index + 1)"></label>
+                    <input type="number" class="form-control" th:id="${'repetitions-' + stat.index}"
+                        th:placeholder="'Repetitions ' + (stat.index + 1)" th:field="*{repetitions[__${stat.index}__]}"
+                        th:classappend="${#fields.hasErrors('repetitions[__${stat.index}__]')} ? 'is-invalid'" />
+                    <div class="invalid-feedback">
+                        <span th:errors="*{repetitions[__${stat.index}__]}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-sm" onclick="addExercise()">Add Exercise</button>
+
+            <input type="hidden" id="id" th:field="*{id}" />
+            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </form>
+    </section>
+
+    <!-- JavaScript to Add Exercise Input Fields -->
+    <script th:inline="javascript">
+        function addExercise() {
+            var exerciseIndex = document.querySelectorAll('[id^=exercise-]').length;
+            var newExerciseRow = '<div class="form-row">' +
+                '<div class="form-group col-md-6">' +
+                '<label for="exercise-' + exerciseIndex + '">Exercise ' + (exerciseIndex + 1) + '</label>' +
+                '<input type="text" class="form-control" id="exercise-' + exerciseIndex + '" name="exercises[' + exerciseIndex + ']" placeholder="Exercise ' + (exerciseIndex + 1) + ' Name"/>' +
+                '</div>' +
+                '<div class="form-group col-md-6">' +
+                '<label for="repetitions-' + exerciseIndex + '">Repetitions ' + (exerciseIndex + 1) + '</label>' +
+                '<input type="number" class="form-control" id="repetitions-' + exerciseIndex + '" name="repetitions[' + exerciseIndex + ']" placeholder="Repetitions ' + (exerciseIndex + 1) + '"/>' +
+                '</div>' +
+                '</div>';
+            document.querySelector('[th:each="exercise, stat : *{exercises}"]').insertAdjacentHTML('beforebegin', newExerciseRow);
+        }
+    </script>
+</body>
+
+</html>

@@ -29,6 +29,9 @@ import java.util.Optional;
 @NoArgsConstructor
 @Table(name = "workout")
 public class Workout implements Serializable {
+
+    private Baseuser baseuser;
+
     @Serial
     private static final long serialVersionUID = 1L;
 

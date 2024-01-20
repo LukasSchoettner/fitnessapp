@@ -52,7 +52,6 @@ public class SecurityConfig {
         
 
         http.csrf().disable();
-        
         http.csrf(csrfConfigurer ->			
                 csrfConfigurer
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**"))
@@ -62,26 +61,29 @@ public class SecurityConfig {
                 headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
         http.authorizeHttpRequests(auth ->
-                auth
-                		.requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()		
-                		.requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
-                		.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                		.requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                		.requestMatchers(new AntPathRequestMatcher("/note/all")).permitAll()
-        				.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll());
+        auth
+        .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()	
+        .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/note/all")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/customer")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll());
                 		
         
                 		
         http.authorizeHttpRequests()
-        
-        
-        
+        .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/trainer/**")).hasAnyAuthority("TRAINER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/note/**")).hasAnyAuthority("TRAINER","ADMIN");
         
         http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));                
         
         http.formLogin(Customizer.withDefaults());
+        http.formLogin().defaultSuccessUrl("/home");
         http.httpBasic(Customizer.withDefaults());
         
         return http.build();

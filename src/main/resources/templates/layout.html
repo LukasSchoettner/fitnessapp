@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" > 
 
 <head>
 	<title>Fitness-App</title>
+=========
+	<title>Spring-Boot Basic</title>
+>>>>>>>>> Temporary merge branch 2
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -18,7 +22,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	
 	<!-- Custom styles for this template -->
-	<link href="/css/style.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -32,6 +36,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 
 		<section layout:fragment="mybody">
 			<div>main content</div>
+=========
+			
+		<div align="top" th:replace="~{fragments/header::header}">						
+		</div>	
+					
+	</header>
+
+	<div  class="layout-main">
+			
+		<section layout:fragment="mybody">
+			<div> main content </div>							
+>>>>>>>>> Temporary merge branch 2
 		</section>		
 			
 	</div>	<!--end div class="layout-main" -->
@@ -63,5 +79,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 		});
 
 	</script>
+<<<<<<<<< Temporary merge branch 1
+=========
+
+	
+>>>>>>>>> Temporary merge branch 2
 </body>
 </html>

@@ -1,3 +1,4 @@
+<<<<<<<<< Temporary merge branch 1
 <aside th:fragment="sidebar">
     <nav class="sidebar sidebar-open">
 
@@ -5,115 +6,62 @@
             <span class="off"><a th:href="${DE}">DE</a></span>
 
         <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-home"></i>
-                    <span th:text="${de} ? 'Startseite' : 'Home'"></span>
-                </a>
-            </li>
+            <li class="nav-item"><a class="nav-link " th:href="@{/home}"><i class="oi oi-home"></i><span>Home</span></a></li>
         </ul>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <span th:text="${de} ? 'Profil' : 'Profile'" class="nav-link active">></span>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-wrench"></i>
-                    <span th:text="${de} ? 'Aktualisierung' : 'Update'"></span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-spreadsheet"></i>
-                    <span th:text="${de} ? 'Notizen' : 'Notes'"></span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-bar-chart"></i>
-                    <span th:text="${de} ? 'Statistik' : 'Statistics'"></span>
-                </a>
-            </li>
-        </ul>
+        <section sec:authorize="hasAuthority('CUSTOMER')">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Profile</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customer/profile/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>User Data</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customer/edit/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>Update</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-spreadsheet"></i><span>Notes</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-bar-chart"></i><span>Statistics</span></a></li>
+            </ul>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <span class="nav-link active">Trainer</span>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-spreadsheet"></i>
-                    <span th:text="${de} ? 'Liste' : 'List'"></span>
-                </a>
-            </li>
-        </ul>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active">Workouts</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/workout/add}"> <i class="oi oi-plus"></i><span>Add</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/workout/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
+            </ul>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <span th:text="${de} ? 'Kurse' : 'Courses'" class="nav-link active"></span>
-            </li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/course/add}">
-                    <i class="oi oi-plus"></i>
-                    <span th:text="${de} ? 'Hinzufügen' : 'Add'"></span>
-                </a>
-            </li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/course/all}">
-                <i class="oi oi-spreadsheet"></i>
-                <span th:text="${de} ? 'Liste' : 'List'">List</span>
-            </a>
-            </li>
-        </ul>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Courses</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/add}"> <i class="oi oi-plus"></i><span>Add</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
+            </ul>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <span th:text="${de} ? 'Trainingseinheiten' : 'Workouts'" class="nav-link active"></span>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/workout/add}">
-                    <i class="oi oi-plus"></i>
-                    <span th:text="${de} ? 'Hinzufügen' : 'Add'"></span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/workout/all}">
-                    <i class="oi oi-spreadsheet"></i>
-                    <span th:text="${de} ? 'Liste' : 'List'">List</span>
-                </a>
-            </li>
-        </ul>
+        </section>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <span th:text="${de} ? 'Historie' : 'History'" class="nav-link active"></span>
-            </li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/course/history}">
-                    <i class="oi oi-spreadsheet"></i>
-                    <span th:text="${de} ? 'Kurse' : 'Courses'"></span>
-                </a>
-            </li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-spreadsheet"></i>
-                    <span th:text="${de} ? 'Trainingseinheiten' : 'Workouts'"></span>
-                </a>
-            </li>
-        </ul>
 
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <span th:text="${de} ? 'Empfehlungen' : 'Recommendtions'" class="nav-link active"></span>
-            </li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/home}">
-                <i class="oi oi-spreadsheet"></i>
-                <span th:text="${de} ? 'Übungen' : 'Exercises'"></span>
-                </a>
-            </li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/home}">
-                    <i class="oi oi-spreadsheet"></i>
-                    <span th:text="${de} ? 'Trainingseinheiten' : 'Workouts'"></span>
-                </a>
-            </li>
-        </ul>
+        <section sec:authorize="hasAuthority('TRAINER')">
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Profile</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customer/profile/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>User Data</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customer/edit/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>Update</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-spreadsheet"></i><span>Notes</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-bar-chart"></i><span>Statistics</span></a></li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Courses</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/add}"> <i class="oi oi-plus"></i><span>Add</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
+            </ul>
+        </section>
+        <section th:if="${role == 'Gym'}"></section>
+
 
     </nav>
 </aside>
+=========
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+			<nav class="sidebar sidebar-closed" th:fragment="nav-sidebar">
+
+			</nav>
+</body>
+</html>
+>>>>>>>>> Temporary merge branch 2
