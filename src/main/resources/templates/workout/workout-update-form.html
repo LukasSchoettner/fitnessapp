@@ -6,7 +6,7 @@
     <section class="layout-content" layout:fragment="mybody">
 
         <h1>Workout-Update</h1>
-        <form th:action="@{/workout/add}" th:object="${workout}" method="POST">
+        <form th:action="@{/workout/update}" th:object="${workout}" method="POST">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -15,7 +15,7 @@
                            autofocus="autofocus" th:field="*{name}"
                            th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"/>
                     <div class="invalid-feedback">
-                        <span th:errors="*${name}"></span>
+                        <span th:errors="*{name}"></span>
                     </div>
                 </div>
             </div>
@@ -27,37 +27,30 @@
                            th:field="*{date}"
                            th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'"/>
                     <div class="invalid-feedback">
-                        <span th:errors="*${date}"></span>
+                        <span th:errors="*{date}"></span>
                     </div>
                 </div>
             </div>
 
-            <!--<div class="form-row">
+            <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="level">Level</label>
-                    <input type="select" class="form-control" id="level" placeholder="Level"
-                           th:field="*{level}"
-                           th:classappend="${#fields.hasErrors('level')} ? 'is-invalid'"/>
-                    <div class="invalid-feedback">
-                        <span th:errors="*${level}"></span>
-                    </div>
-                </div>
-            </div>-->
+                    <select name="level" class="form-control" id="level">
+                        <option th:each="levelOpt : ${T(de.othr.fitnessapp.utils.LevelEnum).values()}"
+                                th:field="*{level}"
+                                th:value="${levelOpt}"
+                                th:text="${levelOpt.displayValue}"
+                                th:classappend="${#fields.hasErrors('level')} ? 'is-invalid'">
+                        </option>
+                    </select>
 
-            <!--<div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="exercise">Exercises</label>
-                    <input type="text" class="form-control" id="exercises" placeholder="Exercise"
-                           th:field="*{exercises}"
-                           th:classappend="${#fields.hasErrors('exercises')} ? 'is-invalid'"/>
                     <div class="invalid-feedback">
-                        <span th:errors="*${exercises}"></span>
+                        <span th:errors="*{level}"></span>
                     </div>
                 </div>
-            </div>-->
+            </div>
 
             <input type="hidden" id="id" th:field="*{id}"/>
-            <!--<input type="hidden" id="exercises.id" th:field="*{exercises.id}"/>-->
             <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </form>
     </section>

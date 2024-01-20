@@ -6,13 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import de.othr.fitnessapp.model.Baseuser;
 
-
-
-
-
 public interface UserRepositoryI extends JpaRepository<Baseuser, Long> {
-	
-	
-	Optional<Baseuser> findByLoginIgnoreCase(String login);
 
+	Optional<Baseuser> findByLoginIgnoreCase(String login);
 }
