@@ -5,7 +5,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.service.CertServiceI;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,6 +46,5 @@ public class CertServiceImpl implements CertServiceI {
             log.error("Error generating PDF");
             return ResponseEntity.internalServerError().build();
         }
-
     }
 }

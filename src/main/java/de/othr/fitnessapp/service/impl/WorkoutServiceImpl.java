@@ -1,7 +1,7 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Workout;
-import de.othr.fitnessapp.repository.WorkoutRepositoryI;
+import de.othr.fitnessapp.repository.WorkoutRepository;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,7 +15,7 @@ import java.util.List;
 @Log4j2
 @AllArgsConstructor
 public class WorkoutServiceImpl implements WorkoutServiceI {
-    private WorkoutRepositoryI workoutRepository;
+    private WorkoutRepository workoutRepository;
 
     @Override
     public Workout saveWorkout(Workout workout) {

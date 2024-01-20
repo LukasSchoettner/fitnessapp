@@ -3,6 +3,8 @@ package de.othr.fitnessapp.controller;
 import de.othr.fitnessapp.model.Exercise;
 import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.service.CourseServiceI;
+import de.othr.fitnessapp.service.CustomerServiceI;
+import de.othr.fitnessapp.service.TrainerServiceI;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,9 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class WorkoutController {
     private WorkoutServiceI workoutService;
     private CourseServiceI courseService;
-    //private TrainerServiceI trainerService;
-    //private UserServiceI UserService;
-    //private GymServiceI GymService;
+    private TrainerServiceI trainerService;
+    private CustomerServiceI UserService;
 
     @GetMapping(value = "/add")
     public String showWorkoutAddForm(@RequestParam(required = false) String lang, Model model) {

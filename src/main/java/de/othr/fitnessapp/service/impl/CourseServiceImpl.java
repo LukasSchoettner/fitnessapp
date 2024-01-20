@@ -1,7 +1,7 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Course;
-import de.othr.fitnessapp.repository.CourseRepositoryI;
+import de.othr.fitnessapp.repository.CourseRepository;
 import de.othr.fitnessapp.service.CourseServiceI;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Log4j2
 @AllArgsConstructor
 public class CourseServiceImpl implements CourseServiceI {
-    private CourseRepositoryI courseRepository;
+    private CourseRepository courseRepository;
 
     @Override
     public Course saveCourse(Course course) {

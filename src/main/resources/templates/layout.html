@@ -6,9 +6,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 
 <head>
 	<title>Fitness-App</title>
-=========
-	<title>Spring-Boot Basic</title>
->>>>>>>>> Temporary merge branch 2
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -31,26 +28,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 		<div th:replace="~{fragments/header::header}"></div>
 	</header>
 
+	<div th:replace="~{fragments/alert::alert}"></div>
+
 	<div class="layout-main">
 		<div th:replace="~{fragments/sidebar::sidebar}"></div>
 
 		<section layout:fragment="mybody">
 			<div>main content</div>
-=========
-			
-		<div align="top" th:replace="~{fragments/header::header}">						
-		</div>	
-					
-	</header>
+		</section>
 
-	<div  class="layout-main">
-			
-		<section layout:fragment="mybody">
-			<div> main content </div>							
->>>>>>>>> Temporary merge branch 2
-		</section>		
-			
-	</div>	<!--end div class="layout-main" -->
+	</div>
 
 	<!--<footer class="layout-footer">
 		<div th:replace="~{fragments/footer::footer}" class="fixed-bottom"></div>
@@ -79,10 +66,5 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 		});
 
 	</script>
-<<<<<<<<< Temporary merge branch 1
-=========
-
-	
->>>>>>>>> Temporary merge branch 2
 </body>
 </html>

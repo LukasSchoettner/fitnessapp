@@ -1,10 +1,7 @@
 package de.othr.fitnessapp.controller;
 
 import de.othr.fitnessapp.model.Course;
-import de.othr.fitnessapp.service.CertServiceI;
-import de.othr.fitnessapp.service.CourseServiceI;
-import de.othr.fitnessapp.service.EmailServiceI;
-import de.othr.fitnessapp.service.WeatherServiceI;
+import de.othr.fitnessapp.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,9 +25,8 @@ public class CourseController {
     private CertServiceI certService;
     private WeatherServiceI weatherService;
     private EmailServiceI emailService;
-    //private TrainerServiceI trainerService;
-    //private UserServiceI UserService;
-    //private GymServiceI GymService;
+    private TrainerServiceI trainerService;
+    private CustomerServiceI customerService;
 
     @GetMapping(value = "/add")
     public String showCourseAddForm(@RequestParam(required = false) String lang, @RequestParam(required = false) String forecastDate, Model model) {

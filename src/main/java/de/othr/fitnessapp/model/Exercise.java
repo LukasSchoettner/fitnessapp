@@ -17,6 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Exercise implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -44,10 +45,7 @@ public class Exercise implements Serializable {
     @Size(max = 50, message = "Size can be a maximum of {max}")
     private String equipment;
 
-    private int reps_recommended;
+    //private int reps_recommended;
 
-    private int reps_done;
-
-    //private Type type;
-    //private Difficulty difficulty;
+    //private int reps_done;
 }

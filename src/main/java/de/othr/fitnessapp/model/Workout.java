@@ -30,8 +30,6 @@ import java.util.Optional;
 @Table(name = "workout")
 public class Workout implements Serializable {
 
-    private Baseuser baseuser;
-
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -56,6 +54,10 @@ public class Workout implements Serializable {
     @JoinColumn(name = "workout_id", referencedColumnName = "workout_id")
     @Valid
     private List<Exercise> exercises= new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Baseuser baseuser;
 
     public void addExercise(Exercise exercise) {
         this.exercises.add(exercise);
