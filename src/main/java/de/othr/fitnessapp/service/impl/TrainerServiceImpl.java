@@ -86,13 +86,13 @@ public class TrainerServiceImpl implements TrainerServiceI{
 
 	@Override
 	public void delete(Trainer trainer) {
-		// TODO Auto-generated method stub
+
 		trainerRepository.delete(trainer);	
 	}
 
 	@Override
 	public List<Trainer> findTrainersBylastName(String lastName) {
-		// TODO Auto-generated method stub
+
 		return trainerRepository.findBylastNameContainingIgnoreCase(lastName);
 	}
 

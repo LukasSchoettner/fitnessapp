@@ -18,21 +18,13 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="trainer")
-public class Trainer extends User implements Serializable {
+public class Trainer extends Baseuser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	Long id;
-	
-	
-	//now imported via user
-	/*@NotBlank(message = "Email is mandatory")
-	private String email;
-	
-	@NotBlank(message = "password is mandatory")
-	private String password;*/
-	
+
 	@NotBlank(message = "Last Name is mandatory")
 	private String lastName;
 
@@ -45,22 +37,17 @@ public class Trainer extends User implements Serializable {
 	
 	@NotBlank(message = "Phone number is mandatory")
 	private String phone;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id", updatable=false)
-	private Address address;
-	
+
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
     private List<Note> childEntities;
 
-	//@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
-	//private List<Course> childEntities;
-	
+	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+	private List<Course> courseList;
+
 	public Trainer() {
 		this.setId((long) -1);
 	}
-		
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -100,14 +87,6 @@ public class Trainer extends User implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
 	}
 
 	public static long getSerialversionuid() {

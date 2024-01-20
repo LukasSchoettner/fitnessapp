@@ -25,7 +25,7 @@ import de.othr.fitnessapp.model.Address;
 import de.othr.fitnessapp.model.Message;
 import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.model.Trainer;
-import de.othr.fitnessapp.model.User;
+import de.othr.fitnessapp.model.Baseuser;
 import de.othr.fitnessapp.service.RoleServiceI;
 import de.othr.fitnessapp.service.TrainerServiceI;
 import de.othr.fitnessapp.service.impl.MailServiceImpl;
@@ -101,6 +101,9 @@ public class TrainerController {
 			return "/trainers/trainer-update";
 		}
 		Address address= trainer.getAddress();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+		trainer.setPassword("{bcrypt}"+passwordEncoder.encode(trainer.getPassword()));
+
 		trainerService.updateTrainerAndAddress(trainer.getId(), trainer, address);
         redirectAttributes.addFlashAttribute("updated", "Trainer updated!");
 		return "redirect:/trainer/all";

@@ -26,6 +26,10 @@ public class Note {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "trainer_id", referencedColumnName = "id")
 	private Trainer trainer;
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "course_id", referencedColumnName = "course_id")
+	private Course course;
 	
 	@NotBlank(message = "Title is mandatory")
 	String title;
@@ -60,6 +64,14 @@ public class Note {
 		this.trainer = trainer;
 	}
 
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -84,7 +96,5 @@ public class Note {
 		Date = date;
 	}
 	
-	/*@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "course_id", referencedColumnName = "id")
-	private Course course;*/
+
 }

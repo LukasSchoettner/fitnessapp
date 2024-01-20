@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head><meta charset="UTF-8" /></head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+
+        <h1>Workout-Add</h1>
+        <form th:action="@{/workout/add}" th:object="${workout}" method="POST">
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name"
+                           autofocus="autofocus" th:field="*{name}"
+                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{name}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="date">Date</label>
+                    <input type="date" class="form-control" id="date" placeholder="Date"
+                           th:field="*{date}"
+                           th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{date}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="level">Level</label>
+                    <input type="select" class="form-control" id="level" placeholder="Level"
+                           th:field="*{level}"
+                           th:classappend="${#fields.hasErrors('level')} ? 'is-invalid'"/>
+                    <div class="invalid-feedback">
+                        <span th:errors="*{level}"></span>
+                    </div>
+                </div>
+            </div>-->
+
+            <h2>Exercises</h2>
+            <div id="exercisesContainer">
+                <div th:each="exercise, stat : *{exercises}">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label th:for="${stat.index}">Exercise</label>
+                            <input type="text" class="form-control" th:id="${stat.index}"
+                                   placeholder="Exercise Name"
+                                   th:field="*{exercises[__${stat.index}__].name}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="id" th:field="*{id}"/>
+            <!--<input type="hidden" id="exercises.id" th:field="*{exercises.id}"/>-->
+            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </form>
+    </section>
+</body>
+</html>

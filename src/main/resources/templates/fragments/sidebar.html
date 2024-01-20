@@ -1,9 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
-<body>
-			<nav class="sidebar sidebar-closed" th:fragment="nav-sidebar">
+<aside th:fragment="sidebar">
+    <nav class="sidebar sidebar-open">
 
-			</nav>
-</body>
-</html>
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link " th:href="@{/home}"><i class="oi oi-home"></i><span>Home</span></a></li>
+        </ul>
+
+       <section sec:authorize="hasAuthority('CUSTOMER')">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Profile</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customer/profile/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>User Data</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/customer/edit/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>Update</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-spreadsheet"></i><span>Notes</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-bar-chart"></i><span>Statistics</span></a></li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active">Workouts</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/workout/add}"> <i class="oi oi-plus"></i><span>Add</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/workout/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Courses</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/add}"> <i class="oi oi-plus"></i><span>Add</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
+            </ul>
+
+        </section>
+
+
+        <section sec:authorize="hasAuthority('TRAINER')">
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Profile</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/trainer/all}"> <i class="oi oi-wrench"></i><span>List Trainer</span></a></li>
+                <!-- <li class="nav-item"><a class="nav-link" th:href="@{/trainer/update/{id}(id=${trainer.id})}"> <i class="oi oi-wrench"></i><span>Update</span></a></li> -->
+                <li class="nav-item"><a class="nav-link" th:href="@{/note/all}"> <i class="oi oi-spreadsheet"></i><span>Notes</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-bar-chart"></i><span>Statistics</span></a></li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Courses</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/add}"> <i class="oi oi-plus"></i><span>Add</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
+            </ul>
+        </section>
+
+
+        <section th:if="${role == 'Gym'}"></section>
+
+        
+    </nav>
+</aside>
