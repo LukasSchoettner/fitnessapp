@@ -22,7 +22,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.JoinColumn;
 
 @Entity
-@Table(name="user")
+@Table(name="baseuser")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User implements Serializable{
 

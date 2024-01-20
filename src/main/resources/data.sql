@@ -1,35 +1,11 @@
-INSERT INTO workout (name, date, level) VALUES ('Cardio Workout', '2024-05-15', 'BEGINNER');
-INSERT INTO workout (name, date, level) VALUES ('Strength Training', '2024-05-15', 'INTERMEDIATE');
-INSERT INTO workout (name, date, level) VALUES ('Yoga Session', '2024-05-15', 'INTERMEDIATE');
-INSERT INTO workout (name, date, level) VALUES ('HIIT Session', '2024-05-15', 'PROFESSIONAL');
-INSERT INTO workout (name, date, level) VALUES ('Upper Body Workout', '2024-05-15', 'ADVANCED');
-
-
-INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Push-ups', 'Quadriceps', 'Triceps Brachii', 'Lower your body by bending your elbows', '', 1);
-INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Hip Thrusts', 'Hamstrings', 'Biceps Brachii', 'Hinge at your hips, keeping your back flat', 'Yoga Props', 1);
-INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Squats', 'Gluteus Maximus', 'Hip Flexors', 'Lower your hips back and down, bending your knees', 'Bodyweight Training Tools', 2);
-INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Plank', 'Calves', 'Adductors', 'Hold weights at shoulder height', 'Gymnastics Equipment', 3);
-INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Deadlifts', 'Pectoralis Major', 'Gastrocnemius', 'Maintain a straight line from head to heels in a plank position', 'Free Weights', 4);
-INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Lunges', 'Latissimus Dorsi', 'Rhomboids', 'Reach forward toward the toes of the straight leg', 'Pilates Equipment', 5);
-
-
-INSERT INTO course (name, date, trainer, participants) VALUES ('Cardio Fitness Class', '2023-05-15', 'John Doe', ARRAY ['Alice', 'Bob', 'Charlie']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Strength Training Workshop', '2023-05-15', 'Jane Smith', ARRAY ['David', 'Eva', 'Frank']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Yoga Retreat', '2024-05-15', 'Sam Brown', ARRAY ['Grace', 'Harry', 'Ivy']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('HIIT Bootcamp', '2024-05-15', 'Alex Green', ARRAY ['Jack', 'Kate', 'Leo']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Pilates for Beginners', '2024-01-04', 'Emily White', ARRAY ['Mike', 'Nina', 'Oscar']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Outdoor Fitness Challenge', '2023-02-15', 'Ryan Black', ARRAY ['Sophie', 'Tom', 'Ursula']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Core Strengthening Workshop', '2023-03-15', 'Olivia Davis', ARRAY ['Victor', 'Wendy', 'Xander']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Zumba Dance Party', '2024-05-20', 'Chris Taylor', ARRAY ['Yara', 'Zack', 'Amy']);
-
-INSERT INTO USER (login, password, email, active) values ('franz', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'elke@gmail.com', 1);
-INSERT INTO USER (login, password, email, active) values ('doe', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'doe@example.com', 1);
-INSERT INTO USER (login, password, email, active) values ('smith', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'smith.alice@gmail.com', 1);
-INSERT INTO USER (login, password, email, active) values ('jones', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'bob@gmail.com', 1);
-INSERT INTO USER (login, password, email, active) values ('doej', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'charlie.do@example.com', 1);
-INSERT INTO USER (login, password, email, active) values ('wilson', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'diana@gmail.com', 1);
-INSERT INTO USER (login, password, email, active) values ('miller', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'millerk@gmail.com', 1);
-INSERT INTO USER (login, password, email, active) values ('baker', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'baker.chris@example.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('franz', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'elke@gmail.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('doe', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'doe@example.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('smith', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'smith.alice@gmail.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('jones', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'bob@gmail.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('doej', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'charlie.do@example.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('wilson', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'diana@gmail.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('miller', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'millerk@gmail.com', 1);
+INSERT INTO baseuser (login, password, email, active) values ('baker', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'baker.chris@example.com', 1);
 
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Regensburg','1', 'Markusplatz', '93047');
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Regensburg','2', 'Arnulfsplatz', '93049');
@@ -57,3 +33,27 @@ INSERT INTO ROLE (description) VALUES ( 'TRAINER');
 
 INSERT INTO USERROLE(iduser, idrole) VALUES (1,1);
 INSERT INTO USERROLE(iduser, idrole) VALUES (1,2);
+
+INSERT INTO workout (name, date, level) VALUES ('Cardio Workout', '2024-05-15', 'BEGINNER');
+INSERT INTO workout (name, date, level) VALUES ('Strength Training', '2024-05-15', 'INTERMEDIATE');
+INSERT INTO workout (name, date, level) VALUES ('Yoga Session', '2024-05-15', 'INTERMEDIATE');
+INSERT INTO workout (name, date, level) VALUES ('HIIT Session', '2024-05-15', 'PROFESSIONAL');
+INSERT INTO workout (name, date, level) VALUES ('Upper Body Workout', '2024-05-15', 'ADVANCED');
+
+
+INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Push-ups', 'Quadriceps', 'Triceps Brachii', 'Lower your body by bending your elbows', '', 1);
+INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Hip Thrusts', 'Hamstrings', 'Biceps Brachii', 'Hinge at your hips, keeping your back flat', 'Yoga Props', 1);
+INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Squats', 'Gluteus Maximus', 'Hip Flexors', 'Lower your hips back and down, bending your knees', 'Bodyweight Training Tools', 2);
+INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Plank', 'Calves', 'Adductors', 'Hold weights at shoulder height', 'Gymnastics Equipment', 3);
+INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Deadlifts', 'Pectoralis Major', 'Gastrocnemius', 'Maintain a straight line from head to heels in a plank position', 'Free Weights', 4);
+INSERT INTO exercise (name, primary_muscle, secondary_muscle, instruction, equipment, workout_id) VALUES ('Lunges', 'Latissimus Dorsi', 'Rhomboids', 'Reach forward toward the toes of the straight leg', 'Pilates Equipment', 5);
+
+
+INSERT INTO course (name, date, trainer, participants) VALUES ('Cardio Fitness Class', '2023-05-15', 'John Doe', ARRAY ['Alice', 'Bob', 'Charlie']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Strength Training Workshop', '2023-05-15', 'Jane Smith', ARRAY ['David', 'Eva', 'Frank']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Yoga Retreat', '2024-05-15', 'Sam Brown', ARRAY ['Grace', 'Harry', 'Ivy']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('HIIT Bootcamp', '2024-05-15', 'Alex Green', ARRAY ['Jack', 'Kate', 'Leo']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Pilates for Beginners', '2024-01-04', 'Emily White', ARRAY ['Mike', 'Nina', 'Oscar']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Outdoor Fitness Challenge', '2023-02-15', 'Ryan Black', ARRAY ['Sophie', 'Tom', 'Ursula']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Core Strengthening Workshop', '2023-03-15', 'Olivia Davis', ARRAY ['Victor', 'Wendy', 'Xander']);
+INSERT INTO course (name, date, trainer, participants) VALUES ('Zumba Dance Party', '2024-05-20', 'Chris Taylor', ARRAY ['Yara', 'Zack', 'Amy']);
