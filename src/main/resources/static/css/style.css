@@ -12,8 +12,10 @@ body {
  */
 .layout-main {
     display: flex;
+    flex-direction: row;
     min-height: calc(100vh - 52px);
     overflow: hidden;
+    margin-bottom: 200px;
 }
 
 /*
@@ -22,6 +24,9 @@ body {
 .layout-content {
     width: 100%;
     padding-top: 0px;
+    /*position: absolute;*/ 
+    margin-left: 305px;
+    margin-right: 305px;
 }
 
 .container {
@@ -41,6 +46,7 @@ body {
     flex-shrink: 0;
     overflow: hidden;
     transition: width .5s;
+    position: fixed;
 }
 
 .sidebar .nav {

@@ -2,12 +2,18 @@ package de.othr.fitnessapp.controller;
 
 import de.othr.fitnessapp.model.Exercise;
 import de.othr.fitnessapp.model.Workout;
+import de.othr.fitnessapp.model.WorkoutExercise;
 import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
+import de.othr.fitnessapp.service.ExerciseService;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,9 +31,10 @@ public class WorkoutController {
     private WorkoutServiceI workoutService;
     private CourseServiceI courseService;
     private CustomerServiceI customerService;
-    //private TrainerServiceI trainerService;
-    //private UserServiceI UserService;
-    //private GymServiceI GymService;
+    private ExerciseService exerciseService;
+    // private TrainerServiceI trainerService;
+    // private UserServiceI UserService;
+    // private GymServiceI GymService;
 
     @GetMapping(value = "/add")
     public String showWorkoutAddForm(Model model) {
@@ -38,13 +45,16 @@ public class WorkoutController {
         System.out.println(currentUsername);
 
         Workout workout = new Workout();
-        workout.getExercises().add(new Exercise());
         model.addAttribute("workout", workout);
+
+        List<Exercise> availableExercises = exerciseService.findAll(); // Fetch all exercises
+        model.addAttribute("availableExercises", availableExercises);
         return "workout/workout-add-form";
     }
 
     @PostMapping(value = "/add")
-    public String processWorkoutAddForm(@ModelAttribute @Valid Workout workout, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String processWorkoutAddForm(@ModelAttribute @Valid Workout workout, BindingResult result,
+            RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             log.error("Error Count:" + result.getErrorCount());
@@ -52,14 +62,26 @@ public class WorkoutController {
             return "/workout/workout-add-form";
         }
 
+        if (workout.getExerciseIds() != null && workout.getRepetitions() != null) {
+            for (int i = 0; i < workout.getExerciseIds().size(); i++) {
+                Long exerciseId = workout.getExerciseIds().get(i);
+                Integer repetition = workout.getRepetitions().get(i);
+
+                WorkoutExercise exercise = new WorkoutExercise();
+                exercise.setExercise(exerciseService.findById(exerciseId)); // Find the Exercise entity by ID
+                exercise.setRecommendedRepetitions(repetition);
+                exercise.setWorkout(workout);
+                workout.getWorkoutExercises().add(exercise);
+            }
+        }
+
         workoutService.addWorkoutToUser(workout);
-        //log.info("Saved Workout with ID: {}", savedWorkout.getId());
         redirectAttributes.addFlashAttribute("added", "Workout added!");
         return "redirect:/workout/all";
     }
 
     @GetMapping(value = "/update/{id}")
-    public String showWorkoutUpdateForm(@PathVariable Long id, Model model){
+    public String showWorkoutUpdateForm(@PathVariable Long id, Model model) {
         Workout workout = workoutService.getWorkoutById(id);
         log.info("Updating Workout with ID: {}", workout.getId());
         model.addAttribute("workout", workout);
@@ -67,7 +89,8 @@ public class WorkoutController {
     }
 
     @PostMapping(value = "/update")
-    public String processWorkoutUpdateForm( @ModelAttribute @Valid Workout workout, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String processWorkoutUpdateForm(@ModelAttribute @Valid Workout workout, BindingResult result,
+            RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             log.error("Error Count:" + result.getErrorCount());
@@ -75,9 +98,9 @@ public class WorkoutController {
             return "/workout/workout-update-form";
         }
 
-        //Workout existingWorkout = workoutService.getWorkoutById(workout.getId());
-        //existingWorkout.setName(workout.getName());
-        //existingWorkout.setDate(workout.getDate());
+        // Workout existingWorkout = workoutService.getWorkoutById(workout.getId());
+        // existingWorkout.setName(workout.getName());
+        // existingWorkout.setDate(workout.getDate());
 
         workoutService.updateWorkout(workout);
         log.info("Updated Workout with ID: {}", workout.getId());
@@ -106,7 +129,7 @@ public class WorkoutController {
         return "workout/workout-all";
     }
 
-    //TODO: list Workout on Courses
-    //TODO: delete Workout from Course
-    //TODO: add Workout to Course ...
+    // TODO: list Workout on Courses
+    // TODO: delete Workout from Course
+    // TODO: add Workout to Course ...
 }
