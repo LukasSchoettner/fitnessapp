@@ -16,4 +16,6 @@ public interface WorkoutServiceI {
     void deleteWorkoutById(Long id);
 
     long getWorkoutCount();
+
+    void addWorkoutToUser(Workout workout);
 }

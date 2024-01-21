@@ -21,7 +21,7 @@
 
                 <td><span th:text="${workout.getName()}"></span></td>
                 <td><span th:text="${#temporals.format(workout.getDate(), 'dd.MM.YYYY')}"></span></td>
-                <td><span th:text="${workout.getExercises()}"></span></td>
+                <td><span th:text="${workout.Exercises}"></span></td>
 
                 <td><a th:href="@{/workout/update/{id}(id = ${workout.getId()})}"
                        class = "btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">

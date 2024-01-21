@@ -69,14 +69,16 @@ public class SecurityConfig {
         .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/note/all")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/customer")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/customer/add")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll());
                 		
         
                 		
         http.authorizeHttpRequests()
-        .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","ADMIN")
-        .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","TRAINER", "GYM","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","TRAINER","GYM","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/**")).hasAnyAuthority("CUSTOMER","TRAINER","GYM","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/workout/**")).hasAnyAuthority("CUSTOMER","TRAINER","GYM","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/trainer/**")).hasAnyAuthority("TRAINER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/note/**")).hasAnyAuthority("TRAINER","ADMIN");
         

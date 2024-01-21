@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 
 import de.othr.fitnessapp.config.MyUserDetails;
 import de.othr.fitnessapp.model.Baseuser;
-import de.othr.fitnessapp.repository.UserRepositoryI;
+import de.othr.fitnessapp.repository.UserRepository;
 
 
 
 @Service
 public class MyUserDetailsServiceImpl implements UserDetailsService{
 
-	UserRepositoryI userRepository;
+	UserRepository userRepository;
 	
-	public MyUserDetailsServiceImpl (UserRepositoryI userRepository) {
+	public MyUserDetailsServiceImpl (UserRepository userRepository) {
 		this.userRepository= userRepository;
 	}
 	

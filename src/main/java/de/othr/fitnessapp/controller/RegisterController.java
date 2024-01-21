@@ -50,7 +50,7 @@ public class RegisterController {
         roles.add(roleService.findRoleByDescription("CUSTOMER"));
         customer.setRoles(roles);
 
-        customerService.saveCustomer(customer);
+        customerService.addCustomer(customer);
         redirectAttributes.addFlashAttribute("added", "Customer added!");
         // Redirect to a confirmation page or back to home
         return "redirect:/customer/profile/{id}";

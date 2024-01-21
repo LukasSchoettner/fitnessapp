@@ -1,11 +1,13 @@
 package de.othr.fitnessapp.controller;
 
+import de.othr.fitnessapp.config.MyUserDetails;
 import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.RoleServiceI;
+import de.othr.fitnessapp.service.impl.MyUserDetailsServiceImpl;
 import de.othr.fitnessapp.service.CourseServiceI;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -45,9 +48,14 @@ public class CustomerController {
     public String createCustomerForm(Model model, HttpServletRequest request) {
         Customer customer = new Customer();
 
+        List<Role> roles = customer.getRoles();
+        roles.add(roleService.findRoleByDescription("CUSTOMER"));
+        customer.setRoles(roles);
+
         model.addAttribute("customer", customer);
         request.getSession().setAttribute("customerSession", customer);
-        return "customer/create";
+        
+        return "customer/customer-add";
     }
 
     // Handle the form submission for creating a new customer
@@ -55,41 +63,39 @@ public class CustomerController {
     public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result,
             RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "customer/register";
+            return "customer/customer-add";
         }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        customer.setPassword("{bcrypt}" + passwordEncoder.encode(customer.getPassword()));
-
-        List<Role> roles = customer.getRoles();
-        roles.add(roleService.findRoleByDescription("CUSTOMER"));
-        customer.setRoles(roles);
-
-        customerService.saveCustomer(customer);
+        customerService.addCustomer(customer);
         redirectAttributes.addFlashAttribute("added", "Customer added!");
-        return "redirect:/customer/view";
+
+        return "redirect:/customer/profile";
     }
 
     // Display the form for updating a customer
-    @GetMapping("/edit/{id}")
-    public String editCustomerForm(@PathVariable Long id, Model model, HttpServletRequest request) {
+    @GetMapping("/edit")
+    public String editCustomerForm(Model model, HttpServletRequest request) {
 
-        Customer customer = customerService.findCustomerById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        Customer customer = customerService.findCustomerByLogin(currentUsername);
+
         model.addAttribute("customer", customer);
-        request.getSession().setAttribute("customerSession", customer);
+        //request.getSession().setAttribute("customerSession", customer);
 
         return "customer/customer-edit-profile";
     }
 
     // Handle the form submission for updating a customer
-    @PostMapping("/edit/process")
+    @PostMapping("/edit")
     public String editCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
             return "customer/customer-edit-profile";
         }
 
-        customerService.updateCustomer(customer.getId(), customer);
-        return "redirect:/customer/view";
+        customerService.updateCustomer(customer);
+        return "redirect:/customer/profile";
     }
 
     // Delete a customer
@@ -100,31 +106,21 @@ public class CustomerController {
     }
 
     // Display customer details including workouts and courses
-    @GetMapping("/profile/{id}")
-    public String viewCustomer(@PathVariable Long id, Model model, HttpServletRequest request) {
+    @GetMapping("/profile")
+    public String viewCustomer(Model model, HttpServletRequest request) {
 
-        // Retrieve the current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        System.out.println("current user name = " + currentUsername);
-        // Optional: Check if the user has specific authority
-        // boolean hasAuthority = authentication.getAuthorities().contains(new
-        // SimpleGrantedAuthority("ROLE_ADMIN"));
+        Customer customer = customerService.findCustomerByLogin(currentUsername);
 
-        // Get the Customer object
-        Customer customer = customerService.findCustomerById(id);
-        System.out.println("user name = " + customer.getLogin());
         // Security check: Ensure the authenticated user is allowed to view this profile
         // This could be a check against roles or specific business logic
-        if (currentUsername.equals(customer.getLogin())) {
-            model.addAttribute("customer", customer);
-            model.addAttribute("workouts", customerService.getWorkoutsForCustomer(id));
-            model.addAttribute("courses", customerService.getCoursesForCustomer(id));
-            return "customer/customer-view";
-        } else {
-            // Handle unauthorized access, could redirect to a 'denied' page or similar
-            return "error/access-denied";
-        }
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("workouts", customerService.getWorkoutsForCustomer(customer.getId()));
+        model.addAttribute("courses", customerService.getCoursesForCustomer(customer.getId()));
+        return "customer/customer-view";
+
     }
 
     // Display a list of all customers

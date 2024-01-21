@@ -31,9 +31,9 @@ public interface CustomerServiceI {
     // Method to get all courses a customer is enrolled in
     public Set<Course> getCoursesForCustomer(Long customerId);
 
-    public void saveCustomer(Customer customer);
+    public void addCustomer(Customer customer);
 
-    public void updateCustomer(Long id, Customer customer);
+    public void updateCustomer(Customer customer);
 
     public void deleteCustomer(Customer customer);
 

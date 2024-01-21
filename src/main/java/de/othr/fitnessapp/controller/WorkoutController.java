@@ -3,10 +3,14 @@ package de.othr.fitnessapp.controller;
 import de.othr.fitnessapp.model.Exercise;
 import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.service.CourseServiceI;
+import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,16 +24,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class WorkoutController {
     private WorkoutServiceI workoutService;
     private CourseServiceI courseService;
+    private CustomerServiceI customerService;
     //private TrainerServiceI trainerService;
     //private UserServiceI UserService;
     //private GymServiceI GymService;
 
     @GetMapping(value = "/add")
     public String showWorkoutAddForm(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        System.out.println(currentUsername);
+
         Workout workout = new Workout();
         workout.getExercises().add(new Exercise());
         model.addAttribute("workout", workout);
-        return "/workout/workout-add-form";
+        return "workout/workout-add-form";
     }
 
     @PostMapping(value = "/add")
@@ -41,8 +52,8 @@ public class WorkoutController {
             return "/workout/workout-add-form";
         }
 
-        Workout savedWorkout = workoutService.saveWorkout(workout);
-        log.info("Saved Workout with ID: {}", savedWorkout.getId());
+        workoutService.addWorkoutToUser(workout);
+        //log.info("Saved Workout with ID: {}", savedWorkout.getId());
         redirectAttributes.addFlashAttribute("added", "Workout added!");
         return "redirect:/workout/all";
     }

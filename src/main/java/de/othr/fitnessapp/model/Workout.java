@@ -27,6 +27,8 @@ import java.util.List;
 @Table(name = "workout")
 public class Workout implements Serializable {
     
+    @ManyToOne
+    @JoinColumn(name = "baseuser_id")
     private Baseuser baseuser;
 
     @Serial

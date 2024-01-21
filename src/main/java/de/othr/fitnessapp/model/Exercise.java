@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,32 +24,32 @@ public class Exercise implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "exercise_id")
     private Long id;
 
-    @NotBlank(message = "Name is mandatory")
-    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
     private String name;
-
-    @NotBlank(message = "Primary muscle is mandatory")
-    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
-    private String primaryMuscle;
-
-    @NotBlank(message = "Secondary muscle is mandatory")
-    @Size(min = 3, max = 50, message = "Size must be between {min} and {max}")
-    private String secondaryMuscle;
-
-    @NotBlank(message = "Instruction is mandatory")
-    @Size(min = 3, max = 200, message = "Size must be between {min} and {max}")
-    private String instruction;
-
-    @Size(max = 50, message = "Size can be a maximum of {max}")
     private String equipment;
+    private String movement;
 
-    private int reps_recommended;
+    @Column(length = 10000)
+    private String instructions;
 
-    private int reps_done;
+    private String force;
+    
+    @ElementCollection
+    private List<String> primaryMuscleGroups;
 
-    //private Type type;
-    //private Difficulty difficulty;
+    @ElementCollection
+    private List<String> primaryMuscles;
+
+    @ElementCollection
+    private List<String> secondaryMuscleGroups;
+
+    @ElementCollection
+    private List<String> secondaryMuscles;
+
+    @ElementCollection
+    private List<String> tags;
+
+    private String type;
+
 }

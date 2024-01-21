@@ -57,7 +57,7 @@ public class Baseuser implements Serializable {
 	private boolean active = true;
 
 	@OneToMany(mappedBy = "baseuser", cascade = CascadeType.ALL)
-    private List<Workout> workouts;
+    private List<Workout> workouts = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnore

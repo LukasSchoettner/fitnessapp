@@ -10,7 +10,7 @@ import de.othr.fitnessapp.model.Baseuser;
 
 
 
-public interface UserRepositoryI extends JpaRepository<Baseuser, Long> {
+public interface UserRepository extends JpaRepository<Baseuser, Long> {
 	
 	
 	Optional<Baseuser> findByLoginIgnoreCase(String login);
