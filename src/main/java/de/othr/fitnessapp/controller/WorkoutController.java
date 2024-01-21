@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -78,6 +79,15 @@ public class WorkoutController {
         workoutService.addWorkoutToUser(workout);
         redirectAttributes.addFlashAttribute("added", "Workout added!");
         return "redirect:/workout/all";
+    }
+
+    @GetMapping("/search-exercises")
+    public ResponseEntity<?> searchExercises(@RequestParam String query) {
+        // Perform search based on query (name, primaryMuscles, type, etc.)
+        List<Exercise> exercises = exerciseService.searchExercises(query);
+
+        // Return partial HTML or JSON
+        return ResponseEntity.ok(exercises); // Adjust as needed
     }
 
     @GetMapping(value = "/update/{id}")

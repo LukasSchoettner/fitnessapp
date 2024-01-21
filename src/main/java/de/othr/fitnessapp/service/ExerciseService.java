@@ -26,6 +26,5 @@ public interface ExerciseService {
     Exercise findById(Long id);
     Exercise save(Exercise exercise);
     void deleteById(Long id);
-    //private 
-    
+    List<Exercise> searchExercises(String query);
 }

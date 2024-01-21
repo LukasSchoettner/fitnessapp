@@ -29,6 +29,11 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="exerciseSearch">Search Exercise</label>
+                <input type="text" id="exerciseSearch" class="form-control"
+                    placeholder="Search by name, muscle, type...">
+            </div>
 
             <!-- Container for Added Workout Exercises -->
             <h2>Added Exercises</h2>
@@ -44,8 +49,7 @@
                         <label th:for="${'exercise' + stat.index}">Exercise</label>
                         <input type="text" class="form-control" th:id="${'exercise' + stat.index}"
                             th:value="${exercise.name}" readonly />
-                        <button type="button" th:data-exercise-id="${exercise.id}"
-                            class="addExerciseBtn">Add</button>
+                        <button type="button" th:data-exercise-id="${exercise.id}" class="addExerciseBtn">Add</button>
                     </div>
                 </div>
             </div>
@@ -53,39 +57,85 @@
             <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </form>
         <script>
-            document.addEventListener('DOMContentLoaded', (event) => {
-                document.getElementById('exercisesContainer').addEventListener('click', function(e) {
-                    if(e.target && e.target.classList.contains('addExerciseBtn')) {
-                        var exerciseId = e.target.getAttribute('data-exercise-id');
-                        var container = document.getElementById('workoutExercisesContainer');
-                        var newIndex = container.children.length;
-        
-                        // Create new div for workoutExercise
-                        var newWorkoutExerciseDiv = document.createElement('div');
-                        newWorkoutExerciseDiv.className = 'workoutExercise';
-        
-                        // Create and append hidden input for exercise ID
-                        var exerciseIdInput = document.createElement('input');
-                        exerciseIdInput.type = 'hidden';
-                        exerciseIdInput.value = exerciseId;
-                        exerciseIdInput.name = 'exerciseIds[' + newIndex + ']';
-                        newWorkoutExerciseDiv.appendChild(exerciseIdInput);
-        
-                        // Create and append input for repetitions
-                        var repetitionsInput = document.createElement('input');
-                        repetitionsInput.type = 'number';
-                        repetitionsInput.className = 'form-control';
-                        repetitionsInput.placeholder = 'Repetitions';
-                        repetitionsInput.name = 'repetitions[' + newIndex + ']';
-                        newWorkoutExerciseDiv.appendChild(repetitionsInput);
-        
-                        container.appendChild(newWorkoutExerciseDiv);
+            document.getElementById('exerciseSearch').addEventListener('keyup', function () {
+                var searchQuery = this.value;
+
+                // AJAX request to your server
+                $.ajax({
+                    url: '/workout/search-exercises',
+                    method: 'GET',
+                    data: { query: searchQuery },
+                    success: function (exercises) {
+                        var exercisesContainer = document.getElementById('exercisesContainer');
+                        exercisesContainer.innerHTML = ''; // Clear existing content
+
+                        exercises.forEach(function (exercise) {
+                            // Create a div for each exercise
+                            var exerciseDiv = document.createElement('div');
+                            exerciseDiv.className = 'form-group';
+
+                            // Create and append the exercise name
+                            var exerciseNameInput = document.createElement('input');
+                            exerciseNameInput.type = 'text';
+                            exerciseNameInput.className = 'form-control';
+                            exerciseNameInput.value = exercise.name;
+                            exerciseNameInput.readOnly = true;
+                            exerciseDiv.appendChild(exerciseNameInput);
+
+                            // Create and append the add button
+                            var addButton = document.createElement('button');
+                            addButton.type = 'button';
+                            addButton.className = 'addExerciseBtn';
+                            addButton.textContent = 'Add';
+                            addButton.setAttribute('data-exercise-id', exercise.id);
+                            addButton.onclick = function () {
+                                addExerciseToWorkout(exercise.id, exercise.name)
+                            };
+                            exerciseDiv.appendChild(addButton);
+
+                            // Append the exercise div to the container
+                            exercisesContainer.appendChild(exerciseDiv);
+                        });
+                    },
+                    error: function (err) {
+                        console.error("Error fetching exercises: ", err);
                     }
                 });
             });
+            function addExerciseToWorkout(exerciseId, exerciseName) {
+                var container = document.getElementById('workoutExercisesContainer');
+                var newIndex = container.children.length;
+
+                // Create new div for workoutExercise
+                var newWorkoutExerciseDiv = document.createElement('div');
+                newWorkoutExerciseDiv.className = 'workoutExercise';
+
+                // Create and append a label for the exercise
+                var exerciseLabel = document.createElement('label');
+                exerciseLabel.textContent = exerciseName;
+                newWorkoutExerciseDiv.appendChild(exerciseLabel);
+
+                // Create and append hidden input for exercise ID
+                var exerciseIdInput = document.createElement('input');
+                exerciseIdInput.type = 'hidden';
+                exerciseIdInput.value = exerciseId;
+                exerciseIdInput.name = 'exerciseIds[' + newIndex + ']';
+                newWorkoutExerciseDiv.appendChild(exerciseIdInput);
+
+                // Create and append input for repetitions
+                var repetitionsInput = document.createElement('input');
+                repetitionsInput.type = 'number';
+                repetitionsInput.className = 'form-control';
+                repetitionsInput.placeholder = 'Repetitions';
+                repetitionsInput.name = 'repetitions[' + newIndex + ']';
+                newWorkoutExerciseDiv.appendChild(repetitionsInput);
+
+                container.appendChild(newWorkoutExerciseDiv);
+            }
         </script>
+
     </section>
-    
+
 </body>
 
 </html>

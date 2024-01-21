@@ -71,7 +71,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
         }
     }
-    
+
     @Override
     public List<Exercise> findAll() {
         return exerciseRepository.findAll();
@@ -91,5 +91,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteById(Long id) {
         exerciseRepository.deleteById(id);
+    }
+    
+    @Override
+    public List<Exercise> searchExercises(String query) {
+        // Implement the search logic here
+        // For example, search by name, primary muscles, or type
+        return exerciseRepository.findByNameContainingIgnoreCaseOrPrimaryMusclesContainingIgnoreCaseOrTypeContainingIgnoreCase(query, query, query);
     }
 }
