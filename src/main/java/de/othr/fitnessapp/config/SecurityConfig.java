@@ -80,6 +80,7 @@ public class SecurityConfig{
                 		
         http.authorizeHttpRequests()
         .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/role/**")).hasAuthority("ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","ADMIN")
 
         .requestMatchers(new AntPathRequestMatcher("/trainer/all")).hasAnyAuthority("TRAINER","ADMIN","CUSTOMER")

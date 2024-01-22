@@ -29,8 +29,6 @@ public class MyUserDetails implements UserDetails {
 		this.userName= user.getLogin();
 		this.password= user.getPassword();
 		this.userId= user.getId();
-		System.out.println("password of the user is="+password);
-		System.out.println("userName of the user is="+this.userName);
 		this.active = user.isActive();
 				
 		List<Role> myRoles = (List<Role>) user.getRoles();

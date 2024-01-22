@@ -72,5 +72,6 @@ public class Baseuser implements Serializable {
 		this.roles = roles;
 	}
 
+
 	// Other methods and fields remain unchanged
 }

@@ -1,0 +1,51 @@
+package de.othr.fitnessapp.service.impl;
+
+import de.othr.fitnessapp.model.Address;
+import de.othr.fitnessapp.model.Baseuser;
+import de.othr.fitnessapp.model.Trainer;
+import de.othr.fitnessapp.repository.TrainerRepository;
+import de.othr.fitnessapp.repository.UserRepositoryI;
+import de.othr.fitnessapp.service.BaseuserServiceI;
+import de.othr.fitnessapp.service.TrainerServiceI;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+@Service
+public class BaseuserServiceImpl implements BaseuserServiceI {
+
+	private UserRepositoryI baseuserRepository;
+	// tbd private CourseRepositoryI  courseRepository;
+
+	public BaseuserServiceImpl(UserRepositoryI baseuserRepository) {
+		super();
+		this.baseuserRepository = baseuserRepository;
+	} 
+	
+	@Override
+	public Page<Baseuser> getAllBaseusers(String username, Pageable pageable) {
+
+		Page <Baseuser> pageBaseusers;
+		if (username == null) {
+	        pageBaseusers = baseuserRepository.findAll(pageable);
+	      } else {
+	        pageBaseusers = baseuserRepository.findByLoginContainingIgnoreCase(username, pageable);
+	        
+	      }				
+		return  pageBaseusers;
+	}
+
+	@Override
+	public Baseuser getBaseuserById(Long id){
+		return baseuserRepository.findById(id).get();
+	}
+
+	@Override
+	public Baseuser saveBaseuser(Baseuser baseuser) {
+
+		return baseuserRepository.save(baseuser);
+	}
+}
