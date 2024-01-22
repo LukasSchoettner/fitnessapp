@@ -4,7 +4,6 @@ import de.othr.fitnessapp.model.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface CourseServiceI {
@@ -23,4 +22,6 @@ public interface CourseServiceI {
     Page<Course> getPastCourses(Pageable pageable);
 
     long getCourseCount();
+
+    List<Course> findCoursesByName(String Name);
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,5 +63,10 @@ public class CourseServiceImpl implements CourseServiceI {
     @Override
     public long getCourseCount() {
         return courseRepository.count();
+    }
+
+    @Override
+    public List<Course> findCoursesByName(String name) {
+        return courseRepository.findByNameContainingIgnoreCase(name);
     }
 }
