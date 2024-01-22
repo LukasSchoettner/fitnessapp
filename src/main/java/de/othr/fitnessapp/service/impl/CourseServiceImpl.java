@@ -1,7 +1,6 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Course;
-import de.othr.fitnessapp.model.Trainer;
 import de.othr.fitnessapp.repository.CourseRepository;
 import de.othr.fitnessapp.service.CourseServiceI;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -67,7 +67,6 @@ public class CourseServiceImpl implements CourseServiceI {
 
     @Override
     public List<Course> findCoursesByName(String name) {
-
         return courseRepository.findByNameContainingIgnoreCase(name);
     }
 }
