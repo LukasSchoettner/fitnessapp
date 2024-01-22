@@ -1,6 +1,7 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Course;
+import de.othr.fitnessapp.model.Trainer;
 import de.othr.fitnessapp.repository.CourseRepository;
 import de.othr.fitnessapp.service.CourseServiceI;
 import lombok.AllArgsConstructor;
@@ -62,5 +63,11 @@ public class CourseServiceImpl implements CourseServiceI {
     @Override
     public long getCourseCount() {
         return courseRepository.count();
+    }
+
+    @Override
+    public List<Course> findCoursesByName(String name) {
+
+        return courseRepository.findByNameContainingIgnoreCase(name);
     }
 }

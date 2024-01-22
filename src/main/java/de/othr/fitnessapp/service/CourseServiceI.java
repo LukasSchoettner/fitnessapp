@@ -23,4 +23,6 @@ public interface CourseServiceI {
     Page<Course> getPastCourses(Pageable pageable);
 
     long getCourseCount();
+
+    List<Course> findCoursesByName(String Name);
 }

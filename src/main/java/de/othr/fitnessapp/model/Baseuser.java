@@ -1,8 +1,14 @@
 package de.othr.fitnessapp.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.JoinColumn;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,12 +44,22 @@ public class Baseuser implements Serializable {
 
 	private boolean active = true;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "baseuser", cascade = CascadeType.ALL)
     private List<Workout> workouts = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnore
 	@JoinTable(name = "userrole", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idrole"))
-	private List<Role> roles = new ArrayList<>();
+	private List<Role> roles = new ArrayList<Role>();
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+
+	// Other methods and fields remain unchanged
 }
