@@ -44,11 +44,19 @@ public class Course implements Serializable {
     @NotBlank(message = "Trainer is mandatory")
     //@NotNull(message = "Trainer is mandatory")
     //TODO change type to Trainer
-    private String trainer;
+    private Trainer trainer;
 
     //TODO change type to User
     @NotNull
     private Set<String> participants = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Rating> ratings = new HashSet<>();
+
+    public void addRating(Rating rating) {
+        ratings.add(rating);
+        rating.setCourse(this);
+    }
 
     //private Set<Workout> workouts = new HashSet<>();
     //private Level level;

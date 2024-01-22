@@ -2,17 +2,12 @@ package de.othr.fitnessapp.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -41,8 +36,21 @@ public class Trainer extends Baseuser implements Serializable {
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
     private List<Note> childEntities;
 
+
+	public Gym getGym() {
+		return gym;
+	}
+
+	public void setGym(Gym gym) {
+		this.gym = gym;
+	}
+
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
 	private List<Course> courseList;
+
+	@ManyToOne
+	@JoinColumn(name = "gym_id")
+	private Gym gym;
 	
 	public Trainer() {
 		this.setId((long) -1);
@@ -92,5 +100,14 @@ public class Trainer extends Baseuser implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public void offerCourse(Course course) {
+		if (courseList == null) {
+			courseList = new ArrayList<>();
+		}
+		courseList.add(course);
+		course.setTrainer(this);
+	}
+
+
 }
