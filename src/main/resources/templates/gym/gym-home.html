@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+        $(document).ready(function () {
+            // Function for retrieving the current Bitcoin price
+            function fetchBitcoinPrice() {
+                $.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd", function (data) {
+                    // Update the HTML element with the ID "bitcoinPrice" with the current Bitcoin price
+                    $("#bitcoinPrice").text("Aktueller Bitcoin-Kurs: $" + data.bitcoin.usd);
+                });
+            }
+
+            // Call the function when loading the page
+            fetchBitcoinPrice();
+
+            // Update the Bitcoin price every 5 minutes (300,000 milliseconds)
+            setInterval(fetchBitcoinPrice, 300000);
+        });
+    </script>
 <head>
     <meta charset="UTF-8">
     <title>Gym Details</title>
