@@ -29,11 +29,6 @@ public class RatingServiceImpl implements RatingServiceI {
         return ratings;
     }
 
-    public double getAverageRating(){
-        double averageRating = 0;
-        return averageRating;
-    }
-
     @Override
     public Rating saveRating(Rating rating) {
         return null;
@@ -52,5 +47,17 @@ public class RatingServiceImpl implements RatingServiceI {
     @Override
     public void deleteRating(Long id) {
 
+    }
+    public double calculateAverageRating() {
+        if (ratings.isEmpty()) {
+            return 0.0; // return 0 to prevent division by zero
+        }
+
+        double average = ratings.stream()
+                .mapToInt(Rating::getPoints)
+                .average()
+                .orElse(0.0);
+
+        return average;
     }
 }
