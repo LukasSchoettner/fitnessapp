@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+
+        <h1>Workout Statistics</h1>
+
+        <div>
+            <h2>Last Week's Statistics</h2>
+            <h3>Most Used Muscles</h3>
+            <ul>
+                <li th:each="muscle : ${muscleUseLastWeek.mostUsedMuscles}" th:text="${muscle}"></li>
+            </ul>
+
+            <h3>Unused Muscles</h3>
+            <ul>
+                <li th:each="muscle : ${muscleUseLastWeek.unusedMuscles}" th:text="${muscle}"></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Last Month's Statistics</h2>
+            <h3>Most Used Muscles</h3>
+            <ul>
+                <li th:each="muscle : ${muscleUseLastMonth.mostUsedMuscles}" th:text="${muscle}"></li>
+            </ul>
+
+            <h3>Unused Muscles</h3>
+            <ul>
+                <li th:each="muscle : ${muscleUseLastMonth.unusedMuscles}" th:text="${muscle}"></li>
+            </ul>
+        </div>
+
+
+    </section>
+
+</body>
+
+</html>

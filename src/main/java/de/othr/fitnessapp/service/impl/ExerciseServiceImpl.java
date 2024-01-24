@@ -15,8 +15,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -84,6 +86,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public Exercise findByName(String name){
+        Optional<Exercise> result = exerciseRepository.findByName(name);
+        return result.get();
+    }
+
+    @Override
     public Exercise save(Exercise exercise) {
         return exerciseRepository.save(exercise);
     }
@@ -98,5 +106,22 @@ public class ExerciseServiceImpl implements ExerciseService {
         // Implement the search logic here
         // For example, search by name, primary muscles, or type
         return exerciseRepository.findByNameContainingIgnoreCaseOrPrimaryMusclesContainingIgnoreCaseOrTypeContainingIgnoreCase(query, query, query);
+    }
+
+    @Override
+    public Set<String> getAllMuscles() {
+
+        List<Exercise> exercises = exerciseRepository.findAll();
+        Set<String> allMuscles = new HashSet<>();
+
+        for (Exercise exercise : exercises) {
+            allMuscles.addAll(exercise.getPrimaryMuscles());
+            allMuscles.addAll(exercise.getSecondaryMuscles());
+            // If you want to include muscle groups as well
+            allMuscles.addAll(exercise.getPrimaryMuscleGroups());
+            allMuscles.addAll(exercise.getSecondaryMuscleGroups());
+        }
+
+        return allMuscles;
     }
 }

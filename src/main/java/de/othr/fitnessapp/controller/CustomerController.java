@@ -96,13 +96,19 @@ public class CustomerController {
 
         customerService.updateCustomer(customer);
         return "redirect:/customer/profile";
+    
     }
 
     // Delete a customer
-    @GetMapping("/delete/{id}")
-    public String deleteCustomer(@Valid @ModelAttribute("customer") Customer customer) {
+    @PostMapping("/delete")
+    public String deleteCustomer() {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        Customer customer = customerService.findCustomerByLogin(currentUsername);
+
         customerService.deleteCustomer(customer);
-        return "redirect:/customer";
+        return "redirect:/register";
     }
 
     // Display customer details including workouts and courses

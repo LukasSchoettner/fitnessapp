@@ -24,5 +24,6 @@ public class WorkoutExercise implements Serializable {
 
     private int recommendedRepetitions;
     private int actualRepetitions;
+    private int weight;
 
 }

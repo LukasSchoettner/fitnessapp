@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,9 @@ public interface ExerciseService {
     public void fetchAndSaveExercises() throws IOException, InterruptedException;
     List<Exercise> findAll();
     Exercise findById(Long id);
+    Exercise findByName(String name);
     Exercise save(Exercise exercise);
     void deleteById(Long id);
     List<Exercise> searchExercises(String query);
+    Set<String> getAllMuscles();
 }

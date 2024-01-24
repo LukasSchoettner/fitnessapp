@@ -2,6 +2,7 @@ package de.othr.fitnessapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -36,6 +37,9 @@ public class Workout implements Serializable {
     @Transient
     private List<Integer> repetitions = new ArrayList<>();
 
+    @Transient
+    private List<Integer> weight = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workout_id")
@@ -46,16 +50,13 @@ public class Workout implements Serializable {
     private String name;
 
     @NotNull(message = "Date is mandatory")
-    @Future(message = "Date must be in the future")
+    @FutureOrPresent(message = "Date can't be in the past")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<WorkoutExercise> workoutExercises = new HashSet<>();
 
-    // Other fields and methods...
-
-    // Assuming Baseuser is another entity related to Workout
     @ManyToOne
     @JoinColumn(name = "baseuser_id")
     private Baseuser baseuser;

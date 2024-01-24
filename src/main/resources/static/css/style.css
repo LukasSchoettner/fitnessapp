@@ -24,9 +24,6 @@ body {
 .layout-content {
     width: 100%;
     padding-top: 0px;
-    /*position: absolute;*/ 
-    margin-left: 305px;
-    margin-right: 305px;
 }
 
 .container {
@@ -39,14 +36,14 @@ body {
  */
 .sidebar {
     width: 0px;
-    height: 100vh;
+    height: 100%;
     border-top: 1px solid #eee;
     border-right: 1px solid #eee;    
     background-color: #f8f9fa;
     flex-shrink: 0;
     overflow: hidden;
     transition: width .5s;
-    position: fixed;
+
 }
 
 .sidebar .nav {
@@ -120,4 +117,23 @@ body {
 	display: block;
 	color: #777777;
 	text-align: center;
+}
+
+.workout_input_form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.workout_core_data {
+    width: 50%;
+}
+
+.workout_exercise_input {
+    width: 50%;
+}
+
+.scrollable-list {
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;  /* Enables vertical scrolling */
 }

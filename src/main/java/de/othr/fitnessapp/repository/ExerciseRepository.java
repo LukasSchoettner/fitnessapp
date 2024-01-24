@@ -1,6 +1,7 @@
 package de.othr.fitnessapp.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,5 @@ import de.othr.fitnessapp.model.Exercise;
 public interface ExerciseRepository extends JpaRepository<Exercise, Long>{
     boolean existsByName(String name);
     List<Exercise> findByNameContainingIgnoreCaseOrPrimaryMusclesContainingIgnoreCaseOrTypeContainingIgnoreCase(String name, String primaryMuscles, String type);
+    Optional<Exercise> findByName(String name);
 }

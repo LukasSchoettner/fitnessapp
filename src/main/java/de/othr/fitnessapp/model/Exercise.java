@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -25,6 +27,7 @@ public class Exercise implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<WorkoutExercise> workoutExercises = new HashSet<>();
 
     @Id

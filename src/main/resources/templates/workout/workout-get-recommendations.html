@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+
+        <!-- Exercise Recommendations -->
+        <h2>Exercise Recommendations</h2>
+        <div>
+            <h3>Based on Underutilized Muscles</h3>
+            <ul>
+                <li th:each="exercise : ${recommendedExercises}" th:text="${exercise.name}"></li>
+            </ul>
+        </div>
+
+
+
+    </section>
+
+</body>
+
+</html>

@@ -29,8 +29,10 @@
                     <ul>
                         <li th:each="workoutExercise : ${workout.workoutExercises}">
                             <span th:text="${workoutExercise.exercise.name}"></span>
-                            <span> - </span>
+                            <span>: </span>
                             <span th:text="${workoutExercise.recommendedRepetitions} + ' reps'"></span>
+                            <span> - </span>
+                            <span th:text="${workoutExercise.actualRepetitions} + ' done'"></span>
                         </li>
                     </ul>
                 </td>
