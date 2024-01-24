@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym Details</title>
+</head>
+<body>
+<h2>Gym Details</h2>
+
+<!-- Formular zum Anzeigen und Bearbeiten eines Fitnessstudios -->
+<form th:action="@{/gym/update}" th:object="${gym}" method="post">
+    <!-- Gym-Informationen -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required/>
+    <br/>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required/>
+    <br/>
+
+    <!-- Kurse und Trainer -->
+    <h3>Available Courses:</h3>
+    <ul>
+        <li th:each="course : ${courses}" th:text="${course.name}"></li>
+    </ul>
+
+    <h3>Available Trainers:</h3>
+    <ul>
+        <li th:each="trainer : ${trainers}" th:text="${trainer.firstName} + ' ' + ${trainer.lastName}"></li>
+    </ul>
+
+    <!-- Aktionsschaltflächen -->
+    <button type="submit">Update Gym</button>
+</form>
+
+<!-- Nachrichten nach Aktionen -->
+<div th:if="${#flash.messages.contains('updated')}" th:text="${flash.updated}"></div>
+<div th:if="${#flash.messages.contains('added')}" th:text="${flash.added}"></div>
+<div th:if="${#flash.messages.contains('deleted')}" th:text="${flash.deleted}"></div>
+</body>
+</html>

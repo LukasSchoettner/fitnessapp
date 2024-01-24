@@ -23,7 +23,6 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/gym")
 @Controller
 @Log4j2
-
 public class GymController {
     private GymServiceI gymService;
     private CourseServiceI courseService;
@@ -33,6 +32,8 @@ public class GymController {
 
     public GymController() {
     }
+
+    @Autowired
 
     public GymController(GymServiceI gymService, CourseServiceI courseService, RoleServiceI roleService, TrainerServiceI trainerService) {
         this.gymService = gymService;
@@ -50,13 +51,13 @@ public class GymController {
     }
 
     @PostMapping("/add")
-    public String addStudent(@Valid Gym gym,
+    public String addGym(@Valid Gym gym,
                              BindingResult result,
                              Model model,
                              RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors().toString());
+            log.error("Validation error. Please check the input.");
             return "/gym/gym-add";
         }
 
@@ -68,7 +69,7 @@ public class GymController {
 
 
     @GetMapping("/update/{id}")
-    public String showUpdateStudentForm(@PathVariable Long id, Model model) {
+    public String showUpdateGymForm(@PathVariable Long id, Model model) {
         model.addAttribute("gym", gymService.getGym(id));
         System.out.println("updating gym id="+ id);
         return "/gym/gym-update";
@@ -76,12 +77,12 @@ public class GymController {
 
 
     @PostMapping("/update")
-    public String updateStudent(@Valid @ModelAttribute("GYM") Gym gym,
+    public String updateGym(@Valid @ModelAttribute("GYM") Gym gym,
                                 BindingResult results,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
 
-        // get student from database by id
+        // get Gym from database by id
         Gym existingGym = gymService.getGym(gym.getId());
 
         existingGym.setEmail(gym.getEmail());
@@ -94,7 +95,7 @@ public class GymController {
 
         gymService.updateGym(existingGym);
 
-        redirectAttributes.addFlashAttribute("updated", "Student updated!");
+        redirectAttributes.addFlashAttribute("updated", "Gym updated!");
 
         return "redirect:/gym/all";
 
