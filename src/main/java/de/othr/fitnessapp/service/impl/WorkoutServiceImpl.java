@@ -72,6 +72,16 @@ public class WorkoutServiceImpl implements WorkoutServiceI {
     }
 
     @Override
+    public List<Workout> getAllWorkoutsOfUser(Baseuser baseuser){
+        return workoutRepository.findAllByBaseuser(baseuser);
+    }
+
+    @Override
+    public List<Workout> getAllPlannedWorkoutsOfUser(Baseuser baseuser){
+        return workoutRepository.findWorkoutsWithZeroActualRepetitionsByBaseuser(baseuser);
+    }
+
+    @Override
     public void deleteWorkoutById(Long id) {
         workoutRepository.deleteById(id);
     }
@@ -82,8 +92,8 @@ public class WorkoutServiceImpl implements WorkoutServiceI {
     }
 
     @Override
-    public int calculateTotalVolume(Long workoutId) {
-        List<WorkoutExercise> exercises = workoutExerciseRepository.findByWorkoutId(workoutId);
+    public int calculateTotalVolume(Workout workout) {
+        List<WorkoutExercise> exercises = workoutExerciseRepository.findByWorkout(workout);
         return exercises.stream()
                 .mapToInt(exercise -> exercise.getActualRepetitions() * exercise.getWeight())
                 .sum();
@@ -174,6 +184,20 @@ public class WorkoutServiceImpl implements WorkoutServiceI {
         // Invert the score as a lower score is better
         // This is because a lower score means fewer used muscles are involved
         return -score;
+    }
+
+    public WorkoutExercise getNextExercise(Long workoutId) {
+        Optional<Workout> workoutOptional = workoutRepository.findById(workoutId);
+
+        if (workoutOptional.isPresent()) {
+            Workout workout = workoutOptional.get();
+            return workout.getWorkoutExercises().stream()
+                          .filter(we -> we.getRecommendedRepetitions() > 0 && we.getActualRepetitions() == 0)
+                          .findFirst()
+                          .orElse(null); // or handle it differently if no exercises are left
+        }
+
+        return null; // or handle it differently if the workout is not found
     }
 
 }

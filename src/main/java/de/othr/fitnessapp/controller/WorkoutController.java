@@ -10,6 +10,7 @@ import de.othr.fitnessapp.service.BaseuserService;
 import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.ExerciseService;
+import de.othr.fitnessapp.service.WorkoutExerciseService;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @Log4j2
@@ -45,9 +43,9 @@ public class WorkoutController {
     private CourseServiceI courseService;
     private CustomerServiceI customerService;
     private ExerciseService exerciseService;
-    // private TrainerServiceI trainerService;
+    private WorkoutExerciseService workoutExerciseService;
     private BaseuserService baseuserService;
-    // private GymServiceI GymService;
+
 
     @GetMapping(value = "/add")
     public String showWorkoutAddForm(Model model) {
@@ -61,7 +59,7 @@ public class WorkoutController {
 
         List<Workout> workoutsLastWeek = workoutService.findAllByUserAndDateBetween(user, oneWeek, endDate);
         List<Exercise> recommendedExercises = workoutService.getRecommendedExercises(workoutsLastWeek);
-        
+
         Workout workout = new Workout();
         model.addAttribute("workout", workout);
         model.addAttribute("recommendedExercises", recommendedExercises);
@@ -88,7 +86,7 @@ public class WorkoutController {
                 Long exerciseId = workout.getExerciseIds().get(i);
                 Integer repetition = workout.getRepetitions().get(i);
                 Integer weight = workout.getWeight().get(i);
-                
+
                 System.out.println(exerciseId);
                 System.out.println(repetition);
 
@@ -161,10 +159,32 @@ public class WorkoutController {
     }
 
     @GetMapping(value = "/attempt")
-    public String attemptWorkout(Model model) {
+    public String showWorkoutAttemptList(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        Baseuser user = baseuserService.findByLoginIgnoreCase(currentUsername);
+
+        model.addAttribute("workouts", workoutService.getAllPlannedWorkoutsOfUser(user));
         return "workout/workout-attempt";
     }
-    
+
+    @GetMapping(value = "/attempt/{workoutId}")
+    public String attemptWorkout(@PathVariable Long workoutId, Model model) {
+        WorkoutExercise exercise = workoutService.getNextExercise(workoutId);
+        model.addAttribute("exercise", exercise);
+        return "workout/workout-attempt-exercise";
+    }
+
+    @PostMapping(value = "/attempt/save")
+    public String saveExerciseAttempt(Long workoutExerciseId, int actualRepetitions,
+            RedirectAttributes redirectAttributes) {
+        workoutExerciseService.updateActualRepetitions(workoutExerciseId, actualRepetitions);
+        redirectAttributes.addFlashAttribute("message", "Exercise saved successfully.");
+
+        Long workoutId = workoutExerciseService.getWorkoutIdbyWorkoutExerciseId(workoutExerciseId);
+        return "redirect:/workout/attempt/" + workoutId;
+    }
 
     @GetMapping(value = "/update/{id}")
     public String showWorkoutUpdateForm(@PathVariable Long id, Model model) {
@@ -205,7 +225,12 @@ public class WorkoutController {
 
     @GetMapping(value = "/all")
     public String showWorkoutList(Model model) {
-        model.addAttribute("workouts", workoutService.getAllWorkouts());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        Baseuser user = baseuserService.findByLoginIgnoreCase(currentUsername);
+        
+        model.addAttribute("workouts", workoutService.getAllWorkoutsOfUser(user));
         return "/workout/workout-all";
     }
 

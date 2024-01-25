@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <section class="layout-content" layout:fragment="mybody">
+
+        <h1>Workout-Attempt</h1>
+        <!-- workout-attempt.html -->
+        <div th:if="${exercise != null}">
+            <h2 th:text="${exercise.exercise.name}"></h2>
+            <p th:text="${exercise.exercise.instructions}"></p>
+            <p>Recommended Repetitions: <span th:text="${exercise.recommendedRepetitions}"></span></p>
+            <form th:action="@{/workout/attempt/save}" method="POST">
+                <input type="hidden" th:name="workoutExerciseId" th:value="${exercise.id}" />
+                <input type="number" name="actualRepetitions" placeholder="Enter actual repetitions" />
+                <button type="submit">Save Exercise</button>
+            </form>
+        </div>
+        <div th:if="${exercise == null}">
+            <p>No more exercises left or workout not found.</p>
+        </div>
+
+    </section>
+</body>
+
+</html>

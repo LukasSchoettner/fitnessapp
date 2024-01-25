@@ -3,6 +3,7 @@ package de.othr.fitnessapp.service;
 import de.othr.fitnessapp.model.Baseuser;
 import de.othr.fitnessapp.model.Exercise;
 import de.othr.fitnessapp.model.Workout;
+import de.othr.fitnessapp.model.WorkoutExercise;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,13 +19,17 @@ public interface WorkoutServiceI {
 
     List<Workout> getAllWorkouts();
 
+    List<Workout> getAllWorkoutsOfUser(Baseuser baseuser);
+
+    List<Workout> getAllPlannedWorkoutsOfUser(Baseuser baseuser);
+
     void deleteWorkoutById(Long id);
 
     long getWorkoutCount();
 
     void addWorkoutToUser(Workout workout);
 
-    int calculateTotalVolume(Long workoutId);
+    int calculateTotalVolume(Workout workout);
 
     int getWeeklyWorkoutCount(Baseuser baseuser, LocalDate startDate, LocalDate endDate);
 
@@ -33,5 +38,7 @@ public interface WorkoutServiceI {
     Map<String, Object> getMuscleUse(List<Workout> workouts);
 
     List<Exercise> getRecommendedExercises(List<Workout> workouts);
+
+    WorkoutExercise getNextExercise(Long workoutId);
 
 }
