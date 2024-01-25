@@ -1,15 +1,12 @@
 package de.othr.fitnessapp.service;
 
-import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Course;
+import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Workout;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
-@Service
 public interface CustomerServiceI {
 
     public List<Customer> findAllCustomers();
@@ -31,9 +28,9 @@ public interface CustomerServiceI {
     // Method to get all courses a customer is enrolled in
     public Set<Course> getCoursesForCustomer(Long customerId);
 
-    public void addCustomer(Customer customer);
+    public void saveCustomer(Customer customer);
 
-    public void updateCustomer(Customer customer);
+    public void updateCustomer(Long id, Customer customer);
 
     public void deleteCustomer(Customer customer);
 

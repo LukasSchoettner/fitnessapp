@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.othr.fitnessapp.config.MyUserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -101,6 +102,9 @@ public class TrainerController {
 			return "/trainers/trainer-update";
 		}
 		Address address= trainer.getAddress();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+		trainer.setPassword("{bcrypt}"+passwordEncoder.encode(trainer.getPassword()));
+
 		trainerService.updateTrainerAndAddress(trainer.getId(), trainer, address);
         redirectAttributes.addFlashAttribute("updated", "Trainer updated!");
 		return "redirect:/trainer/all";
@@ -122,13 +126,19 @@ public class TrainerController {
     
     	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username;
+		Long userid;
 		
 		if (principal instanceof UserDetails) {
 		   username = ((UserDetails)principal).getUsername();
 		} else {
 		  username = principal.toString();
 		}
-		
+		if (principal instanceof MyUserDetails) {
+			userid = ((MyUserDetails)principal).getId();
+		} else{
+			userid=null;
+		}
+		request.getSession().setAttribute("userid", userid);
 		request.getSession().setAttribute("login", username);
 		
     	    	

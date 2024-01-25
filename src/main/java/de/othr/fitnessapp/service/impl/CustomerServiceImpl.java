@@ -1,19 +1,14 @@
 package de.othr.fitnessapp.service.impl;
 
 import de.othr.fitnessapp.model.Customer;
-import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.repository.CustomerRepository;
 import de.othr.fitnessapp.repository.CourseRepository;
 import de.othr.fitnessapp.repository.WorkoutRepository;
 import de.othr.fitnessapp.service.CustomerServiceI;
-import de.othr.fitnessapp.service.RoleServiceI;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,18 +18,12 @@ import java.util.Set;
 @Service
 public class CustomerServiceImpl implements CustomerServiceI{
 
-
+    @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
     private CourseRepository courseRepository;
+    @Autowired
     private WorkoutRepository workoutRepository;
-    private RoleServiceI roleService;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository, CourseRepository courseRepository, WorkoutRepository workoutRepository, RoleServiceI roleService){
-        this.customerRepository = customerRepository;
-        this.courseRepository = courseRepository;
-        this.workoutRepository = workoutRepository;
-        this.roleService = roleService;
-    }
 
     // Method to find a customer by ID
     public Customer findCustomerById(Long id) {
@@ -86,47 +75,24 @@ public class CustomerServiceImpl implements CustomerServiceI{
         return customerRepository.findAll();
     }
 
-    public void addCustomer(Customer customer){
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        customer.setPassword("{bcrypt}" + passwordEncoder.encode(customer.getPassword()));
-
-        List<Role> roles = customer.getRoles();
-        roles.add(roleService.findRoleByDescription("CUSTOMER"));
-        customer.setRoles(roles);
+    public void saveCustomer(Customer customer){
         customerRepository.save(customer);
     }
 
-    public void updateCustomer(Customer customerNew){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        Customer existingCustomer = customerRepository.findByLogin(currentUsername).orElse(null);
-        
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+    public void updateCustomer(Long id, Customer customerNew){
+        Customer existingCustomer = customerRepository.findById(id).orElse(null);
         
         if (existingCustomer != null) {
             existingCustomer.setEmail(customerNew.getEmail());
-            existingCustomer.setPassword("{bcrypt}" + passwordEncoder.encode(customerNew.getPassword()));
+            existingCustomer.setPassword(customerNew.getPassword());
             existingCustomer.setLast_name(customerNew.getLast_name());
             existingCustomer.setFirst_name(customerNew.getFirst_name());
-        
         customerRepository.save(existingCustomer);
         }
     }
 
     public void deleteCustomer(Customer customer){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String sessionOwner = authentication.getName();
-        Customer existingCustomer = customerRepository.findByLogin(sessionOwner).orElse(null);
-        
-        if (existingCustomer.equals(customer)) {
-            customerRepository.delete(customer);
-        }else{
-            System.out.println("Not authorized for this action");
-        }
-        
+        customerRepository.delete(customer);
     }
 
 }

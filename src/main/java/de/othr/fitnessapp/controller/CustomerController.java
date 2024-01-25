@@ -1,17 +1,14 @@
 package de.othr.fitnessapp.controller;
 
-import de.othr.fitnessapp.config.MyUserDetails;
-import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Role;
-import de.othr.fitnessapp.model.Workout;
+import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.RoleServiceI;
-import de.othr.fitnessapp.service.impl.MyUserDetailsServiceImpl;
-import de.othr.fitnessapp.service.CourseServiceI;
-
-import java.util.List;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,27 +16,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-
     private CustomerServiceI customerService;
-    private CourseServiceI courseService;
     private RoleServiceI roleService;
 
     public CustomerController(CustomerServiceI customerService, CourseServiceI courseService,
             RoleServiceI roleService) {
         super();
         this.customerService = customerService;
-        this.courseService = courseService;
         this.roleService = roleService;
     }
 
@@ -48,14 +36,9 @@ public class CustomerController {
     public String createCustomerForm(Model model, HttpServletRequest request) {
         Customer customer = new Customer();
 
-        List<Role> roles = customer.getRoles();
-        roles.add(roleService.findRoleByDescription("CUSTOMER"));
-        customer.setRoles(roles);
-
         model.addAttribute("customer", customer);
         request.getSession().setAttribute("customerSession", customer);
-        
-        return "customer/customer-add";
+        return "customer/create";
     }
 
     // Handle the form submission for creating a new customer
@@ -63,70 +46,76 @@ public class CustomerController {
     public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result,
             RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "customer/customer-add";
+            return "customer/register";
         }
 
-        customerService.addCustomer(customer);
-        redirectAttributes.addFlashAttribute("added", "Customer added!");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        customer.setPassword("{bcrypt}" + passwordEncoder.encode(customer.getPassword()));
 
-        return "redirect:/customer/profile";
+        List<Role> roles = customer.getRoles();
+        roles.add(roleService.findRoleByDescription("CUSTOMER"));
+        customer.setRoles(roles);
+
+        customerService.saveCustomer(customer);
+        redirectAttributes.addFlashAttribute("added", "Customer added!");
+        return "redirect:/customer/view";
     }
 
     // Display the form for updating a customer
-    @GetMapping("/edit")
-    public String editCustomerForm(Model model, HttpServletRequest request) {
+    @GetMapping("/edit/{id}")
+    public String editCustomerForm(@PathVariable Long id, Model model, HttpServletRequest request) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        Customer customer = customerService.findCustomerByLogin(currentUsername);
-
+        Customer customer = customerService.findCustomerById(id);
         model.addAttribute("customer", customer);
-        //request.getSession().setAttribute("customerSession", customer);
+        request.getSession().setAttribute("customerSession", customer);
 
         return "customer/customer-edit-profile";
     }
 
     // Handle the form submission for updating a customer
-    @PostMapping("/edit")
+    @PostMapping("/edit/process")
     public String editCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
             return "customer/customer-edit-profile";
         }
 
-        customerService.updateCustomer(customer);
-        return "redirect:/customer/profile";
-    
+        customerService.updateCustomer(customer.getId(), customer);
+        return "redirect:/customer/view";
     }
 
     // Delete a customer
-    @PostMapping("/delete")
-    public String deleteCustomer() {
-        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        Customer customer = customerService.findCustomerByLogin(currentUsername);
-
+    @GetMapping("/delete/{id}")
+    public String deleteCustomer(@Valid @ModelAttribute("customer") Customer customer) {
         customerService.deleteCustomer(customer);
-        return "redirect:/register";
+        return "redirect:/customer";
     }
 
     // Display customer details including workouts and courses
-    @GetMapping("/profile")
-    public String viewCustomer(Model model, HttpServletRequest request) {
+    @GetMapping("/profile/{id}")
+    public String viewCustomer(@PathVariable Long id, Model model, HttpServletRequest request) {
 
+        // Retrieve the current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        Customer customer = customerService.findCustomerByLogin(currentUsername);
+        System.out.println("current user name = " + currentUsername);
+        // Optional: Check if the user has specific authority
+        // boolean hasAuthority = authentication.getAuthorities().contains(new
+        // SimpleGrantedAuthority("ROLE_ADMIN"));
 
+        // Get the Customer object
+        Customer customer = customerService.findCustomerById(id);
+        System.out.println("user name = " + customer.getLogin());
         // Security check: Ensure the authenticated user is allowed to view this profile
         // This could be a check against roles or specific business logic
-
-        model.addAttribute("customer", customer);
-        model.addAttribute("workouts", customerService.getWorkoutsForCustomer(customer.getId()));
-        model.addAttribute("courses", customerService.getCoursesForCustomer(customer.getId()));
-        return "customer/customer-view";
-
+        if (currentUsername.equals(customer.getLogin())) {
+            model.addAttribute("customer", customer);
+            model.addAttribute("workouts", customerService.getWorkoutsForCustomer(id));
+            model.addAttribute("courses", customerService.getCoursesForCustomer(id));
+            return "customer/customer-view";
+        } else {
+            // Handle unauthorized access, could redirect to a 'denied' page or similar
+            return "error/access-denied";
+        }
     }
 
     // Display a list of all customers
@@ -137,5 +126,4 @@ public class CustomerController {
     }
 
     // Additional methods for customer-specific operations can be added here
-
 }
