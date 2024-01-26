@@ -22,11 +22,13 @@ public class Note {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	Long id;
-	
+
+	@NotNull(message = "Trainer is mandatory")
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "trainer_id", referencedColumnName = "id")
 	private Trainer trainer;
 
+	@NotNull(message = "Course is mandatory")
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "course_id", referencedColumnName = "course_id")
 	private Course course;

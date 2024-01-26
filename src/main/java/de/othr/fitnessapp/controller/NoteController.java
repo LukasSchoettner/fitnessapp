@@ -82,8 +82,7 @@ public class NoteController {
     	model.addAttribute("note", note);
 		model.addAttribute("note", note);
 		request.getSession().setAttribute("noteSession", note);
-		
-		System.out.println("updating note id="+ id);
+
 		return "/notes/note-update";
 	}
 	
