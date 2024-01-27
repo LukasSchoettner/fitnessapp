@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head><meta charset="UTF-8" /></head>
+<head>
+    <meta charset="UTF-8" />
+</head>
 
 <body>
 <section class="layout-content" layout:fragment="mybody">
         <h1>Course-Update</h1>
 
-        <form th:action="@{/course/add}" th:object="${course}" method="POST">
-          <!-- <form th:action="${id == -1} ? @{/students/add/process} : @{/students/update/process}" method="POST"> -->
+        <form th:action="@{/course/update}" th:object="${course}" method="POST">
 
           <div class="form-row">
               <div class="form-group col-md-6">
@@ -29,18 +30,6 @@
                          th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'" />
                   <div class="invalid-feedback">
                       <span th:errors="*{date}"></span>
-                  </div>
-              </div>
-          </div>
-
-          <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="trainer">Trainer</label>
-                  <input type="text" class="form-control" id="trainer" placeholder="Trainer"
-                         th:field="*{trainer}"
-                         th:classappend="${#fields.hasErrors('trainer')} ? 'is-invalid'" />
-                  <div class="invalid-feedback">
-                      <span th:errors="*{trainer}"></span>
                   </div>
               </div>
           </div>
@@ -94,8 +83,6 @@
           </div>-->
 
           <input type="hidden" id="id" th:field="*{id}"/>
-          <input type="hidden" id="participants" th:field="*{participants}"/>
-          <!--<input type="hidden" id="trainer.id" th:field="*{trainer.id}"/>-->
 
           <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </form>

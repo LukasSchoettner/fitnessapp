@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.model.Baseuser;
 
-
-
 public class MyUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
