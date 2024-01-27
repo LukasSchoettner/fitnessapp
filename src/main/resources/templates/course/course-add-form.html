@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head><meta charset="UTF-8" /></head>
+<head>
+    <meta charset="UTF-8" />
+</head>
 
 <body>
-<section class="layout-content" layout:fragment="mybody">
+    <section class="layout-content" layout:fragment="mybody">
         <h1>Course-Add</h1>
 
+        <section>
+                <h2>Weather Forecast</h2>
+                <form th:action="@{/course/add}" method="GET">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="forecast">Date</label>
+                            <input type="date" class="form-control" id="forecast" name="forecastDate" placeholder="Date" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm">Forecast</button>
+                </form>
+
+                <div class="alert alert-primary" role="alert" th:text="${forecast}" th:if="${forecast}"></div>
+        </section>
+
+
         <form th:action="@{/course/add}" th:object="${course}" method="POST">
-          <!-- <form th:action="${id == -1} ? @{/students/add/process} : @{/students/update/process}" method="POST"> -->
 
           <div class="form-row">
               <div class="form-group col-md-6">
@@ -32,30 +51,6 @@
                   </div>
               </div>
           </div>
-
-          <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="trainer">Trainer</label>
-                  <input type="text" class="form-control" id="trainer" placeholder="Trainer"
-                         th:field="*{trainer}"
-                         th:classappend="${#fields.hasErrors('trainer')} ? 'is-invalid'" />
-                  <div class="invalid-feedback">
-                      <span th:errors="*{trainer}"></span>
-                  </div>
-              </div>
-          </div>
-
-          <!--<div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="level">Level</label>
-                  <input type="select" class="form-control" id="level" placeholder="Level"
-                         th:field="*{level}"
-                         th:classappend="${#fields.hasErrors('level')} ? 'is-invalid'" />
-                  <div class="invalid-feedback">
-                      <span th:errors="*{level}"></span>
-                  </div>
-              </div>
-          </div>-->
 
           <!--<div class="form-row">
               <div class="form-group col-md-6">
@@ -92,10 +87,6 @@
                   </div>
               </div>
           </div>-->
-
-          <input type="hidden" id="id" th:field="*{id}"/>
-          <input type="hidden" id="participants" th:field="*{participants}"/>
-          <!--<input type="hidden" id="trainer.id" th:field="*{trainer.id}"/>-->
 
           <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </form>

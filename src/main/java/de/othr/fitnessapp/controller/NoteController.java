@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.othr.fitnessapp.model.Course;
+import de.othr.fitnessapp.service.CourseServiceI;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,14 +36,13 @@ public class NoteController {
 	
 	private NoteServiceI noteService;
 	private TrainerServiceI trainerService;
-	// tbd private CourseServiceI courseService;
+	private CourseServiceI courseService;
 	
-	public NoteController(NoteServiceI noteService,TrainerServiceI trainerService) {
-			// tbd CourseServiceI courseService) {
+	public NoteController(NoteServiceI noteService,TrainerServiceI trainerService, CourseServiceI courseService) {
 		super();
 		this.noteService = noteService;
 		this.trainerService = trainerService;
-		// tbd this.courseService= courseService;
+		this.courseService= courseService;
 	}
 	
 	@GetMapping("/add")
@@ -81,8 +82,7 @@ public class NoteController {
     	model.addAttribute("note", note);
 		model.addAttribute("note", note);
 		request.getSession().setAttribute("noteSession", note);
-		
-		System.out.println("updating note id="+ id);
+
 		return "/notes/note-update";
 	}
 	
@@ -175,9 +175,7 @@ public class NoteController {
 				
 		Note noteSession = (Note) request.getSession().getAttribute("noteSession");
 		
-		Trainer trainer  = trainerService.getTrainerById((long) id); //change toOptional<Trainer> getTrainerById(Long id);
-		
-		System.out.println("select trainer id=" +trainer.getId());
+		Trainer trainer  = trainerService.getTrainerById((long) id);
 				
 		noteSession.setTrainer(trainer);
 									
@@ -190,6 +188,49 @@ public class NoteController {
 		}
 				
 		return  "/notes/note-add";
-	}	
-    
+	}
+
+	@GetMapping(value= "/course/select")
+	public String showSelectCourseByID(Model model) {
+
+		Course course = new Course();
+		course.setId((long) -1);
+		List <Course> courses = new ArrayList<Course>();
+		model.addAttribute("courses", courses);
+		model.addAttribute("course", course);
+
+		return "/notes/note-select-course";
+
+	}
+
+	@PostMapping(value= "/course/select")
+	public String showResultsSelectCourseByID(Model model, @ModelAttribute Course course) {
+
+		model.addAttribute("courses", courseService.findCoursesByName(course.getName()));
+
+		return "/notes/note-select-course";
+
+	}
+
+
+	@RequestMapping(value = "/course/select/{id}")
+	public String selectCourseEventProcess(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+
+
+		Note noteSession = (Note) request.getSession().getAttribute("noteSession");
+
+		Course course  = courseService.getCourseById((long) id);
+
+		noteSession.setCourse(course);
+
+		request.getSession().setAttribute("noteSession", noteSession);
+
+		model.addAttribute("note", noteSession);
+
+		if (noteSession.getId()>0) {
+			return  "/notes/note-update";
+		}
+
+		return  "/notes/note-add";
+	}
 }

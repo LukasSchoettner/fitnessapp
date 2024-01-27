@@ -5,34 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.JoinColumn;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "baseuser")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Setter
-@Getter // Add this Lombok annotation to generate getters and setters
+@Getter
 public class Baseuser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,6 +35,8 @@ public class Baseuser implements Serializable {
 	private String login;
 
 	@NotBlank(message = "Password is mandatory")
+	@Size(min = 5, message = "The password must have at least {min} characters")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).*$", message = "The password must contain at least one uppercase letter and one number")
 	private String password;
 
 	@NotBlank(message = "Email is mandatory")
@@ -57,7 +49,7 @@ public class Baseuser implements Serializable {
 	private boolean active = true;
 
 	@OneToMany(mappedBy = "baseuser", cascade = CascadeType.ALL)
-    private List<Workout> workouts;
+    private List<Workout> workouts = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnore
@@ -71,6 +63,7 @@ public class Baseuser implements Serializable {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+
 
 	// Other methods and fields remain unchanged
 }

@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.model.Baseuser;
 
-
-
 public class MyUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +19,7 @@ public class MyUserDetails implements UserDetails {
 	private String password;
 	private Long userId;
 	private boolean active;
+
 	private List<GrantedAuthority> authorities;
 	
 	
@@ -29,8 +28,6 @@ public class MyUserDetails implements UserDetails {
 		this.userName= user.getLogin();
 		this.password= user.getPassword();
 		this.userId= user.getId();
-		System.out.println("password of the user is="+password);
-		System.out.println("userName of the user is="+this.userName);
 		this.active = user.isActive();
 				
 		List<Role> myRoles = (List<Role>) user.getRoles();
@@ -42,7 +39,6 @@ public class MyUserDetails implements UserDetails {
 		
 		for (Role role : myRoles) {
 	        authorities.add(new SimpleGrantedAuthority(role.getDescription().toUpperCase()));
-	        System.out.println("the authority of the user " + user.getLogin() + " is " + role.getDescription());
 	    }
 		
 	}
