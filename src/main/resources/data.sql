@@ -6,6 +6,8 @@ INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Berlin', '5', 'Ale
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Hamburg', '6', 'Königstraße', '20095');
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Cologne', '7', 'Domplatz', '50667');
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Frankfurt', '8', 'Römerberg', '60311');
+INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Cologne', '7', 'Waldweg', '50667');
+INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Frankfurt', '8', 'Marktplatz', '60311');
 
 
 INSERT INTO baseuser (login, password, email, active, address_id) values ('franz', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'elke@gmail.com', 1, '1');
@@ -16,9 +18,10 @@ INSERT INTO baseuser (login, password, email, active, address_id) values ('doej'
 INSERT INTO baseuser (login, password, email, active, address_id) values ('wilson', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'diana@gmail.com', 1, '6');
 INSERT INTO baseuser (login, password, email, active, address_id) values ('miller', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'millerk@gmail.com', 1, '7');
 INSERT INTO baseuser (login, password, email, active, address_id) values ('baker', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'baker.chris@example.com', 1, '8');
+INSERT INTO baseuser (login, password, email, active, address_id) values ('ray', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'ray.john@gmail.com', 1, '9');
+INSERT INTO baseuser (login, password, email, active, address_id) values ('sailor', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'sailor.jessica@example.com', 1, '10');
 
-
-INSERT INTO TRAINER(id, last_name, first_name, phone, birth_date) VALUES (1, 'Franz', 'Elke', '0234 567890', '1986-08-15');
+INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (1, 'Franz', 'Elke', '0234 567890', '1986-08-15');
 INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (2,'Doe', 'John', '0151 111111', '1985-05-15');
 INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (3,'Smith', 'Alice', '0176 815234', '1990-08-21');
 INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (4,'Jones', 'Bob', '0123 456789', '1985-05-15');
@@ -28,24 +31,37 @@ INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (7,'Mil
 INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (8,'Baker', 'Chris', '0234 567890', '1986-08-15');
 
 
-INSERT INTO course (name, date, trainer, participants) VALUES ('Cardio Fitness Class', '2023-05-15', 'John Doe', ARRAY ['Alice', 'Bob', 'Charlie']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Strength Training Workshop', '2023-05-15', 'Jane Smith', ARRAY ['David', 'Eva', 'Frank']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Yoga Retreat', '2024-05-15', 'Sam Brown', ARRAY ['Grace', 'Harry', 'Ivy']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('HIIT Bootcamp', '2024-05-15', 'Alex Green', ARRAY ['Jack', 'Kate', 'Leo']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Pilates for Beginners', '2024-01-04', 'Emily White', ARRAY ['Mike', 'Nina', 'Oscar']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Outdoor Fitness Challenge', '2023-02-15', 'Ryan Black', ARRAY ['Sophie', 'Tom', 'Ursula']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Core Strengthening Workshop', '2023-03-15', 'Olivia Davis', ARRAY ['Victor', 'Wendy', 'Xander']);
-INSERT INTO course (name, date, trainer, participants) VALUES ('Zumba Dance Party', '2024-05-20', 'Chris Taylor', ARRAY ['Yara', 'Zack', 'Amy']);
+INSERT INTO customer (id, gender, last_name, first_name) VALUES (9, 'MALE', 'Ray', 'John');
+INSERT INTO customer (id, gender, last_name, first_name) VALUES (10, 'FEMALE', 'Sailor', 'Jessica');
 
+
+INSERT INTO course (trainer_id, name, date) VALUES (1, 'Cardio Fitness Class', '2024-05-17');
+INSERT INTO course (trainer_id, name, date) VALUES (1, 'Strength Training Workshop', '2023-03-21');
+INSERT INTO course (trainer_id, name, date) VALUES (1, 'Yoga Retreat', '2024-04-28');
+INSERT INTO course (trainer_id, name, date) VALUES (1, 'HIIT Bootcamp', '2024-05-01');
+INSERT INTO course (trainer_id, name, date) VALUES (1, 'Outdoor Fitness Challenge', '2024-02-04');
+INSERT INTO course (trainer_id, name, date) VALUES (1, 'Core Strengthening Workshop', '2024-08-11');
+INSERT INTO course (trainer_id, name, date) VALUES (2, 'Pilates for Beginners', '2024-01-04');
+INSERT INTO course (trainer_id, name, date) VALUES (2, 'Outdoor Fitness Challenge', '2023-02-15');
+INSERT INTO course (trainer_id, name, date) VALUES (3, 'Core Strengthening Workshop', '2023-03-15');
+INSERT INTO course (trainer_id, name, date) VALUES (4, 'Zumba Dance Party', '2024-05-20');
 
 
 INSERT INTO NOTE(DATE, COURSE_ID, TRAINER_ID, MESSAGE, TITLE) VALUES('2024-01-01','1','3','Gutes Neues Jahr','Happy new Year');
 INSERT INTO NOTE(DATE, COURSE_ID, TRAINER_ID, MESSAGE, TITLE) VALUES('2024-01-18','3','1','Hallo alle zusammen','Hallo');
 
+
 INSERT INTO ROLE (description) VALUES ( 'ADMIN');
 INSERT INTO ROLE (description) VALUES ( 'TRAINER');
 INSERT INTO ROLE (description) VALUES ( 'CUSTOMER');
 
+
 INSERT INTO USERROLE(iduser, idrole) VALUES (1,1);
 INSERT INTO USERROLE(iduser, idrole) VALUES (1,2);
 INSERT INTO USERROLE(iduser, idrole) VALUES (2,3);
+INSERT INTO USERROLE(iduser, idrole) VALUES (9,3);
+INSERT INTO USERROLE(iduser, idrole) VALUES (10,3);
+
+
+INSERT INTO course_participant (course_id, customer_id) VALUES (1, 9);
+INSERT INTO course_participant (course_id, customer_id) VALUES (2, 10);

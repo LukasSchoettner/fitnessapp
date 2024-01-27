@@ -34,4 +34,5 @@ public interface CustomerServiceI {
 
     public void deleteCustomer(Customer customer);
 
+    Set<Customer> getCustomersNotInCourse(Course course);
 }

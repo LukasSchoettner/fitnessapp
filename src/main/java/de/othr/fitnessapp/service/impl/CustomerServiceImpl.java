@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerServiceI{
         Course course = courseRepository.findById(courseId)
                             .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
 
-        customer.getAttendedCourses().add(course);
+        customer.getCourses().add(course);
         customerRepository.save(customer);
     }
 
@@ -68,7 +68,7 @@ public class CustomerServiceImpl implements CustomerServiceI{
         Customer customer = customerRepository.findById(customerId)
                             .orElseThrow(() -> new IllegalArgumentException("Invalid customer ID"));
         
-        return customer.getAttendedCourses();
+        return customer.getCourses();
     }
 
     public List<Customer> findAllCustomers(){
@@ -95,4 +95,8 @@ public class CustomerServiceImpl implements CustomerServiceI{
         customerRepository.delete(customer);
     }
 
+    @Override
+    public Set<Customer> getCustomersNotInCourse(Course course) {
+        return customerRepository.findByCoursesNotContaining(course);
+    }
 }
