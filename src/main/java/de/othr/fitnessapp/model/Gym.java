@@ -17,23 +17,24 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Gym implements Serializable{
+public class Gym extends Baseuser implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_id")
+    @Column(name = "gym_id")
     Long id;
 
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @NotBlank(message = "Email is mandatory")
-    private String email;
-
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
     private List<Trainer> trainerList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", updatable = false)
+    private Address address;
 
     public void addTrainer(Trainer trainer) {
         if (trainerList == null) {
@@ -55,12 +56,7 @@ public class Gym implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
+
 
     public static long getSerialversionuid() {
         return serialVersionUID;
