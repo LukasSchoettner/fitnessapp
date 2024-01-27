@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout}">
 <head>
 <meta charset="ISO-8859-1">
-<title>Academic Management System - Add Note</title>
+<title>List Note</title>
 
 <script type="text/javascript">
 
@@ -23,34 +23,16 @@
 
 <section class="layout-content" layout:fragment="mybody">
 	
-	        <div class="page-header">
-	            <nav class="navbar navbar-expand-md navbar-top bg-light">
-	                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-	                    <ul class="navbar-nav">
-	                        <li class="nav-item active">
-	                            <i class="oi oi-caret-right"></i>
-	                            <span>List Notes</span>
-	                        </li>
-	                    </ul>
-	                </div>
-	                
-	            </nav>
-	        </div>
+	        <h1>List Notes</h1>
 	
 	
 		<div class="container" id="registration">
-	
-		<div th:replace="~{fragments/alert::alert}">
-		</div>	
+
   	
-		<div class = "row">
+		<div sec:authorize="hasAnyAuthority('ADMIN','TRAINER')" class = "row">
 			<div class = "col-lg-3">
 				<a th:href = "@{/note/add}" class = "btn btn-primary btn-sm mb-3"> Add Note</a>
 			</div>
-		</div>
-		
-		<div th:unless="${notes.size() > 0}" style="width: 90%">
-  			<span>No notes found!</span>
 		</div>
 		
 		
@@ -60,7 +42,7 @@
 	        <div class="search">
 	          <i class="fa fa-search"></i>
 	          Title: <input id="keyword" type="search" name="keyword" th:value="${keyword}" required class="form-control"
-	            placeholder="Enter keyword">
+	            placeholder="Enter title">
 	          
 	        </div>
 	      </div>
@@ -81,32 +63,35 @@
 	  </form>
 	</div>
 		
-		<br><br>	
-		
+		<br><br>
+	<div th:unless="${notes.size() > 0}" style="width: 90%">
+		<span>No notes found!</span>
+	</div>
 		
 		<table class = "table table-striped table-bordered" th:unless="${notes.size()<1}" style="width: 90%" margin="auto">
 			<thead class = "table-dark">
 				<tr>
 					<!--<th> Course Name </th>-->
 					<th> Date </th>
+					<th> Course </th>
 					<th> Trainer </th>
 					<th> Title </th>
 					<th> Message </th>
-					<th> Actions </th>
+					<th sec:authorize="hasAnyAuthority('ADMIN','TRAINER')"> Actions </th>
 					
 				</tr>
 			</thead>
 			
 			<tbody>
 				<tr th:each = "note: ${notes}">
-					<!--<td th:text = "${note.corse.name}"></td> -->
 					<td th:text = "${#temporals.format(note.Date, 'dd.MM.YYYY')}"></td>
+					<td th:text = "${note.course.name}"></td>
 					<td th:text = "${note.trainer.lastName}"></td>
 					<td th:text = "${note.title}"></td>
 					<td th:text = "${note.message}"></td>
 					
 					
-					<td>
+					<td sec:authorize="hasAnyAuthority('ADMIN','TRAINER')">
 						<a th:href = "@{/note/update/{id}(id=${note.id})}"
 						 class = "btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
   							<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>

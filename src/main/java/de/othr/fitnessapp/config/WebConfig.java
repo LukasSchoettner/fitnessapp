@@ -1,8 +1,5 @@
 package de.othr.fitnessapp.config;
 
-
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +11,6 @@ public class WebConfig {
 
   @Bean
   public WebClient webClient() {
-
     WebClient webClient = WebClient.builder()
       .baseUrl("http://localhost:8080")
       .defaultCookie("cookie-name", "cookie-value")

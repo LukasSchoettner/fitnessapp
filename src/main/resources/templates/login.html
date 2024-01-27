@@ -1,43 +1,39 @@
+
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
-<head><meta charset="UTF-8" /></head>
-
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" integrity="sha384-oOE/3m0LUMPub4kaC09mrdEhIc+e3exm4xOGxAmuFXhBNF4hcg/6MiAXAf5p0P56" crossorigin="anonymous"/>
+</head>
 <body>
-    <section class="layout-content" layout:fragment="mybody">
-        <h1>FitnessApp</h1>
+<div class="container">
+    <form class="form-signin" method="post" th:action="@{/login}">
+        <h2 class="form-signin-heading">Please Log in</h2>
+        <p th:if="${error}" style="color: red;" th:text="${error}"></p>
+        <p th:if="${message}" style="color: green;" th:text="${message}"></p>
+        <p>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        </p>
+        <input name="_csrf" type="hidden" value="wJAEO8EpcXwjAhPMTIzsgT-zHCQxlQk_YfmyMe7Jy_6IQWcf8PI2D6AYSRgONiWvfqHY4grSMRwAo2wSV8uAVYz8r867J19-" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+    </form>
 
-        <form th:action="@{/login/process}" method="POST">
+</div>
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="login">Login </label>
-                    <input type="text" class="form-control" id="login" placeholder="Login" autofocus="autofocus"
-                        th:name="username" />
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="pass">Password </label>
-                    <input type="password" class="form-control" id="pass" placeholder="****" th:name="password" />
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="pass">Role </label>
-                    <select class="form-control" th:name="role" id="role">
-                        <option th:value="-1">Select</option>
-                        <option th:value="1" th:text="User">
-                        <option th:value="2" th:text="Trainer">
-                        <option th:value="3" th:text="Gym">
-                    </select>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-sm">Go!</button>
-        </form>
-    </section>
-</body>
-
-</html>
+<div class="text-center col-sm align-self-center mt-3">
+    <h3>You don't have an account?</h3>
+    <div class="d-grid gap-2 col-3 mx-auto">
+    <a href="/signup" class="btn btn-lg btn-primary btn-block">Sign Up</a>
+    </div>
+</div>
+</body></html>

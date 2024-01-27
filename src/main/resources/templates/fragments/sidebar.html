@@ -1,11 +1,14 @@
 <aside th:fragment="sidebar">
     <nav class="sidebar sidebar-open">
 
+            <span class="on"><a th:href="${EN}">EN</a></span>
+            <span class="off"><a th:href="${DE}">DE</a></span>
+
         <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link " th:href="@{/home}"><i class="oi oi-home"></i><span>Home</span></a></li>
         </ul>
 
-        <section sec:authorize="hasAuthority('CUSTOMER')">
+       <section sec:authorize="hasAuthority('CUSTOMER')">
             <ul class="nav nav-pills">
                 <li class="nav-item"><span class="nav-link active" >Profile</span></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/customer/profile}"> <i class="oi oi-wrench"></i><span>User Data</span></a></li>
@@ -41,9 +44,9 @@
 
             <ul class="nav nav-pills">
                 <li class="nav-item"><span class="nav-link active" >Profile</span></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/customer/profile/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>User Data</span></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/customer/edit/{id}(id=${customer.id})}"> <i class="oi oi-wrench"></i><span>Update</span></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-spreadsheet"></i><span>Notes</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/trainer/all}"> <i class="oi oi-spreadsheet"></i><span>List Trainer</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/trainer/update/{id}(id=${#ctx.session.userid})}"> <i class="oi oi-wrench"></i><span>Update</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/note/all}"> <i class="oi oi-clipboard"></i><span>Notes</span></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-bar-chart"></i><span>Statistics</span></a></li>
             </ul>
 
@@ -53,6 +56,19 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/course/all}"> <i class="oi oi-spreadsheet"></i><span>List</span></a></li>
             </ul>
         </section>
+
+        <section sec:authorize="hasAuthority('ADMIN')">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><span class="nav-link active" >Admin Tools</span></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/role/all}"> <i class="oi oi-wrench"></i><span>Role Management</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/trainer/all}"> <i class="oi oi-spreadsheet"></i><span>List Trainer</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/all}"> <i class="oi oi-spreadsheet"></i><span>List Course</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/course/add}"> <i class="oi oi-plus"></i><span>Add Course</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/note/all}"> <i class="oi oi-clipboard"></i><span>Notes</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/home}"> <i class="oi oi-bar-chart"></i><span>Statistics</span></a></li>
+            </ul>
+        </section>
+
         <section th:if="${role == 'Gym'}"></section>
 
         

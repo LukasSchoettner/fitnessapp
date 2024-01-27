@@ -1,6 +1,8 @@
 package de.othr.fitnessapp.model;
 
+import de.othr.fitnessapp.utils.LevelEnum;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
@@ -18,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -50,14 +54,17 @@ public class Workout implements Serializable {
     private String name;
 
     @NotNull(message = "Date is mandatory")
-    @FutureOrPresent(message = "Date can't be in the past")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    //@FutureOrPresent(message = "Date can't be in the past")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
+
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<WorkoutExercise> workoutExercises = new HashSet<>();
+    private List<WorkoutExercise> workoutExercises = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "baseuser_id")
     private Baseuser baseuser;
+
+    private LevelEnum Level;
 }

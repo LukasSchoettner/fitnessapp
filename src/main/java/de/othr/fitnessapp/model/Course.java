@@ -41,16 +41,19 @@ public class Course implements Serializable {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
 
-    @NotBlank(message = "Trainer is mandatory")
-    //@NotNull(message = "Trainer is mandatory")
-    //TODO change type to Trainer
+//    @NotNull(message = "Trainer is mandatory")
+//    @ManyToOne(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "trainer_id", referencedColumnName = "id")
+//    private Trainer trainer;
     private String trainer;
 
-    //TODO change type to User
-    @NotNull
+//    //TODO change type to Costumer
+//    @NotNull
+//    @ManyToMany
+//    private Set<Customer> participants = new HashSet<>();
     private Set<String> participants = new HashSet<>();
 
-    //private Set<Workout> workouts = new HashSet<>();
-    //private Level level;
-    //private Licence licence;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "workout_id", referencedColumnName = "workout_id")
+//    private Set<Workout> workouts = new HashSet<>();
 }

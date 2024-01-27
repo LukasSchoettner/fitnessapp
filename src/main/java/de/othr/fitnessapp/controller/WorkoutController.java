@@ -9,12 +9,16 @@ import de.othr.fitnessapp.repository.UserRepository;
 import de.othr.fitnessapp.service.BaseuserService;
 import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
+import de.othr.fitnessapp.service.TrainerServiceI;
 import de.othr.fitnessapp.service.ExerciseService;
 import de.othr.fitnessapp.service.WorkoutExerciseService;
 import de.othr.fitnessapp.service.WorkoutServiceI;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -41,14 +46,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class WorkoutController {
     private WorkoutServiceI workoutService;
     private CourseServiceI courseService;
+    private TrainerServiceI trainerService;
     private CustomerServiceI customerService;
     private ExerciseService exerciseService;
     private WorkoutExerciseService workoutExerciseService;
     private BaseuserService baseuserService;
 
-
     @GetMapping(value = "/add")
-    public String showWorkoutAddForm(Model model) {
+    public String showWorkoutAddForm(@RequestParam(required = false) String lang, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
@@ -63,7 +68,13 @@ public class WorkoutController {
         Workout workout = new Workout();
         model.addAttribute("workout", workout);
         model.addAttribute("recommendedExercises", recommendedExercises);
+        model.addAttribute("workout", workout);
+        model.addAttribute("EN", "/workout/add");
+        model.addAttribute("DE", "/workout/add?lang=de");
 
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("CUSTOMER"))) {
             return "customer/customer-add-workout";
         } else {
@@ -75,10 +86,16 @@ public class WorkoutController {
     public String processWorkoutAddForm(@ModelAttribute @Valid Workout workout, BindingResult result,
             RedirectAttributes redirectAttributes) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (result.hasErrors()) {
             log.error("Error Count:" + result.getErrorCount());
             log.error("All Errors: \n" + result.getAllErrors());
-            return "/workout/workout-add-form";
+            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("CUSTOMER"))) {
+                return "customer/customer-add-workout";
+            } else {
+                return "workout/workout-add-form";
+            }
         }
 
         if (workout.getExerciseIds() != null && workout.getRepetitions() != null) {
@@ -86,9 +103,6 @@ public class WorkoutController {
                 Long exerciseId = workout.getExerciseIds().get(i);
                 Integer repetition = workout.getRepetitions().get(i);
                 Integer weight = workout.getWeight().get(i);
-
-                System.out.println(exerciseId);
-                System.out.println(repetition);
 
                 WorkoutExercise exercise = new WorkoutExercise();
                 exercise.setExercise(exerciseService.findById(exerciseId)); // Find the Exercise entity by ID
@@ -187,10 +201,19 @@ public class WorkoutController {
     }
 
     @GetMapping(value = "/update/{id}")
-    public String showWorkoutUpdateForm(@PathVariable Long id, Model model) {
+    public String showWorkoutUpdateForm(@PathVariable Long id, @RequestParam(required = false) String lang,
+            Model model) {
+
         Workout workout = workoutService.getWorkoutById(id);
-        log.info("Updating Workout with ID: {}", workout.getId());
+        List<WorkoutExercise> exercisesList = workout.getWorkoutExercises();
         model.addAttribute("workout", workout);
+        model.addAttribute("workoutExercisesList", exercisesList);
+        model.addAttribute("EN", "/workout/update/" + id);
+        model.addAttribute("DE", "/workout/add/" + id + "?lang=de");
+
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
         return "/workout/workout-update-form";
     }
 
@@ -199,46 +222,104 @@ public class WorkoutController {
             RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-            log.error("Error Count:" + result.getErrorCount());
-            log.error("All Errors: \n" + result.getAllErrors());
+            log.error("Error Count: {}", result.getErrorCount());
+            log.error("All Errors: {}", result.getAllErrors());
             return "/workout/workout-update-form";
         }
 
-        // Workout existingWorkout = workoutService.getWorkoutById(workout.getId());
-        // existingWorkout.setName(workout.getName());
-        // existingWorkout.setDate(workout.getDate());
+        Workout existingWorkout = workoutService.getWorkoutById(workout.getId());
+        existingWorkout.setName(workout.getName());
+        existingWorkout.setDate(workout.getDate());
+        existingWorkout.setLevel(workout.getLevel());
 
-        workoutService.updateWorkout(workout);
+        // Clear the existing exercises and re-add them based on the form data
+        existingWorkout.getWorkoutExercises().clear();
+        for (int i = 0; i < workout.getWorkoutExercises().size(); i++) {
+            Long exerciseId = workout.getWorkoutExercises().get(i).getExercise().getId();
+            Integer repetition = workout.getWorkoutExercises().get(i).getRecommendedRepetitions();
+            Integer weight = workout.getWorkoutExercises().get(i).getWeight();
+
+            WorkoutExercise workoutExercise = new WorkoutExercise();
+            workoutExercise.setExercise(exerciseService.findById(exerciseId));
+            workoutExercise.setRecommendedRepetitions(repetition);
+            workoutExercise.setWeight(weight);
+            workoutExercise.setWorkout(existingWorkout);
+
+            existingWorkout.getWorkoutExercises().add(workoutExercise);
+        }
+        if (workout.getExerciseIds() != null && workout.getRepetitions() != null) {
+            for (int i = 0; i < workout.getExerciseIds().size(); i++) {
+                Long exerciseId = workout.getExerciseIds().get(i);
+                Integer repetition = workout.getRepetitions().get(i);
+                Integer weight = workout.getWeight().get(i);
+
+                WorkoutExercise exercise = new WorkoutExercise();
+                exercise.setExercise(exerciseService.findById(exerciseId)); // Find the Exercise entity by ID
+                exercise.setRecommendedRepetitions(repetition);
+                exercise.setWeight(weight);
+                exercise.setWorkout(workout);
+                existingWorkout.getWorkoutExercises().add(exercise);
+            }
+        }
+
+        workoutService.updateWorkout(existingWorkout);
         log.info("Updated Workout with ID: {}", workout.getId());
         redirectAttributes.addFlashAttribute("updated", "Workout updated!");
-        return "redirect:/workouts/all";
+        return "redirect:/workout/all";
     }
 
     @GetMapping(value = "/delete/{id}")
-    public String processWorkoutDeleteForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String processWorkoutDeleteForm(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
         Workout workout = workoutService.getWorkoutById(id);
         workoutService.deleteWorkoutById(workout.getId());
+        // TODO: Remove the Workout from Trainer/Gym/Customer and save back
         log.info("Deleted Workout with ID: {}", id);
         redirectAttributes.addFlashAttribute("deleted", "Workout deleted!");
         return "redirect:/workout/all";
     }
 
     @GetMapping(value = "/all")
-    public String showWorkoutList(Model model) {
+    public String showWorkoutList(Model model,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(required = false) String lang) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
         Baseuser user = baseuserService.findByLoginIgnoreCase(currentUsername);
-        
-        model.addAttribute("workouts", workoutService.getAllWorkoutsOfUser(user));
+
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<Workout> pageWorkouts = workoutService.getAllWorkoutsOfUser(user, paging);
+
+        model.addAttribute("pageWorkouts", pageWorkouts);
+
+        // Additional model attributes as needed
+        model.addAttribute("EN", "/workout/all");
+        model.addAttribute("DE", "/workout/all?lang=de");
+        if (lang != null) {
+            model.addAttribute("de", "de");
+        }
+
         return "/workout/workout-all";
     }
 
-    @GetMapping(value = "/history")
-    public String showWorkoutHistory(Model model) {
-        model.addAttribute("workouts", workoutService.getAllWorkouts());
-        return "workout/workout-all";
-    }
+    // @GetMapping(value = "/{id}/exercise/add")
+    // public String showExerciseAddForm(@PathVariable Long id,
+    // @RequestParam(required = false) String lang, Model model) {
+
+    // Workout workout = workoutService.getWorkoutById(id);
+    // model.addAttribute("workout", workout);
+    // model.addAttribute("exercise", new Exercise());
+    // model.addAttribute("EN", "/workout/"+id+"/exercise/add");
+    // model.addAttribute("DE", "/workout/"+id+"/exercise/add?lang=de");
+
+    // if (lang != null) {
+    // model.addAttribute("de", "de");
+    // }
+    // return "/workout/exercise/exercise-add-form";
+    // }
 
     @GetMapping(value = "/statistics")
     public String showWorkoutStatistics(Model model) {

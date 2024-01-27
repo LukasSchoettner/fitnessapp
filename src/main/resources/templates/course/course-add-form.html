@@ -3,11 +3,28 @@
 <head><meta charset="UTF-8" /></head>
 
 <body>
-<section class="layout-content" layout:fragment="mybody">
+    <section class="layout-content" layout:fragment="mybody">
         <h1>Course-Add</h1>
 
+        <section>
+                <h2>Weather Forecast</h2>
+                <form th:action="@{/course/add}" method="GET">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="forecast">Date</label>
+                            <input type="date" class="form-control" id="forecast" name="forecastDate" placeholder="Date" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm">Forecast</button>
+                </form>
+
+                <div class="alert alert-primary" role="alert" th:text="${forecast}" th:if="${forecast}"></div>
+        </section>
+
+
         <form th:action="@{/course/add}" th:object="${course}" method="POST">
-          <!-- <form th:action="${id == -1} ? @{/students/add/process} : @{/students/update/process}" method="POST"> -->
 
           <div class="form-row">
               <div class="form-group col-md-6">

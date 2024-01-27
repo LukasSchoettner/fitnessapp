@@ -125,11 +125,7 @@ body {
     width: 100%;
 }
 
-.workout_core_data {
-    width: 50%;
-}
-
-.workout_exercise_input {
+.workout_core_data, .workout_exercise_input {
     width: 50%;
 }
 
