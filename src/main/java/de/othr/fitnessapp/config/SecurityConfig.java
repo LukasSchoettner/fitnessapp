@@ -69,13 +69,9 @@ public class SecurityConfig{
 
         .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/logout")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/trainer/add")).permitAll()
 
-        .requestMatchers(new AntPathRequestMatcher("/customer")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/logout")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/trainer/add")).permitAll()
 
         .requestMatchers(new AntPathRequestMatcher("/customer/add")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll());
@@ -85,7 +81,6 @@ public class SecurityConfig{
         http.authorizeHttpRequests()
         .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","TRAINER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/role/**")).hasAnyAuthority("TRAINER","ADMIN")
-        .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","ADMIN")
 
         .requestMatchers(new AntPathRequestMatcher("/trainer/all")).hasAnyAuthority("TRAINER","ADMIN","CUSTOMER")
         .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","TRAINER", "GYM","ADMIN")
@@ -130,20 +125,6 @@ public class SecurityConfig{
         http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
 
         //http.formLogin(Customizer.withDefaults());
-
-        http.formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/home", true)
-                .failureUrl("/login?error=true")
-        );
-
-        http.logout(logout -> logout
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login?logout=true")
-        );
 
         http.httpBasic(Customizer.withDefaults());
         

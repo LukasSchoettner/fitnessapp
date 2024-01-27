@@ -7,11 +7,11 @@
         <h1>FitnessApp</h1>
 
         <h2>Customer Registration</h2>
-        <form th:action="@{customer/add}" th:object ="${customer}" method="post">
+        <form th:action="@{/customer/add}" th:object ="${customer}" method="post">
             <!-- Assuming Customer class has similar fields -->
             <div>
                 <label for="login">Login:</label>
-                <input type="text" id="login" th:name="login" placeholder="${customer.login}" required>
+                <input type="text" id="login" th:name="login" placeholder="Username" required>
             </div>
             <div>
                 <label for="password">Password:</label>

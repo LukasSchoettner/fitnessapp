@@ -49,11 +49,8 @@ public class CustomerController {
     // Display the form for creating a new customer
     @GetMapping("/add")
     public String createCustomerForm(Model model, HttpServletRequest request) {
-        Customer customer = new Customer();
 
-        List<Role> roles = customer.getRoles();
-        roles.add(roleService.findRoleByDescription("CUSTOMER"));
-        customer.setRoles(roles);
+        Customer customer = new Customer();
 
         model.addAttribute("customer", customer);
         request.getSession().setAttribute("customerSession", customer);
@@ -71,7 +68,8 @@ public class CustomerController {
 
         customerService.addCustomer(customer);
         redirectAttributes.addFlashAttribute("added", "Customer added!");
-
+        
+        System.out.println("This is printed");
         return "redirect:/customer/profile";
     }
 
@@ -117,7 +115,7 @@ public class CustomerController {
     // Display customer details including workouts and courses
     @GetMapping("/profile")
     public String viewCustomer(Model model, HttpServletRequest request) {
-
+        System.out.println("This will maybe be printed");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
         Customer customer = customerService.findCustomerByLogin(currentUsername);

@@ -133,3 +133,17 @@ body {
     max-height: 200px; /* Adjust the height as needed */
     overflow-y: auto;  /* Enables vertical scrolling */
 }
+
+#statistics{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#last_week_stat {
+    width: 50%;
+}
+
+#last_month_stat {
+    width: 50%;
+}

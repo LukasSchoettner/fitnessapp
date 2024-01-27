@@ -26,13 +26,13 @@ public class Customer extends Baseuser implements Serializable {
     @Id
 	private Long id;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-        name = "customer_attend_course",
-        joinColumns = @JoinColumn(name = "customer_id"),
-        inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private Set<Course> attendedCourses = new HashSet<>();
+    // @ManyToMany(cascade = CascadeType.PERSIST)
+    // @JoinTable(
+    //     name = "customer_attend_course",
+    //     joinColumns = @JoinColumn(name = "customer_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "course_id")
+    // )
+    // private Set<Course> attendedCourses = new HashSet<>();
     
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;

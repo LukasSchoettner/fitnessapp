@@ -35,8 +35,8 @@ public class Baseuser implements Serializable {
 	private String login;
 
 	@NotBlank(message = "Password is mandatory")
-	@Size(min = 5, message = "The password must have at least {min} characters")
-	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).*$", message = "The password must contain at least one uppercase letter and one number")
+	//@Size(min = 5, message = "The password must have at least {min} characters")
+	//@Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).*$", message = "The password must contain at least one uppercase letter and one number")
 	private String password;
 
 	@NotBlank(message = "Email is mandatory")
@@ -55,14 +55,6 @@ public class Baseuser implements Serializable {
 	@JsonIgnore
 	@JoinTable(name = "userrole", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idrole"))
 	private List<Role> roles = new ArrayList<Role>();
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
 
 
 	// Other methods and fields remain unchanged
