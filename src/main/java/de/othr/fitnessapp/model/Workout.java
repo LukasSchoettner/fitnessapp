@@ -1,7 +1,9 @@
 package de.othr.fitnessapp.model;
 
 import de.othr.fitnessapp.utils.LevelEnum;
+import de.othr.fitnessapp.utils.LevelEnum;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +30,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Log4j2
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "workout")

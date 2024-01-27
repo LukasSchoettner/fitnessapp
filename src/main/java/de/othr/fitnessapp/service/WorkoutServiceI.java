@@ -23,6 +23,7 @@ public interface WorkoutServiceI {
     Workout getWorkoutById(Long id) throws NullPointerException;
 
     Page<Workout> getAllWorkouts(Pageable pageable);
+
     List<Workout> getAllWorkouts();
 
     Page<Workout> getAllWorkoutsOfUser(Baseuser baseuser, Pageable pageable);

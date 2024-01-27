@@ -21,14 +21,11 @@ public class LoginController {
             model.addAttribute("error", "Invalid username or password");
         }
 
-
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully");
         }
-
         return "login";
     }
-
 
     @GetMapping("/signup")
     public String signup() {

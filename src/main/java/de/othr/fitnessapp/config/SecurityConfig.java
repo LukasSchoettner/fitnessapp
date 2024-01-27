@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
@@ -65,14 +66,17 @@ public class SecurityConfig{
         .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
 
+
         .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/logout")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/trainer/add")).permitAll()
 
         .requestMatchers(new AntPathRequestMatcher("/customer")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/note/all")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/logout")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/trainer/add")).permitAll()
+
         .requestMatchers(new AntPathRequestMatcher("/customer/add")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll());
                 		
@@ -80,7 +84,7 @@ public class SecurityConfig{
                 		
         http.authorizeHttpRequests()
         .requestMatchers(new AntPathRequestMatcher("/home/**")).hasAnyAuthority("CUSTOMER","TRAINER","ADMIN")
-        .requestMatchers(new AntPathRequestMatcher("/role/**")).hasAuthority("ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/role/**")).hasAnyAuthority("TRAINER","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","ADMIN")
 
         .requestMatchers(new AntPathRequestMatcher("/trainer/all")).hasAnyAuthority("TRAINER","ADMIN","CUSTOMER")
@@ -88,13 +92,41 @@ public class SecurityConfig{
         .requestMatchers(new AntPathRequestMatcher("/customer/**")).hasAnyAuthority("CUSTOMER","TRAINER","GYM","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/course/**")).hasAnyAuthority("CUSTOMER","TRAINER","GYM","ADMIN")
         .requestMatchers(new AntPathRequestMatcher("/workout/**")).hasAnyAuthority("CUSTOMER","TRAINER","GYM","ADMIN")
+
+        .requestMatchers(new AntPathRequestMatcher("/trainer/all")).hasAnyAuthority("TRAINER","ADMIN","CUSTOMER")
         .requestMatchers(new AntPathRequestMatcher("/trainer/**")).hasAnyAuthority("TRAINER","ADMIN")
 
         .requestMatchers(new AntPathRequestMatcher("/note/all")).hasAnyAuthority("TRAINER","ADMIN", "CUSTOMER")
         .requestMatchers(new AntPathRequestMatcher("/note/**")).hasAnyAuthority("TRAINER","ADMIN")
 
-        .requestMatchers(new AntPathRequestMatcher("/course/**")).hasAnyAuthority("TRAINER","ADMIN");
+        .requestMatchers(new AntPathRequestMatcher("/course/all")).hasAnyAuthority("TRAINER", "CUSTOMER", "ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/history/**")).hasAnyAuthority("CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/add")).hasAnyAuthority("TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/update/**")).hasAnyAuthority("TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/delete/**")).hasAnyAuthority("TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/registered/**")).hasAnyAuthority("CUSTOMER", "ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/register/**")).hasAnyAuthority("TRAINER", "CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/deregister/**")).hasAnyAuthority("TRAINER", "CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/details/**")).hasAnyAuthority("TRAINER", "CUSTOMER", "ADMIN");
         
+        http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
+
+        //http.formLogin(Customizer.withDefaults());
+
+        http.formLogin(formLogin -> formLogin
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=true")
+        );
+
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login?logout=true")
+        );
+
         http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
 
         //http.formLogin(Customizer.withDefaults());

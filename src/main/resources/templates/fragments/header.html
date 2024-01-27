@@ -8,7 +8,7 @@
                 <a class="navbar-brand " th:href="@{/home}">Fitness-App</a>
             </div>
 
-            <div class="navbar-header p-0">
+            <div th:if="${#ctx.session.login}" class="navbar-header p-0">
                 <div class="d-flex flex-row-reverse p-0">
                     <div class="p-0">
                     <a th:href = "@{/logout}" class = "btn btn-primary btn-sm mb-3"> Logout</a>

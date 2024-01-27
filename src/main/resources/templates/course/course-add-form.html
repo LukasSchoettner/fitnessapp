@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head><meta charset="UTF-8" /></head>
+<head>
+    <meta charset="UTF-8" />
+</head>
 
 <body>
     <section class="layout-content" layout:fragment="mybody">
@@ -50,30 +52,6 @@
               </div>
           </div>
 
-          <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="trainer">Trainer</label>
-                  <input type="text" class="form-control" id="trainer" placeholder="Trainer"
-                         th:field="*{trainer}"
-                         th:classappend="${#fields.hasErrors('trainer')} ? 'is-invalid'" />
-                  <div class="invalid-feedback">
-                      <span th:errors="*{trainer}"></span>
-                  </div>
-              </div>
-          </div>
-
-          <!--<div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="level">Level</label>
-                  <input type="select" class="form-control" id="level" placeholder="Level"
-                         th:field="*{level}"
-                         th:classappend="${#fields.hasErrors('level')} ? 'is-invalid'" />
-                  <div class="invalid-feedback">
-                      <span th:errors="*{level}"></span>
-                  </div>
-              </div>
-          </div>-->
-
           <!--<div class="form-row">
               <div class="form-group col-md-6">
                   <label for="licence">Licence</label>
@@ -109,10 +87,6 @@
                   </div>
               </div>
           </div>-->
-
-          <input type="hidden" id="id" th:field="*{id}"/>
-          <input type="hidden" id="participants" th:field="*{participants}"/>
-          <!--<input type="hidden" id="trainer.id" th:field="*{trainer.id}"/>-->
 
           <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </form>

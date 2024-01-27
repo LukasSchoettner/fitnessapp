@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.JoinColumn;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +35,8 @@ public class Baseuser implements Serializable {
 	private String login;
 
 	@NotBlank(message = "Password is mandatory")
+	@Size(min = 5, message = "The password must have at least {min} characters")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9]).*$", message = "The password must contain at least one uppercase letter and one number")
 	private String password;
 
 	@NotBlank(message = "Email is mandatory")

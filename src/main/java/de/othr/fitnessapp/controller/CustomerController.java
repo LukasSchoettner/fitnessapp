@@ -5,6 +5,7 @@ import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Role;
 import de.othr.fitnessapp.service.CourseServiceI;
+import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.RoleServiceI;
 import jakarta.servlet.http.HttpServletRequest;

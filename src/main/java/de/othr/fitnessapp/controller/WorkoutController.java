@@ -6,7 +6,7 @@ import de.othr.fitnessapp.model.Exercise;
 import de.othr.fitnessapp.model.Workout;
 import de.othr.fitnessapp.model.WorkoutExercise;
 import de.othr.fitnessapp.repository.UserRepository;
-import de.othr.fitnessapp.service.BaseuserService;
+import de.othr.fitnessapp.service.BaseuserServiceI;
 import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.TrainerServiceI;
@@ -50,7 +50,7 @@ public class WorkoutController {
     private CustomerServiceI customerService;
     private ExerciseService exerciseService;
     private WorkoutExerciseService workoutExerciseService;
-    private BaseuserService baseuserService;
+    private BaseuserServiceI baseuserService;
 
     @GetMapping(value = "/add")
     public String showWorkoutAddForm(@RequestParam(required = false) String lang, Model model) {

@@ -56,3 +56,4 @@ public class RegisterController {
         return "redirect:/customer/profile/{id}";
     }
 }
+

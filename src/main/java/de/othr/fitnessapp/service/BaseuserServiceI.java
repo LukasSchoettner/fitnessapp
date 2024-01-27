@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import de.othr.fitnessapp.model.Baseuser;
 
 @Service
-public interface BaseuserService {
+public interface BaseuserServiceI {
     
     Page<Baseuser> getAllBaseusers(String username, Pageable pageable);
 

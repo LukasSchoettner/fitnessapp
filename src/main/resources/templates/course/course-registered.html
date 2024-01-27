@@ -5,66 +5,45 @@
 </head>
 
 <body>
-
     <section class="layout-content" layout:fragment="mybody">
-
-        <h1>Course History</h1>
+        <h1>Registered Courses</h1>
 
         <div th:unless="${courses.size() > 0}" style="width: 80%">
-            <span>No Course History found!</span>
+            <span>No registered courses found!</span>
         </div>
 
-        <table sec:authorize="hasAuthority('TRAINER')" class = "table table-striped table-bordered" th:unless="${courses.size()<1}" style="width: 100%" margin="auto">
+        <table sec:authorize="hasAuthority('CUSTOMER')" class = "table table-striped table-bordered" th:unless="${courses.size()<1}" style="width: 90%" margin="auto">
             <thead class = "table-dark">
             <tr>
                 <th>Name</th>
                 <th>Date</th>
+                <th>Trainer</th>
+                <th>Actions</th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="course: ${courses}">
+
                 <td><span th:text="${course.name}"></span></td>
                 <td><span th:text="${#temporals.format(course.date, 'dd.MM.YYYY')}"></span></td>
+                <td><span th:text="${course.trainer.getFirstName()}"></span> <span th:text="${course.trainer.getLastName()}"></span></td>
+
+                <td>
+                    <a th:href="@{/course/deregister/{courseId}(courseId = ${course.getId()})}" class = "btn btn-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
+                            <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15zM11 2h.5a.5.5 0 0 1 .5.5V15h-1zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+                        </svg>
+                    </a>
+                </td>
             </tr>
-            </tbody>
-        </table>
-
-        <table sec:authorize="hasAuthority('CUSTOMER')" class = "table table-striped table-bordered" th:unless="${courses.size()<1}" style="width: 100%" margin="auto">
-            <thead class = "table-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Trainer</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr th:each="course: ${courses}">
-
-                    <td><span th:text="${course.name}"></span></td>
-                    <td><span th:text="${#temporals.format(course.date, 'dd.MM.YYYY')}"></span></td>
-                    <td><span th:text="${course.trainer.getFirstName()}"></span> <span th:text="${course.trainer.getLastName()}"></span></td>
-
-                    <td>
-                        <a th:href="@{/course/history/cert/{id}(id = ${course.id})}" class = "btn btn-warning">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
-                                <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702z"/>
-                                <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1z"/>
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
             </tbody>
         </table>
 
         <nav aria-label="Pagination" th:if="${totalPages > 0}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-
                     <a th:replace="~{fragments/paging :: paging(1, '<<', 'First Page')}"></a>
-
                 </li>
                 <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
                     <a th:replace="~{fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')}"></a>

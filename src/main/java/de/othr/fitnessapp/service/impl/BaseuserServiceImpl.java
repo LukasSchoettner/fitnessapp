@@ -5,7 +5,7 @@ import de.othr.fitnessapp.model.Baseuser;
 import de.othr.fitnessapp.model.Trainer;
 import de.othr.fitnessapp.repository.TrainerRepository;
 import de.othr.fitnessapp.repository.UserRepository;
-import de.othr.fitnessapp.service.BaseuserService;
+import de.othr.fitnessapp.service.BaseuserServiceI;
 import de.othr.fitnessapp.service.TrainerServiceI;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @Service
-public class BaseuserServiceImpl implements BaseuserService {
+public class BaseuserServiceImpl implements BaseuserServiceI {
 
 	private UserRepository baseuserRepository;
 	// tbd private CourseRepositoryI  courseRepository;

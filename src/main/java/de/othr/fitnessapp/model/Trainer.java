@@ -2,10 +2,12 @@ package de.othr.fitnessapp.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,10 +20,11 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="trainer")
+@Getter
+@Setter
 public class Trainer extends Baseuser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 	@Id
 	Long id;
 
@@ -42,51 +45,14 @@ public class Trainer extends Baseuser implements Serializable {
     private List<Note> childEntities;
 
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
-	private List<Course> courseList;
+	private List<Course> courses;
+
+	@ManyToOne
+	@JoinColumn(name = "gym_id")
+	private Gym gym;
 
 	public Trainer() {
 		this.setId((long) -1);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public LocalDate getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(LocalDate birthDate) {
-		
-		this.birthDate = birthDate;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public static long getSerialversionuid() {

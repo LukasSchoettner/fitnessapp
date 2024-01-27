@@ -19,6 +19,7 @@ public class MyUserDetails implements UserDetails {
 	private String password;
 	private Long userId;
 	private boolean active;
+
 	private List<GrantedAuthority> authorities;
 	
 	
@@ -38,7 +39,6 @@ public class MyUserDetails implements UserDetails {
 		
 		for (Role role : myRoles) {
 	        authorities.add(new SimpleGrantedAuthority(role.getDescription().toUpperCase()));
-	        System.out.println("the authority of the user " + user.getLogin() + " is " + role.getDescription());
 	    }
 		
 	}
