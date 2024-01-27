@@ -1,6 +1,7 @@
 package de.othr.fitnessapp.service;
 
 import de.othr.fitnessapp.model.Course;
+import de.othr.fitnessapp.model.Trainer;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface CourseServiceI {
     void deleteCourseById(Long id);
 
     long getCourseCount();
+
+    List<Course> findCoursesByName(String Name);
 }
