@@ -53,7 +53,11 @@ public class Course implements Serializable {
     )
     private Set<Customer> participants = new HashSet<>();
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "workout_id", referencedColumnName = "workout_id")
-//    private Set<Workout> workouts = new HashSet<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Rating> ratings = new HashSet<>();
+
+    public void addRating(Rating rating) {
+        ratings.add(rating);
+        rating.setCourse(this);
+    }
 }

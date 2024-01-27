@@ -104,7 +104,7 @@ public class SecurityConfig{
         http.formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/trainer/all", true)
+                .defaultSuccessUrl("/home", true)
                 .failureUrl("/login?error=true")
         );
 

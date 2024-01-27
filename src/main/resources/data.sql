@@ -8,6 +8,7 @@ INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Cologne', '7', 'Do
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Frankfurt', '8', 'Römerberg', '60311');
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Cologne', '7', 'Waldweg', '50667');
 INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Frankfurt', '8', 'Marktplatz', '60311');
+INSERT INTO ADDRESS(CITY, HOUSE_NUMBER, STREET, ZIP) VALUES ('Frankfurt', '11', 'Viehmarkt', '60312');
 
 
 INSERT INTO baseuser (login, password, email, active, address_id) values ('franz', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'elke@gmail.com', 1, '1');
@@ -20,6 +21,8 @@ INSERT INTO baseuser (login, password, email, active, address_id) values ('mille
 INSERT INTO baseuser (login, password, email, active, address_id) values ('baker', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'baker.chris@example.com', 1, '8');
 INSERT INTO baseuser (login, password, email, active, address_id) values ('ray', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'ray.john@gmail.com', 1, '9');
 INSERT INTO baseuser (login, password, email, active, address_id) values ('sailor', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'sailor.jessica@example.com', 1, '10');
+INSERT INTO baseuser (login, password, email, active, address_id) values ('awesome_gym', '{bcrypt}$2a$12$69GBDheB9KxZ4p4Zl9BLueq.C3ONV1VMxvx/cyoIVmzkgRziB9uFa', 'gym.awesome@example.com', 1, '11');
+
 
 INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (1, 'Franz', 'Elke', '0234 567890', '1986-08-15');
 INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (2,'Doe', 'John', '0151 111111', '1985-05-15');
@@ -33,6 +36,8 @@ INSERT INTO trainer(id, last_name, first_name, phone, birth_date) VALUES (8,'Bak
 
 INSERT INTO customer (id, gender, last_name, first_name) VALUES (9, 'MALE', 'Ray', 'John');
 INSERT INTO customer (id, gender, last_name, first_name) VALUES (10, 'FEMALE', 'Sailor', 'Jessica');
+
+INSERT INTO gym (id, name) VALUES (11, 'Awesome GYM');
 
 
 INSERT INTO course (trainer_id, name, date) VALUES (1, 'Cardio Fitness Class', '2024-05-17');
