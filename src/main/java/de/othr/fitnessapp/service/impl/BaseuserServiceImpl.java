@@ -4,8 +4,8 @@ import de.othr.fitnessapp.model.Address;
 import de.othr.fitnessapp.model.Baseuser;
 import de.othr.fitnessapp.model.Trainer;
 import de.othr.fitnessapp.repository.TrainerRepository;
-import de.othr.fitnessapp.repository.UserRepositoryI;
-import de.othr.fitnessapp.service.BaseuserServiceI;
+import de.othr.fitnessapp.repository.UserRepository;
+import de.othr.fitnessapp.service.BaseuserService;
 import de.othr.fitnessapp.service.TrainerServiceI;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +15,12 @@ import java.util.List;
 
 
 @Service
-public class BaseuserServiceImpl implements BaseuserServiceI {
+public class BaseuserServiceImpl implements BaseuserService {
 
-	private UserRepositoryI baseuserRepository;
+	private UserRepository baseuserRepository;
 	// tbd private CourseRepositoryI  courseRepository;
 
-	public BaseuserServiceImpl(UserRepositoryI baseuserRepository) {
+	public BaseuserServiceImpl(UserRepository baseuserRepository) {
 		super();
 		this.baseuserRepository = baseuserRepository;
 	} 
@@ -47,5 +47,10 @@ public class BaseuserServiceImpl implements BaseuserServiceI {
 	public Baseuser saveBaseuser(Baseuser baseuser) {
 
 		return baseuserRepository.save(baseuser);
+	}
+
+	@Override
+	public Baseuser findByLoginIgnoreCase(String login){
+		return baseuserRepository.findByLoginIgnoreCase(login).get();
 	}
 }

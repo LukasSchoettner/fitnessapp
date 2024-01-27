@@ -11,34 +11,58 @@
 
         <div class="container mt-4">
             <h2>Edit Profile</h2>
-            <form th:action="@{/customer/edit/process}" th:object="${customer}" method="post">
-                <!-- Assuming Customer class has similar fields -->
+            <form th:action="@{/customer/edit}" th:object="${customer}" method="post">
+
+                <!-- Non-Editable Login Field -->
+                <div>
+                    <label for="login">Login:</label>
+                    <input type="text" th:field="*{login}" id="login" disabled>
+                    <input type="hidden" th:field="*{login}">
+                </div>
+            
+                <!-- Password Field -->
                 <div>
                     <label for="password">Password:</label>
-                    <input type="password" id="password" th:name="password" required>
+                    <input type="password" th:field="*{password}" required>
+                    <div th:errors="*{password}"></div>
                 </div>
+            
+                <!-- Email Field -->
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" th:name="email" required>
+                    <input type="email" th:field="*{email}" required>
+                    <div th:errors="*{email}"></div>
                 </div>
-                <div>
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" th:name="phone" required>
-                </div>
+            
+                <!-- First Name Field -->
                 <div>
                     <label for="first_name">First Name:</label>
-                    <input type="text" id="first_name" th:name="first_name" required>
+                    <input type="text" th:field="*{first_name}" required>
+                    <div th:errors="*{first_name}"></div>
                 </div>
+            
+                <!-- Last Name Field -->
                 <div>
                     <label for="last_name">Last Name:</label>
-                    <input type="text" id="last_name" th:name="last_name" required>
+                    <input type="text" th:field="*{last_name}" required>
+                    <div th:errors="*{last_name}"></div>
                 </div>
-                <!-- Add additional fields as per your Customer class -->
-                <!-- Example: Address, Date of Birth, etc. -->
+            
+                <!-- Additional fields as needed -->
+                
+                <!-- Submit Button -->
                 <div>
-                    <button type="submit">Register</button>
+                    <button type="submit">Update</button>
+                </div>
+            
+            </form>
+            <h2>Delete Profile</h2>
+            <form th:action="@{/customer/delete}" th:object="${customer}" method="post">
+                <div>
+                    <button type="submit">Delete</button>
                 </div>
             </form>
+            
         </div>
 </body>
 

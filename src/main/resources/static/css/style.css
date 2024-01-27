@@ -12,8 +12,10 @@ body {
  */
 .layout-main {
     display: flex;
+    flex-direction: row;
     min-height: calc(100vh - 52px);
     overflow: hidden;
+    margin-bottom: 200px;
 }
 
 /*
@@ -34,13 +36,14 @@ body {
  */
 .sidebar {
     width: 0px;
-    height: 100vh;
+    height: 100%;
     border-top: 1px solid #eee;
     border-right: 1px solid #eee;    
     background-color: #f8f9fa;
     flex-shrink: 0;
     overflow: hidden;
     transition: width .5s;
+
 }
 
 .sidebar .nav {
@@ -114,4 +117,19 @@ body {
 	display: block;
 	color: #777777;
 	text-align: center;
+}
+
+.workout_input_form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.workout_core_data, .workout_exercise_input {
+    width: 50%;
+}
+
+.scrollable-list {
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;  /* Enables vertical scrolling */
 }

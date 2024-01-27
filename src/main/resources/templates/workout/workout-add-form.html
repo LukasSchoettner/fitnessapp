@@ -1,58 +1,158 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head><meta charset="UTF-8" /></head>
+
+<head>
+    <meta charset="UTF-8" />
+</head>
 
 <body>
     <section class="layout-content" layout:fragment="mybody">
-
-        <h1>Workout-Add</h1>
+        <h1>New Workout:</h1>
         <form th:action="@{/workout/add}" th:object="${workout}" method="POST">
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name"
-                           autofocus="autofocus" th:field="*{name}"
-                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"/>
-                    <div class="invalid-feedback">
-                        <span th:errors="*{name}"></span>
+            <div class="workout_input_form">
+                <div class="workout_core_data">
+                    <!-- Workout Name -->
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name" autofocus="autofocus"
+                            th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" />
+                        <div class="invalid-feedback">
+                            <span th:errors="*{name}"></span>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="date">Date</label>
-                    <input type="date" class="form-control" id="date" placeholder="Date"
-                           th:field="*{date}"
-                           th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'"/>
-                    <div class="invalid-feedback">
-                        <span th:errors="*{date}"></span>
+                    <!-- Workout Date -->
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" class="form-control" id="date" placeholder="Date" th:field="*{date}"
+                            th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'" />
+                        <div class="invalid-feedback">
+                            <span th:errors="*{date}"></span>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="level">Level</label>
-                    <select name="level" class="form-control" id="level">
-                        <option th:each="levelOpt : ${T(de.othr.fitnessapp.utils.LevelEnum).values()}"
-                                th:field="*{level}"
-                                th:value="${levelOpt}"
-                                th:text="${levelOpt.displayValue}"
+                    <div class="form-group">
+                        <label for="level">Level</label>
+                        <select name="level" class="form-control" id="level">
+                            <option th:each="levelOpt : ${T(de.othr.fitnessapp.utils.LevelEnum).values()}"
+                                th:field="*{level}" th:value="${levelOpt}" th:text="${levelOpt.displayValue}"
                                 th:classappend="${#fields.hasErrors('level')} ? 'is-invalid'">
-                        </option>
-                    </select>
-
-                    <div class="invalid-feedback">
-                        <span th:errors="*{level}"></span>
+                            </option>
+                        </select>
                     </div>
+                    <!-- Container for Added Workout Exercises -->
+                    <h2>Added Exercises</h2>
+                    <div id="workoutExercisesContainer">
+                        <!-- Dynamic exercise elements will be added here -->
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+
+                <div class="workout_exercise_input">
+
+                    <div class="form-group">
+                        <label for="exerciseSearch">Search Exercise</label>
+                        <input type="text" id="exerciseSearch" class="form-control"
+                            placeholder="Search by name, muscle, type...">
+                    </div>
+
+                    <!--Searched Exercises-->
+                    <h2>Exercises</h2>
+                    <div id="exercisesContainer" class="scrollable-list"></div>
                 </div>
             </div>
-
-            <input type="hidden" id="id" th:field="*{id}"/>
-            <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </form>
+        <script>
+
+            // Event delegation for dynamically added buttons
+            // Event delegation for dynamically added buttons
+            // Event delegation for recommendedExercisesContainer
+
+            // Event delegation for exercisesContainer
+            document.getElementById('exercisesContainer').addEventListener('click', function (event) {
+                if (event.target && event.target.matches('.addSearchedExerciseBtn')) {
+                    var exerciseId = event.target.getAttribute('data-exercise-id');
+                    var exerciseName = event.target.value.replace('Add: ', '');
+                    addExerciseToWorkout(exerciseId, exerciseName);
+                }
+            });
+
+            document.getElementById('exerciseSearch').addEventListener('keyup', function () {
+                var searchQuery = this.value;
+
+                // AJAX request to your server
+                $.ajax({
+                    url: '/workout/search-exercises',
+                    method: 'GET',
+                    data: { query: searchQuery },
+                    success: function (exercises) {
+                        var exercisesContainer = document.getElementById('exercisesContainer');
+                        exercisesContainer.innerHTML = ''; // Clear existing content
+
+                        exercises.forEach(function (exercise) {
+                            // Create a div for each exercise
+                            var exerciseDiv = document.createElement('div');
+                            exerciseDiv.className = 'form-group';
+
+                            // Create and append the exercise name
+                            var exerciseNameInput = document.createElement('input');
+                            exerciseNameInput.type = 'button';
+                            exerciseNameInput.className = 'form-control addSearchedExerciseBtn';
+                            exerciseNameInput.value = 'Add: ' + exercise.name + ' #' + exercise.primaryMuscleGroups[0];
+                            exerciseNameInput.setAttribute('data-exercise-id', exercise.id);
+                            exerciseDiv.appendChild(exerciseNameInput);
+
+                            // Append the exercise div to the container
+                            exercisesContainer.appendChild(exerciseDiv);
+                        });
+                    },
+                    error: function (err) {
+                        console.error("Error fetching exercises: ", err);
+                    }
+                });
+            });
+            function addExerciseToWorkout(exerciseId, exerciseName) {
+                var container = document.getElementById('workoutExercisesContainer');
+                var newIndex = container.children.length;
+
+                // Create new div for workoutExercise
+                var newWorkoutExerciseDiv = document.createElement('div');
+                newWorkoutExerciseDiv.className = 'workoutExercise';
+
+                // Create and append a label for the exercise name
+                var exerciseNameLabel = document.createElement('label');
+                exerciseNameLabel.textContent = exerciseName + ': ';
+                newWorkoutExerciseDiv.appendChild(exerciseNameLabel);
+
+                // Create and append hidden input for exercise ID
+                var exerciseIdInput = document.createElement('input');
+                exerciseIdInput.type = 'hidden';
+                exerciseIdInput.value = exerciseId;
+                exerciseIdInput.name = 'exerciseIds[' + newIndex + ']';
+                newWorkoutExerciseDiv.appendChild(exerciseIdInput);
+
+                // Create and append input for repetitions
+                var repetitionsInput = document.createElement('input');
+                repetitionsInput.type = 'number';
+                repetitionsInput.className = 'form-control';
+                repetitionsInput.placeholder = 'Repetitions Planned';
+                repetitionsInput.name = 'repetitions[' + newIndex + ']';
+                newWorkoutExerciseDiv.appendChild(repetitionsInput);
+
+                // Create and append input for weight
+                var weightInput = document.createElement('input');
+                weightInput.type = 'number';
+                weightInput.className = 'form-control';
+                weightInput.placeholder = 'Weight in Kilogram';
+                weightInput.name = 'weight[' + newIndex + ']';
+                newWorkoutExerciseDiv.appendChild(weightInput);
+
+                container.appendChild(newWorkoutExerciseDiv);
+            }
+        </script>
+
     </section>
+
 </body>
+
 </html>

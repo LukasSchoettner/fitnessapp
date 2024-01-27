@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 
 import de.othr.fitnessapp.config.MyUserDetails;
 import de.othr.fitnessapp.model.Baseuser;
-import de.othr.fitnessapp.repository.UserRepositoryI;
+import de.othr.fitnessapp.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
 public class MyUserDetailsServiceImpl implements UserDetailsService{
-	UserRepositoryI userRepository;
 
+	UserRepository userRepository;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<Baseuser> oUser= userRepository.findByLoginIgnoreCase(username);

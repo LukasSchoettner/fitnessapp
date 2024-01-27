@@ -3,7 +3,7 @@ package de.othr.fitnessapp.controller;
 import de.othr.fitnessapp.config.MyUserDetails;
 import de.othr.fitnessapp.model.Baseuser;
 import de.othr.fitnessapp.model.Role;
-import de.othr.fitnessapp.service.BaseuserServiceI;
+import de.othr.fitnessapp.service.BaseuserService;
 import de.othr.fitnessapp.service.RoleServiceI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -25,10 +25,10 @@ import java.util.List;
 @Controller
 public class RoleController {
 
-    private BaseuserServiceI baseuserService;
+    private BaseuserService baseuserService;
     private RoleServiceI roleService;
 
-    public RoleController(BaseuserServiceI baseuserService, RoleServiceI roleService) {
+    public RoleController(BaseuserService baseuserService, RoleServiceI roleService) {
 
         super();
         this.baseuserService = baseuserService;
