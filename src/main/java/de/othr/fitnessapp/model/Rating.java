@@ -18,14 +18,14 @@ public class Rating implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rating_id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "rating_points")
+
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 5, message = "Rating must be at most 5")
     private int points;
-    @Column(name = "rating_comment")
+
     @Length(max = 250, message = "Comment length shall not exceed {max} characters")
     private String comment;
 
