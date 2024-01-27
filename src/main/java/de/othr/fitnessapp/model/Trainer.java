@@ -24,7 +24,7 @@ public class Trainer extends Baseuser implements Serializable {
 	
 	@Id
 	Long id;
-	
+
 	@NotBlank(message = "Last Name is mandatory")
 	private String lastName;
 
@@ -37,17 +37,17 @@ public class Trainer extends Baseuser implements Serializable {
 	
 	@NotBlank(message = "Phone number is mandatory")
 	private String phone;
-	
+
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
     private List<Note> childEntities;
 
 	@OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
 	private List<Course> courseList;
-	
+
 	public Trainer() {
 		this.setId((long) -1);
 	}
-		
+
 	public Long getId() {
 		return id;
 	}

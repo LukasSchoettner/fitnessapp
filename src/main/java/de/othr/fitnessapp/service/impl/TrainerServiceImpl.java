@@ -45,14 +45,13 @@ public class TrainerServiceImpl implements TrainerServiceI{
 
 	@Override
 	public Trainer saveTrainer(Trainer trainer) {
-		// TODO Auto-generated method stub
 		
 		return trainerRepository.save(trainer);
 	}
 
 	@Override
 	public Trainer getTrainerById(Long id) {
-		// TODO Auto-generated method stub
+
 		return trainerRepository.findById(id).get();
 	}
 
@@ -86,13 +85,13 @@ public class TrainerServiceImpl implements TrainerServiceI{
 
 	@Override
 	public void delete(Trainer trainer) {
-		// TODO Auto-generated method stub
+
 		trainerRepository.delete(trainer);	
 	}
 
 	@Override
 	public List<Trainer> findTrainersBylastName(String lastName) {
-		// TODO Auto-generated method stub
+
 		return trainerRepository.findBylastNameContainingIgnoreCase(lastName);
 	}
 

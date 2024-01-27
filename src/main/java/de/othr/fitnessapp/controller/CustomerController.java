@@ -4,9 +4,13 @@ import de.othr.fitnessapp.config.MyUserDetails;
 import de.othr.fitnessapp.model.Course;
 import de.othr.fitnessapp.model.Customer;
 import de.othr.fitnessapp.model.Role;
-import de.othr.fitnessapp.model.Workout;
+import de.othr.fitnessapp.service.CourseServiceI;
 import de.othr.fitnessapp.service.CustomerServiceI;
 import de.othr.fitnessapp.service.RoleServiceI;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import de.othr.fitnessapp.service.impl.MyUserDetailsServiceImpl;
 import de.othr.fitnessapp.service.CourseServiceI;
 
@@ -19,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,16 +35,13 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-
     private CustomerServiceI customerService;
-    private CourseServiceI courseService;
     private RoleServiceI roleService;
 
     public CustomerController(CustomerServiceI customerService, CourseServiceI courseService,
             RoleServiceI roleService) {
         super();
         this.customerService = customerService;
-        this.courseService = courseService;
         this.roleService = roleService;
     }
 
@@ -137,5 +139,4 @@ public class CustomerController {
     }
 
     // Additional methods for customer-specific operations can be added here
-
 }
