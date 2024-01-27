@@ -26,7 +26,6 @@ public class WeatherServiceImpl implements WeatherServiceI {
     @Override
     public String getTempForecast(String date) {
         String apiUrl = String.format("https://api.brightsky.dev/weather?lat=%s&lon=%s&date=%s", "49.02", "12.1", date);
-        log.info(apiUrl);
 
         RestTemplate restTemplate = restTemplateBuilder.build();
 
@@ -41,9 +40,9 @@ public class WeatherServiceImpl implements WeatherServiceI {
 
         if (response.isPresent()) {
             OptionalDouble averageTempOptional = response.get().getWeather()
-                    .stream()
-                    .mapToDouble(WeatherInfo::getTemperature)
-                    .average();
+                                                                .stream()
+                                                                .mapToDouble(WeatherInfo::getTemperature)
+                                                                .average();
 
             if (averageTempOptional.isPresent()) {
                 DecimalFormat df = new DecimalFormat("#.#");

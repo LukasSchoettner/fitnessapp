@@ -86,7 +86,15 @@ public class SecurityConfig{
         .requestMatchers(new AntPathRequestMatcher("/note/all")).hasAnyAuthority("TRAINER","ADMIN", "CUSTOMER")
         .requestMatchers(new AntPathRequestMatcher("/note/**")).hasAnyAuthority("TRAINER","ADMIN")
 
-        .requestMatchers(new AntPathRequestMatcher("/course/**")).hasAnyAuthority("TRAINER","ADMIN");
+        .requestMatchers(new AntPathRequestMatcher("/course/all")).hasAnyAuthority("TRAINER", "CUSTOMER", "ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/history/**")).hasAnyAuthority("CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/add")).hasAnyAuthority("TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/update/**")).hasAnyAuthority("TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/delete/**")).hasAnyAuthority("TRAINER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/registered/**")).hasAnyAuthority("CUSTOMER", "ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/register/**")).hasAnyAuthority("TRAINER", "CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/deregister/**")).hasAnyAuthority("TRAINER", "CUSTOMER","ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/course/details/**")).hasAnyAuthority("TRAINER", "CUSTOMER", "ADMIN");
         
         http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
 

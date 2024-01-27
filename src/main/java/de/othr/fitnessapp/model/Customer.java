@@ -20,17 +20,8 @@ public class Customer extends Baseuser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-        name = "customer_attend_course",
-        joinColumns = @JoinColumn(name = "customer_id"),
-        inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private Set<Course> attendedCourses = new HashSet<>();
-    
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
 	
@@ -43,4 +34,7 @@ public class Customer extends Baseuser implements Serializable {
     @Size(min = 2, max = 50, message = "{user.lastName.size}")
     @Column(name = "last_name")
     private String last_name;
+
+    @ManyToMany(mappedBy = "participants")
+    private Set<Course> courses = new HashSet<>();
 }
